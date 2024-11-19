@@ -1,5 +1,7 @@
+import { isEmail } from './../../../../node_modules/@types/validator/index.d';
 import { model, Schema } from 'mongoose';
 import { FullName, Guardian, Student } from './student/student.interface';
+import validator from 'validator';
 const GuardianSchema: Schema = new Schema<Guardian>({
   guardianName: {
     type: String,
@@ -32,6 +34,10 @@ const NameSchema = new Schema<FullName>({
   lastName: {
     type: String,
     required: [true, 'Last name is required.'],
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: '{VALUE} is not define',
+    },
   },
 });
 
@@ -49,6 +55,10 @@ const StudentSchema = new Schema<Student>(
     email: {
       type: String,
       required: [true, 'Email is required.'],
+      validate: {
+        validator: (value: string) => validator.isEmail(value),
+        message: '{VALUE} is not email formet',
+      },
       unique: true,
     },
     avatar: {
