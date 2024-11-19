@@ -14,7 +14,16 @@ const GuardianSchema: Schema = new Schema<Guardian>({
 const NameSchema = new Schema<FullName>({
   firstName: {
     type: String,
+    trim: true,
     required: [true, 'First name is required.'],
+    validation: {
+      validator: function (value) {
+        const formattedValue =
+          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        return formattedValue === value;
+      },
+      message: '{VALUE} is not in a capitalized format.',
+    },
   },
   middleName: {
     type: String,
@@ -61,6 +70,7 @@ const StudentSchema = new Schema<Student>(
     phone: {
       type: String,
       required: [false, 'Phone number is required.'],
+      maxlength: [11, 'Phone number cannot exceed 11 characters.'],
     },
     address: {
       type: String,

@@ -11,7 +11,11 @@ const createStudent = async (req: Request, res: Response) => {
       result: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Student Create is false',
+      error: error,
+    });
   }
 };
 
