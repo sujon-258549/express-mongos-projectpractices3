@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 // Guardian Interface
 export interface Guardian {
   guardianName?: string;
@@ -12,7 +14,7 @@ export interface FullName {
 }
 
 // Student Interface for TypeScript
-export interface Student {
+export interface TStudent {
   id: string;
   name: FullName;
   email: string;
@@ -37,3 +39,17 @@ export interface Student {
   marks?: { [subject: string]: number };
   comments?: string;
 }
+
+// Static Methods Interface
+
+export interface StudentModel extends Model<TStudent> {
+  isStudentExists(id: string): Promise<TStudent | null>;
+}
+
+// export interface StudentMethods {
+//   isStudentExits(id: string): Promise<Student>;
+// }
+
+// export interface StudentModels extends Model<StudentMethods> {
+//   myStaticMethod(): number;
+// }

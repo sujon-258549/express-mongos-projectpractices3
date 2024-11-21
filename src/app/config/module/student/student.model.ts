@@ -1,7 +1,11 @@
-import { isEmail } from './../../../../node_modules/@types/validator/index.d';
 import { model, Schema } from 'mongoose';
-import { FullName, Guardian, Student } from './student/student.interface';
-import validator from 'validator';
+import {
+  FullName,
+  Guardian,
+  TStudent,
+  StudentModel,
+} from './student.interface';
+// import validator from 'validator';
 const GuardianSchema: Schema = new Schema<Guardian>({
   guardianName: {
     type: String,
@@ -19,11 +23,11 @@ const NameSchema = new Schema<FullName>({
     trim: true,
     required: [true, 'First name is required.'],
     validation: {
-      validator: function (value) {
-        const formattedValue =
-          value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-        return formattedValue === value;
-      },
+      //   validator: function (value) {
+      //     const formattedValue =
+      //       value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+      //     return formattedValue === value;
+      //   },
       message: '{VALUE} is not in a capitalized format.',
     },
   },
@@ -34,14 +38,14 @@ const NameSchema = new Schema<FullName>({
   lastName: {
     type: String,
     required: [true, 'Last name is required.'],
-    validate: {
-      validator: (value: string) => validator.isAlpha(value),
-      message: '{VALUE} is not define',
-    },
+    // validate: {
+    //   validator: (value: string) => validator.isAlpha(value),
+    //   message: '{VALUE} is not define',
+    // },
   },
 });
 
-const StudentSchema = new Schema<Student>(
+const StudentSchema = new Schema<TStudent, StudentModel>(
   {
     id: {
       type: String,
@@ -55,10 +59,10 @@ const StudentSchema = new Schema<Student>(
     email: {
       type: String,
       required: [true, 'Email is required.'],
-      validate: {
-        validator: (value: string) => validator.isEmail(value),
-        message: '{VALUE} is not email formet',
-      },
+      //   validate: {
+      //     validator: (value: string) => validator.isEmail(value),
+      //     message: '{VALUE} is not email formet',
+      //   },
       unique: true,
     },
     avatar: {
@@ -155,4 +159,19 @@ const StudentSchema = new Schema<Student>(
   },
   { timestamps: true },
 );
-export const StudentModel = model<Student>('Student', StudentSchema);
+
+// user existis for mongos static function
+StudentSchema.statics.isStudentExists = async function (id: string) {
+  const extStudent = await Student.findOne({ id });
+  return extStudent;
+};
+
+// StudentSchema.statics.isStudentExists = async function (id: string) {
+//   return this.findOne({ id });
+// };
+
+// export const StudentIdValidactionModel = model<
+//   Student,
+//   StudentModelValidactionId
+// >('Student', StudentSchema);
+export const Student = model<TStudent, StudentModel>('Student', StudentSchema);
