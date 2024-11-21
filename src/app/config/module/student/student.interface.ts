@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model } from 'mongoose';
 
 // Guardian Interface
@@ -38,6 +39,7 @@ export interface TStudent {
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   attendancePercentage?: number;
   marks?: { [subject: string]: number };
+  isDeleted: boolean;
   comments?: string;
 }
 

@@ -8,6 +8,7 @@ import {
   StudentModel,
 } from './student.interface';
 import config from '../..';
+// import { boolean } from 'joi';
 // import validator from 'validator';
 const GuardianSchema: Schema = new Schema<Guardian>({
   guardianName: {
@@ -159,13 +160,26 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       of: Number,
       required: [false, 'Marks are not required.'],
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     comments: {
       type: String,
       required: [false, 'Comments are not required.'],
     },
   },
-  { timestamps: true },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  },
 );
+
+// vartuale
+StudentSchema.virtual('fullname').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
 
 // middleware use for mongoose
 StudentSchema.pre('save', async function name(next) {
@@ -186,6 +200,19 @@ StudentSchema.statics.isStudentExists = async function (id: string) {
   const extStudent = await Student.findOne({ id });
   return extStudent;
 };
+
+StudentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+StudentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+StudentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
 // StudentSchema.statics.isStudentExists = async function (id: string) {
 //   return this.findOne({ id });
