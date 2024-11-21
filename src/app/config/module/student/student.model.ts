@@ -58,7 +58,6 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     password: {
       type: String,
       required: [true, 'Student password is required.'],
-      unique: true,
     },
     name: {
       type: NameSchema,
@@ -176,8 +175,10 @@ StudentSchema.pre('save', async function name(next) {
   next();
 });
 
-StudentSchema.post('save', function () {
+StudentSchema.post('save', function (doc, next) {
+  doc.password = '';
   console.log(this, 'Student Create is Success');
+  next();
 });
 
 // user existis for mongos static function
