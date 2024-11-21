@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { model, Schema } from 'mongoose';
+import bcrypt from 'bcrypt';
 import {
   FullName,
   Guardian,
   TStudent,
   StudentModel,
 } from './student.interface';
+import config from '../..';
 // import validator from 'validator';
 const GuardianSchema: Schema = new Schema<Guardian>({
   guardianName: {
@@ -50,6 +53,11 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     id: {
       type: String,
       required: [true, 'Student ID is required.'],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'Student password is required.'],
       unique: true,
     },
     name: {
@@ -159,6 +167,18 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
   },
   { timestamps: true },
 );
+
+// middleware use for mongoose
+StudentSchema.pre('save', async function name(next) {
+  const user = this;
+  user.password = await bcrypt.hash(user.password, Number(config.bcript_has));
+  console.log(this, 'student create prosasing');
+  next();
+});
+
+StudentSchema.post('save', function () {
+  console.log(this, 'Student Create is Success');
+});
 
 // user existis for mongos static function
 StudentSchema.statics.isStudentExists = async function (id: string) {
