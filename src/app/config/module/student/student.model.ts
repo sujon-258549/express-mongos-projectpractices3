@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { model, Schema } from 'mongoose';
-import bcrypt from 'bcrypt';
 import {
   FullName,
   Guardian,
   TStudent,
   StudentModel,
 } from './student.interface';
-import config from '../..';
 // import { boolean } from 'joi';
 // import validator from 'validator';
 const GuardianSchema: Schema = new Schema<Guardian>({
@@ -55,10 +53,6 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       type: String,
       required: [true, 'Student ID is required.'],
       unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, 'Student password is required.'],
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -182,38 +176,24 @@ StudentSchema.virtual('fullname').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
-// middleware use for mongoose
-StudentSchema.pre('save', async function name(next) {
-  const user = this;
-  user.password = await bcrypt.hash(user.password, Number(config.bcript_has));
-  console.log(this, 'student create prosasing');
-  next();
-});
+// // user existis for mongos static function
+// StudentSchema.statics.isStudentExists = async function (id: string) {
+//   const extStudent = await Student.findOne({ id });
+//   return extStudent;
+// };
 
-StudentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  console.log(this, 'Student Create is Success');
-  next();
-});
-
-// user existis for mongos static function
-StudentSchema.statics.isStudentExists = async function (id: string) {
-  const extStudent = await Student.findOne({ id });
-  return extStudent;
-};
-
-StudentSchema.pre('find', function (next) {
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
-StudentSchema.pre('findOne', function (next) {
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
-StudentSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-  next();
-});
+// StudentSchema.pre('find', function (next) {
+//   this.find({ isDeleted: { $ne: true } });
+//   next();
+// });
+// StudentSchema.pre('findOne', function (next) {
+//   this.find({ isDeleted: { $ne: true } });
+//   next();
+// });
+// StudentSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+//   next();
+// });
 
 // StudentSchema.statics.isStudentExists = async function (id: string) {
 //   return this.findOne({ id });

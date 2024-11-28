@@ -1,7 +1,8 @@
 import { Router } from 'express';
+import { userContoller } from './user.contrllers';
 
 const router = Router();
 
-router.use('/create-user');
+router.post('/create-student', userContoller.creatUser);
 
 export const userRouter = router;

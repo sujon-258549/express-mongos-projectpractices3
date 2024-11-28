@@ -17,7 +17,6 @@ export interface FullName {
 // Student Interface for TypeScript
 export interface TStudent {
   id: string;
-  password: string;
   user: Types.ObjectId;
   name: FullName;
   email: string;

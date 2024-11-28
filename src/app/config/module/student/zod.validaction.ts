@@ -18,7 +18,6 @@ const nameSchema = z.object({
 
 const studentValidationSchemaforzod = z.object({
   id: z.string().nonempty('Student ID is required.'),
-  password: z.string().nonempty('Student password is required.'),
   name: nameSchema,
   email: z.string().email('Invalid email format.'),
   avatar: z.string().url().optional(),

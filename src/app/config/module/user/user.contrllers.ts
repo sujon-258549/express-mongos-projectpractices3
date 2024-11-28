@@ -3,8 +3,6 @@ import { userServises } from './user.servises';
 
 const creatUser = async (req: Request, res: Response) => {
   try {
-    // Joi Schemas
-
     const { password, student } = req.body;
 
     // zod validaction data
@@ -15,13 +13,13 @@ const creatUser = async (req: Request, res: Response) => {
 
     res.status(201).json({
       success: true,
-      message: 'Student created successfully',
+      message: 'User created successfully',
       result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Error creating student',
+      message: 'Error creating User',
       error: error,
     });
   }
