@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 // Guardian Interface
 export interface Guardian {
@@ -18,6 +18,7 @@ export interface FullName {
 export interface TStudent {
   id: string;
   password: string;
+  user: Types.ObjectId;
   name: FullName;
   email: string;
   avatar?: string;
@@ -28,7 +29,6 @@ export interface TStudent {
   grade: string;
   section?: string;
   enrolledDate: string;
-  isActive: boolean;
   guardian: Guardian;
   nationality?: string;
   religion?: string;

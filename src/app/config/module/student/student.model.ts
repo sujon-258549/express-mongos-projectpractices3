@@ -60,6 +60,12 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       type: String,
       required: [true, 'Student password is required.'],
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'Student password is required.'],
+      unique: true,
+      ref: 'User',
+    },
     name: {
       type: NameSchema,
       required: [true, 'Name is required.'],
@@ -109,11 +115,6 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     enrolledDate: {
       type: String,
       required: [true, 'Enrollment date is required.'],
-    },
-    isActive: {
-      type: Boolean,
-      required: [true, 'Active status is required.'],
-      default: true,
     },
     guardian: {
       type: GuardianSchema,
