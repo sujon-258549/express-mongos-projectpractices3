@@ -21,13 +21,13 @@ export interface TStudent {
   name: FullName;
   email: string;
   avatar?: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   gender: 'Male' | 'Female' | 'Other';
   phone?: string;
   address?: string;
   grade: string;
   section?: string;
-  enrolledDate: Date;
+  enrolledDate: string;
   isActive: boolean;
   guardian: Guardian;
   nationality?: string;

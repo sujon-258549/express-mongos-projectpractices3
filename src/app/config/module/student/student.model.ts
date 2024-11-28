@@ -78,7 +78,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       required: [false, 'Avatar is required.'],
     },
     dateOfBirth: {
-      type: Date,
+      type: String,
       required: [true, 'Date of birth is required.'],
     },
     gender: {
@@ -107,7 +107,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       required: [false, 'Section is required.'],
     },
     enrolledDate: {
-      type: Date,
+      type: String,
       required: [true, 'Enrollment date is required.'],
     },
     isActive: {

@@ -49,6 +49,7 @@ const findStudent = async (req: Request, res: Response) => {
       message: 'Students retrieved successfully',
       result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -69,6 +70,7 @@ const studentOneDeleted = async (req: Request, res: Response) => {
       message: 'Student deleted successfully',
       result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -88,6 +90,7 @@ const studentOnefind = async (req: Request, res: Response) => {
       message: 'Student find one successfully',
       result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     res.status(500).json({
       success: false,
