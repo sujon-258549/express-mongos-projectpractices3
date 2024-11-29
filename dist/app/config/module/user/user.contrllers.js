@@ -9,27 +9,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentServeses = void 0;
-const student_model_1 = require("./student.model");
-const findAllStudentData = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.userContoller = void 0;
+const user_servises_1 = require("./user.servises");
+const creatUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield student_model_1.Student.find();
-        return result;
+        const { password, student } = req.body;
+        // zod validaction data
+        // const zodValidactionPart = studentValidationSchemaforzod.parse(data);
+        // Call service to create a student
+        const result = yield user_servises_1.userServises.createUserServerDB(password, student);
+        res.status(201).json({
+            success: true,
+            message: 'User created successfully',
+            result,
+        });
     }
     catch (error) {
-        console.log(error);
+        next(error);
     }
 });
-const findOnedStudent = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.Student.findOne({ id });
-    return result;
-});
-const deletedStudentone = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.Student.updateOne({ id }, { isDeleted: true });
-    return result;
-});
-exports.studentServeses = {
-    findAllStudentData,
-    findOnedStudent,
-    deletedStudentone,
+exports.userContoller = {
+    creatUser,
 };

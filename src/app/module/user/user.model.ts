@@ -2,7 +2,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { TUser } from './user.interfaces';
 import bcrypt from 'bcrypt';
-import config from '../..';
+import config from '../../config';
 
 // Define the User Schema
 const userSchema = new Schema<TUser>(

@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { studentServeses } from './student.servises';
 
-const findStudent = async (req: Request, res: Response) => {
+const findStudent = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await studentServeses.findAllStudentData();
     res.status(200).json({
@@ -11,15 +11,15 @@ const findStudent = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Error retrieving students',
-      error: error.details || error.message || 'An unexpected error occurred',
-    });
+    next(error);
   }
 };
 
-const studentOneDeleted = async (req: Request, res: Response) => {
+const studentOneDeleted = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { studentId } = req.params;
 
@@ -32,14 +32,14 @@ const studentOneDeleted = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong',
-      error: error.message || 'Unknown error', // Safe error message
-    });
+    next(error);
   }
 };
-const studentOnefind = async (req: Request, res: Response) => {
+const studentOnefind = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { studentId } = req.params;
 
@@ -52,14 +52,9 @@ const studentOnefind = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something went wrong',
-      error: error.message || 'Unknown error', // Safe error message
-    });
+    next(error);
   }
 };
-
 export const studentController = {
   findStudent,
   studentOneDeleted,

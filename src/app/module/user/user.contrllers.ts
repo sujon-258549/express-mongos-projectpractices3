@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { userServises } from './user.servises';
 
-const creatUser = async (req: Request, res: Response) => {
+const creatUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { password, student } = req.body;
 
@@ -17,11 +17,7 @@ const creatUser = async (req: Request, res: Response) => {
       result,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error creating User',
-      error: error,
-    });
+    next(error);
   }
 };
 

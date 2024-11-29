@@ -7,5 +7,7 @@ exports.studentRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const student_controlle_1 = require("./student.controlle");
 const router = express_1.default.Router();
-router.post('/create-student', student_controlle_1.studentController.createStudent);
+router.get('/find-student', student_controlle_1.studentController.findStudent);
+router.delete('/:studentId', student_controlle_1.studentController.studentOneDeleted);
+router.get('/:studentId', student_controlle_1.studentController.studentOnefind);
 exports.studentRouter = router;

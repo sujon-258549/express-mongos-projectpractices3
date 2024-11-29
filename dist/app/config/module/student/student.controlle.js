@@ -11,20 +11,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.studentController = void 0;
 const student_servises_1 = require("./student.servises");
-const createStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const findStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = req.body.student;
-        const result = yield student_servises_1.studentServeses.createStudentServerDB(data);
+        const result = yield student_servises_1.studentServeses.findAllStudentData();
         res.status(200).json({
             success: true,
-            message: 'Student Create is success',
-            result: result,
+            message: 'Students retrieved successfully',
+            result,
         });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }
     catch (error) {
-        console.log(error);
+        next(error);
+    }
+});
+const studentOneDeleted = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { studentId } = req.params;
+        // Call the service to delete the student
+        const result = yield student_servises_1.studentServeses.deletedStudentone(studentId);
+        res.status(200).json({
+            success: true,
+            message: 'Student deleted successfully',
+            result,
+        });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }
+    catch (error) {
+        next(error);
+    }
+});
+const studentOnefind = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { studentId } = req.params;
+        // Call the service to delete the student
+        const result = yield student_servises_1.studentServeses.findOnedStudent(studentId);
+        res.status(200).json({
+            success: true,
+            message: 'Student find one successfully',
+            result,
+        });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }
+    catch (error) {
+        next(error);
     }
 });
 exports.studentController = {
-    createStudent,
+    findStudent,
+    studentOneDeleted,
+    studentOnefind,
 };
