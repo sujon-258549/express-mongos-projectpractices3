@@ -1,17 +1,15 @@
 import express, { Application, Request, Response } from 'express';
 const app: Application = express();
 import cors from 'cors';
-import { studentRouter } from './app/module/student/student.router';
-import { userRouter } from './app/module/user/user.router';
 import globalErrorhandlata from './app/madelware/globalErrorhandaler';
 import notFound from './app/madelware/notfound';
+import router from './app/route';
 // const port = 3000;
 
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/v1/student', studentRouter);
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1', router);
 
 // error handel
 app.use(globalErrorhandlata);
