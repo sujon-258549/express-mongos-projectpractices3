@@ -40,6 +40,10 @@ const NameSchema = new Schema<FullName>({
 
 const StudentSchema = new Schema<TStudent, StudentModel>(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User', // Reference to the 'User' collection
+    },
     name: {
       type: NameSchema,
       required: [true, 'Name is required.'],

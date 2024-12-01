@@ -19,7 +19,6 @@ const createUserServerDB = async (password: string, studentData: TStudent) => {
     // const newUser = student.save();
     //
     const newUser = await UserModel.create(userData);
-
     //create a student
     if (Object.keys(newUser).length) {
       //   studentData.id = newUser.id;
