@@ -25,11 +25,6 @@ const NameSchema = new Schema<FullName>({
     trim: true,
     required: [true, 'First name is required.'],
     validation: {
-      //   validator: function (value) {
-      //     const formattedValue =
-      //       value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-      //     return formattedValue === value;
-      //   },
       message: '{VALUE} is not in a capitalized format.',
     },
   },
@@ -40,25 +35,11 @@ const NameSchema = new Schema<FullName>({
   lastName: {
     type: String,
     required: [true, 'Last name is required.'],
-    // validate: {
-    //   validator: (value: string) => validator.isAlpha(value),
-    //   message: '{VALUE} is not define',
-    // },
   },
 });
 
 const StudentSchema = new Schema<TStudent, StudentModel>(
   {
-    id: {
-      type: String,
-      required: [true, 'Student ID is required.'],
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      required: [true, 'Student password is required.'],
-      unique: true,
-      ref: 'User',
-    },
     name: {
       type: NameSchema,
       required: [true, 'Name is required.'],
@@ -66,10 +47,6 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     email: {
       type: String,
       required: [true, 'Email is required.'],
-      //   validate: {
-      //     validator: (value: string) => validator.isEmail(value),
-      //     message: '{VALUE} is not email formet',
-      //   },
       unique: true,
     },
     avatar: {
@@ -153,10 +130,6 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       type: Map,
       of: Number,
       required: [false, 'Marks are not required.'],
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
     },
     comments: {
       type: String,

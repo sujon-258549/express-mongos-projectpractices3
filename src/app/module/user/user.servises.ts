@@ -7,12 +7,6 @@ import { UserModel } from './user.model';
 const createUserServerDB = async (password: string, studentData: TStudent) => {
   //   console.log(repit_students);
   try {
-    // const studentExists = await Student.isStudentExists(repit_students.id);
-    // if (studentExists) {
-    //   throw new Error('Student already exists');
-    // }
-
-    // mtobject for user
     const userData: Partial<TUser> = {};
 
     userData.password = password || (config.defult_passwoed as string);
@@ -28,7 +22,7 @@ const createUserServerDB = async (password: string, studentData: TStudent) => {
 
     //create a student
     if (Object.keys(newUser).length) {
-      studentData.id = newUser.id;
+      //   studentData.id = newUser.id;
       studentData.user = newUser._id;
     }
 
