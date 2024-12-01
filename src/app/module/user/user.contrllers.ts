@@ -1,13 +1,8 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import { userServises } from './user.servises';
 import sendSuccess from '../utility/send-success';
 import httpStatus from 'http-status';
-
-const catchAsynch = (fn: RequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((error) => next(error));
-  };
-};
+import catchAsynch from '../utility/catcingAsynch';
 
 const creatUser = catchAsynch(async (req: Request, res: Response) => {
   const { password, student } = req.body;

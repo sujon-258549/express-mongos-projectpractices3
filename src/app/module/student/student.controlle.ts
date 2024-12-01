@@ -2,16 +2,11 @@
 /* eslint-disable no-unused-vars */
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { studentServeses } from './student.servises';
+import catchAsynch from '../utility/catcingAsynch';
 
 //hairorder function
 
-const mainAsynk = (fn: RequestHandler) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch((error) => next(error));
-  };
-};
-
-const findStudent = mainAsynk(
+const findStudent = catchAsynch(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async (req: Request, res: Response, next: NextFunction) => {
     const result = await studentServeses.findAllStudentData();
@@ -23,7 +18,7 @@ const findStudent = mainAsynk(
   },
 );
 
-const studentOneDeleted = mainAsynk(
+const studentOneDeleted = catchAsynch(
   async (req: Request, res: Response, next: NextFunction) => {
     const { studentId } = req.params;
 
@@ -36,7 +31,7 @@ const studentOneDeleted = mainAsynk(
     });
   },
 );
-const studentOnefind = mainAsynk(
+const studentOnefind = catchAsynch(
   async (req: Request, res: Response, next: NextFunction) => {
     const { studentId } = req.params;
     // Call the service to delete the student
