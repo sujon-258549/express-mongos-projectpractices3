@@ -5,7 +5,6 @@ import {
   SamesterCod,
   SamesterName,
 } from './interfaces';
-import { AcademicSemesterSchema } from './acedimic.zod.validaction';
 
 export const monthNames: MonthName[] = [
   'January',

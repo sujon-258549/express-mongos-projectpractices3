@@ -28,8 +28,25 @@ const createAcedimic = async (payloade: TAcademicsamester) => {
   return result;
 };
 
-const findAllsamester = async;
+const findAllsamester = async () => {
+  try {
+    const result = await AcademicModel.find();
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const findSpisifysamester = async (id: string) => {
+  try {
+    const result = await AcademicModel.findById(id);
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const acadimicSamesterServises = {
   createAcedimic,
+  findAllsamester,
+  findSpisifysamester,
 };
