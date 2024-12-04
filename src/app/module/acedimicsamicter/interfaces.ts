@@ -18,7 +18,7 @@ export type SamesterCod = '01' | '02' | '03';
 export interface TAcademicsamester {
   name: SamesterName;
   code: SamesterCod;
-  year: Date;
+  year: string;
   statindMonth: MonthName;
   endingMonth: MonthName;
 }

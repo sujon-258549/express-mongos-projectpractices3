@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import { NextFunction, Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import { studentServeses } from './student.servises';
 import catchAsynch from '../utility/catcingAsynch';
 import sendSuccess from '../utility/send-success';

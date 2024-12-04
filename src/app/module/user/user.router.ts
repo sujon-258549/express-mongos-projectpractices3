@@ -1,22 +1,9 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { userContoller } from './user.contrllers';
 import { studentValidationSchemaforzod } from '../student/zod.validaction';
-import { AnyZodObject } from 'zod';
+import studentValidaction from '../utility/zod.validaction';
 
 const router = Router();
-
-const studentValidaction = (schema: AnyZodObject) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      await schema.parseAsync({
-        body: req.body,
-      });
-      next();
-    } catch (error) {
-      next(error);
-    }
-  };
-};
 
 router.post(
   '/create-student',
