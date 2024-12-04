@@ -28,6 +28,8 @@ const createAcedimic = async (payloade: TAcademicsamester) => {
   return result;
 };
 
+const findAllsamester = async;
+
 export const acadimicSamesterServises = {
   createAcedimic,
 };
