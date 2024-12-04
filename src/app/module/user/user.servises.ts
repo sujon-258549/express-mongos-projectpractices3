@@ -1,10 +1,12 @@
 import config from '../../config';
+import { AcademicModel } from '../acedimicsamicter/acedimic.mode';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interfaces';
 import { UserModel } from './user.model';
+import { genaretStudentId } from './user.utility';
 
-const createUserServerDB = async (password: string, studentData: TStudent) => {
+const createUserServerDB = async (password: string, payload: TStudent) => {
   //   console.log(repit_students);
   try {
     const userData: Partial<TUser> = {};
@@ -13,19 +15,26 @@ const createUserServerDB = async (password: string, studentData: TStudent) => {
 
     //role ser
     userData.role = 'student';
-    userData.id = '20251000001';
 
-    // const student = new UserModel(userData); //built in interface for mongos interfaces
-    // const newUser = student.save();
-    //
+    // Fetch the academic semester for admission
+    const admissionSemester = await AcademicModel.findById(
+      payload.admitionSamester,
+    );
+    if (!admissionSemester) {
+      throw new Error('Admission semester not found');
+    }
+
+    // Generate a unique student ID
+    userData.id = genaretStudentId(admissionSemester);
+
     const newUser = await UserModel.create(userData);
     //create a student
     if (Object.keys(newUser).length) {
       //   studentData.id = newUser.id;
-      studentData.user = newUser._id;
+      payload.user = newUser._id;
     }
 
-    const newStudent = await Student.create(studentData);
+    const newStudent = await Student.create(payload);
     return newStudent;
 
     // const result = await StudentModel.create(repit_students);

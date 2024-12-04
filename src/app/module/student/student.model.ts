@@ -137,7 +137,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     },
     admitionSamester: {
       type: Schema.Types.ObjectId,
-      ref: 'academics',
+      ref: 'academic',
     },
     comments: {
       type: String,
@@ -145,9 +145,8 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     },
   },
   {
-    toJSON: {
-      virtuals: true,
-    },
+    timestamps: true,
+    toJSON: { virtuals: true },
   },
 );
 
@@ -156,31 +155,27 @@ StudentSchema.virtual('fullname').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
-// // user existis for mongos static function
-// StudentSchema.statics.isStudentExists = async function (id: string) {
-//   const extStudent = await Student.findOne({ id });
-//   return extStudent;
-// };
+// user existis for mongos static function
+StudentSchema.statics.isStudentExists = async function (id: string) {
+  const extStudent = await Student.findOne({ id });
+  return extStudent;
+};
 
-// StudentSchema.pre('find', function (next) {
-//   this.find({ isDeleted: { $ne: true } });
-//   next();
-// });
-// StudentSchema.pre('findOne', function (next) {
-//   this.find({ isDeleted: { $ne: true } });
-//   next();
-// });
-// StudentSchema.pre('aggregate', function (next) {
-//   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
-//   next();
-// });
+StudentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+StudentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+StudentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
-// StudentSchema.statics.isStudentExists = async function (id: string) {
-//   return this.findOne({ id });
-// };
+StudentSchema.statics.isStudentExists = async function (id: string) {
+  return this.findOne({ id });
+};
 
-// export const StudentIdValidactionModel = model<
-//   Student,
-//   StudentModelValidactionId
-// >('Student', StudentSchema);
 export const Student = model<TStudent, StudentModel>('Student', StudentSchema);

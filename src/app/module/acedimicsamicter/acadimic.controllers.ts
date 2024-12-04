@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import catchAsynch from '../utility/catcingAsynch';
 import sendSuccess from '../utility/send-success';
 import { acadimicSamesterServises } from './acedunuc.servises';
+import httpStatus from 'http-status';
 
 const createAcadimicSamester = catchAsynch(
   async (req: Request, res: Response) => {
@@ -30,7 +31,7 @@ const findSpicifySamester = catchAsynch(async (req: Request, res: Response) => {
   const { _id } = req.params;
   const result = await acadimicSamesterServises.findSpisifysamester(_id);
   sendSuccess(res, {
-    statuscod: 200,
+    statuscod: httpStatus.CREATED,
     success: true,
     message: 'Successfuly Find Single data',
     data: result,
