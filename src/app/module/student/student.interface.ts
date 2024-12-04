@@ -37,6 +37,7 @@ export interface TStudent {
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   attendancePercentage?: number;
   marks?: { [subject: string]: number };
+  admitionSamester: Types.ObjectId;
   comments?: string;
 }
 

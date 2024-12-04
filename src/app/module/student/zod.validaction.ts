@@ -49,6 +49,7 @@ export const studentValidationSchemaforzod = z.object({
       attendancePercentage: z.number().optional(),
       marks: z.record(z.string(), z.number()).optional(),
       isDeleted: z.boolean(),
+      admitionSamester: z.string(),
       comments: z.string().optional(),
     }),
   }),

@@ -135,6 +135,10 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       of: Number,
       required: [false, 'Marks are not required.'],
     },
+    admitionSamester: {
+      type: Schema.Types.ObjectId,
+      ref: 'academics',
+    },
     comments: {
       type: String,
       required: [false, 'Comments are not required.'],
