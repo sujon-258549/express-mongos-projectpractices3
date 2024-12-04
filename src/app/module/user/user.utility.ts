@@ -17,8 +17,8 @@ const findLastStudent = async () => {
   return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
 };
 
-export const genaretStudentId = (payload: TAcademicsamester) => {
-  const currentId = findLastStudent() || (0).toString();
+export const genaretStudentId = async (payload: TAcademicsamester) => {
+  const currentId = (await findLastStudent()) || (0).toString();
   let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
   incrementId = `${payload.year}${payload.code}${incrementId}`;
   return incrementId;
