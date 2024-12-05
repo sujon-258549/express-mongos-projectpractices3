@@ -14,7 +14,7 @@ const findLastStudent = async () => {
     .sort({ id: -1 })
     .lean();
 
-  return lastStudent?.id ? lastStudent.id.substring(6) : undefined;
+  return lastStudent?.id ? lastStudent.id : undefined;
 };
 
 export const genaretStudentId = async (payload: TAcademicsamester) => {
