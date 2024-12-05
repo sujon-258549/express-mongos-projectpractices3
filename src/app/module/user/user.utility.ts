@@ -24,8 +24,8 @@ export const genaretStudentId = async (payload: TAcademicsamester) => {
 
   const lastStudentSamesterYear = lastStudentId?.substring(0, 4); //2024 10 0001
   const lastStudentSamesterCod = lastStudentId?.substring(4, 6); //2024 10 0001
-  const currentSamesterYear = payload.year;
-  const currentSamesterCod = payload.code;
+  const currentSamesterYear = payload.year; //current year
+  const currentSamesterCod = payload.code; //current samester cod
 
   if (
     lastStudentId &&
