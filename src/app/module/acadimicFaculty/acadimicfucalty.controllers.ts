@@ -12,6 +12,6 @@ const createFucalty = catchAsynch(async (req, res) => {
   });
 });
 
-export const fucultyContruller = {
+export const fucaltyContruller = {
   createFucalty,
 };
