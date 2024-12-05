@@ -177,5 +177,5 @@ StudentSchema.pre('aggregate', function (next) {
 StudentSchema.statics.isStudentExists = async function (id: string) {
   return this.findOne({ id });
 };
-
+//
 export const Student = model<TStudent, StudentModel>('Student', StudentSchema);
