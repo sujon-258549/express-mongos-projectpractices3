@@ -21,8 +21,10 @@ const findAllFucalty = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+
 const findSingleFucalty = catchAsynch(async (req, res) => {
-  const result = await fucaltyServises.createFucalty(req.body);
+  const { fucaltyId } = req.params;
+  const result = await fucaltyServises.findoneFucalty(fucaltyId);
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
@@ -31,7 +33,8 @@ const findSingleFucalty = catchAsynch(async (req, res) => {
   });
 });
 const deleteSingleFucalty = catchAsynch(async (req, res) => {
-  const result = await fucaltyServises.createFucalty(req.body);
+  const { fucaltyId } = req.params;
+  const result = await fucaltyServises.deleteoneFucalty(fucaltyId);
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
