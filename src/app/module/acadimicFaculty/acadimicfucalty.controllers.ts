@@ -11,16 +11,17 @@ const createFucalty = catchAsynch(async (req, res) => {
     data: result,
   });
 });
-const findSingleFucalty = catchAsynch(async (req, res) => {
-  const result = await fucaltyServises.createFucalty(req.body);
+
+const findAllFucalty = catchAsynch(async (req, res) => {
+  const result = await fucaltyServises.findAllFucalty();
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscod: httpStatus.OK,
     success: true,
-    message: 'Fucalty Created Successfuly',
+    message: 'Fucalty All find Successfuly',
     data: result,
   });
 });
-const findAllFucalty = catchAsynch(async (req, res) => {
+const findSingleFucalty = catchAsynch(async (req, res) => {
   const result = await fucaltyServises.createFucalty(req.body);
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
