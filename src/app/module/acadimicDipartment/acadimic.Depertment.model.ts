@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { TAcadimicDepertment } from './acadimic.depert ment.interface';
 
 export const acadimicDepertmentSchema = new Schema<TAcadimicDepertment>({
@@ -11,3 +11,8 @@ export const acadimicDepertmentSchema = new Schema<TAcadimicDepertment>({
     required: [true, 'name is Requerd'],
   },
 });
+
+export const AcadimicDepertmentModel = model<TAcadimicDepertment>(
+  'Acadimicdepertment',
+  acadimicDepertmentSchema,
+);
