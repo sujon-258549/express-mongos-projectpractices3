@@ -24,8 +24,8 @@ const findAllFaculty = catchAsynch(async (req, res) => {
 });
 
 const findSingleFaculty = catchAsynch(async (req, res) => {
-  const { fucaltyId } = req.params;
-  const result = await facultyServises.findoneFucalty(fucaltyId);
+  const { facultyId } = req.params;
+  const result = await facultyServises.findoneFucalty(facultyId);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
@@ -34,8 +34,8 @@ const findSingleFaculty = catchAsynch(async (req, res) => {
   });
 });
 const deleteSingleFaculty = catchAsynch(async (req, res) => {
-  const { fucaltyId } = req.params;
-  const result = await facultyServises.deleteoneFucalty(fucaltyId);
+  const { facultyId } = req.params;
+  const result = await facultyServises.deleteoneFucalty(facultyId);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
