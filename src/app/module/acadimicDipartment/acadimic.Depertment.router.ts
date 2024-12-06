@@ -1,9 +1,17 @@
 import { Router } from 'express';
 import { acadimicDepertmentContruller } from './acadimic.Depertment.controllers';
+import zodValidaction from '../utility/zod.validaction';
+import { acadimicDepertment } from './acadimicDepertment.validaction';
 
 const router = Router();
 
-router.post('/create-depertmet', acadimicDepertmentContruller.createDepertment);
+router.post(
+  '/create-depertmet',
+
+  zodValidaction(acadimicDepertment.createAcadimicDepentmetnValidactionZod),
+
+  acadimicDepertmentContruller.createDepertment,
+);
 router.get('/', acadimicDepertmentContruller.findAllFaculty);
 router.get('/:depertmentId', acadimicDepertmentContruller.findSingleFaculty);
 router.delete(
@@ -12,6 +20,7 @@ router.delete(
 );
 router.patch(
   '/:depertmentId',
+  zodValidaction(acadimicDepertment.updateAcadimicDepentmetnValidactionZod),
   acadimicDepertmentContruller.updateSingleDepertment,
 );
 

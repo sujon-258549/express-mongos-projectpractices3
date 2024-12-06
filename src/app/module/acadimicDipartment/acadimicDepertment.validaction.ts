@@ -1,10 +1,24 @@
-import { string, z } from 'zod';
+import { z } from 'zod';
 
-const acadimicDepentmetnValidactionZod = z.object({
-  name: string({ invalid_type_error: 'Name must be String' }),
-  id: string({ invalid_type_error: 'Id Must be string' }),
+const createAcadimicDepentmetnValidactionZod = z.object({
+  body: z.object({
+    name: z
+      .string({ invalid_type_error: 'Name must be a string' })
+      .nonempty('Name is required'),
+    id: z
+      .string({ invalid_type_error: 'ID must be a string' })
+      .nonempty('ID is required'),
+  }),
+});
+
+const updateAcadimicDepentmetnValidactionZod = z.object({
+  body: z.object({
+    name: z.string({ invalid_type_error: 'Name must be a string' }).optional(),
+    id: z.string({ invalid_type_error: 'ID must be a string' }).optional(),
+  }),
 });
 
 export const acadimicDepertment = {
-  acadimicDepentmetnValidactionZod,
+  createAcadimicDepentmetnValidactionZod,
+  updateAcadimicDepentmetnValidactionZod,
 };
