@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { TAcadimicDepertment } from './acadimic.depert ment.interface';
+import AppError from '../../error/apperror';
 
 export const acadimicDepertmentSchema = new Schema<TAcadimicDepertment>(
   {
@@ -20,10 +21,9 @@ export const acadimicDepertmentSchema = new Schema<TAcadimicDepertment>(
 
 acadimicDepertmentSchema.pre('findOneAndUpdate', async function (next) {
   const query = this.getQuery();
-  console.log(query);
   const isDepertmentExis = await AcadimicDepertmentModel.findOne(query);
   if (!isDepertmentExis) {
-    throw new Error('This Depentment Dase not exest');
+    throw new AppError(404, 'This Depentment Dase not exest');
   }
   next();
 });
