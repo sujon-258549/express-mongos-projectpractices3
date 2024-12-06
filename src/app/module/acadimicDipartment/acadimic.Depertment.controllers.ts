@@ -44,10 +44,25 @@ const deleteSingleFaculty = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+const updateSingleDepertment = catchAsynch(async (req, res) => {
+  const { depertmentId } = req.params;
+  const updateData = req.body;
+  const result = await acadimicDepertmentServises.updateOneFacultyData(
+    depertmentId,
+    updateData,
+  );
+  sendSuccess(res, {
+    statuscod: httpStatus.OK,
+    success: true,
+    message: 'Depertment Updated Successfuly',
+    data: result,
+  });
+});
 
 export const acadimicDepertmentContruller = {
   createDepertment,
   findAllFaculty,
   findSingleFaculty,
   deleteSingleFaculty,
+  updateSingleDepertment,
 };

@@ -38,9 +38,29 @@ const deleteoneFaculty = async (facultyId: string) => {
   }
 };
 
+const updateOneFacultyData = async (
+  id: string,
+  updateData: TAcadimicDepertment,
+) => {
+  // Use lowercase 'string' for consistency
+  try {
+    const result = await AcadimicDepertmentModel.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true },
+    ); // Convert string _id to ObjectId
+
+    return result;
+  } catch (error) {
+    console.error('Error fetching car data by ID:', error); // Enhanced error logging
+    throw new Error('Error fetching car data by ID');
+  }
+};
+
 export const acadimicDepertmentServises = {
   createFaculty,
   findAllFaculty,
   findoneFaculty,
   deleteoneFaculty,
+  updateOneFacultyData,
 };

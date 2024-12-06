@@ -10,5 +10,9 @@ router.delete(
   '/:depertmentId',
   acadimicDepertmentContruller.deleteSingleFaculty,
 );
+router.patch(
+  '/:depertmentId',
+  acadimicDepertmentContruller.updateSingleDepertment,
+);
 
 export const acadimicDepertmentRouter = router;
