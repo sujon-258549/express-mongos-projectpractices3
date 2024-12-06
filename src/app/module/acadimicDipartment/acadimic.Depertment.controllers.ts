@@ -1,13 +1,14 @@
 import catchAsynch from '../utility/catcingAsynch';
 import sendSuccess from '../utility/send-success';
 import { acadimicDepertmentServises } from './acadimicDepertment.servises';
+import httpStatus from 'http-status';
 
-const createFucalty = catchAsynch(async (req, res) => {
+const createDepertment = catchAsynch(async (req, res) => {
   const result = await acadimicDepertmentServises.createFaculty(req.body);
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
-    message: 'Fucalty Created Successfuly',
+    message: 'Depertment Created Successfuly',
     data: result,
   });
 });
@@ -17,34 +18,35 @@ const findAllFaculty = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'Fucalty All find Successfuly',
+    message: 'Depertment All find Successfuly',
     data: result,
   });
 });
 
 const findSingleFaculty = catchAsynch(async (req, res) => {
-  const { facultyId } = req.params;
-  const result = await acadimicDepertmentServises.findoneFaculty(facultyId);
+  const { depertmentId } = req.params;
+  const result = await acadimicDepertmentServises.findoneFaculty(depertmentId);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'Fucalty single find Successfuly',
+    message: 'Depertment single find Successfuly',
     data: result,
   });
 });
 const deleteSingleFaculty = catchAsynch(async (req, res) => {
-  const { facultyId } = req.params;
-  const result = await acadimicDepertmentServises.deleteoneFaculty(facultyId);
+  const { depertmentId } = req.params;
+  const result =
+    await acadimicDepertmentServises.deleteoneFaculty(depertmentId);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'Fucalty deleted Successfuly',
+    message: 'Depertment deleted Successfuly',
     data: result,
   });
 });
 
 export const acadimicDepertmentContruller = {
-  createFucalty,
+  createDepertment,
   findAllFaculty,
   findSingleFaculty,
   deleteSingleFaculty,
