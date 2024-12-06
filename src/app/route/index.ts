@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { studentRouter } from '../module/student/student.router';
 import { userRouter } from '../module/user/user.router';
 import { acedimicSemister } from '../module/acedimicsamicter/acc.route';
+import { acadimicDepertmentRouter } from '../module/acadimicDipartment/acadimic.Depertment.router';
 
 const router = Router();
 
@@ -22,6 +23,10 @@ const allRouter = [
   {
     path: '/faculty',
     router: acadimicFacultyRouter,
+  },
+  {
+    path: '/depertment',
+    router: acadimicDepertmentRouter,
   },
 ];
 
