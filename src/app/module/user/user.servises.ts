@@ -53,6 +53,7 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
   } catch (err) {
     await session.abortTransaction();
     await session.endSession();
+    console.log(err);
   }
   // const result = await StudentModel.create(repit_students);
 };
