@@ -9,47 +9,52 @@ import { genaretStudentId } from './user.utility';
 
 const createUserServerDB = async (password: string, payload: TStudent) => {
   //   console.log(repit_students);
-  try {
-    const userData: Partial<TUser> = {};
 
-    userData.password = password || (config.defult_passwoed as string);
+  const userData: Partial<TUser> = {};
 
-    //role ser
-    userData.role = 'student';
+  userData.password = password || (config.defult_passwoed as string);
 
-    // Fetch the academic semester for admission
-    const admissionSemester = await AcademicModel.findById(
-      payload.admitionSamester,
-    );
-    if (!admissionSemester) {
-      throw new Error('Admission semester not found');
-    }
+  //role ser
+  userData.role = 'student';
 
-    // Generate a unique student ID
-
-    // step =>1
-    const session = await mongoose.startSession();
-    try {
-      // step 2
-      session.startTransaction();
-      userData.id = await genaretStudentId(admissionSemester);
-
-      const newUser = await UserModel.create([userData], { session }); // use session
-      //create a student
-      if (newUser.length) {
-        //   studentData.id = newUser.id;
-        payload.user = newUser[0]._id;
-      }
-
-      const newStudent = await Student.create([payload], { session });
-      return newStudent;
-    } catch (err) {
-      console.log(err);
-    }
-    // const result = await StudentModel.create(repit_students);
-  } catch (error) {
-    console.log(error);
+  // Fetch the academic semester for admission
+  const admissionSemester = await AcademicModel.findById(
+    payload.admitionSamester,
+  );
+  if (!admissionSemester) {
+    throw new Error('Admission semester not found');
   }
+
+  // Generate a unique student ID
+
+  // step =>1
+  const session = await mongoose.startSession();
+  try {
+    // step 2
+    session.startTransaction();
+    userData.id = await genaretStudentId(admissionSemester);
+
+    //   step >user data
+    const newUser = await UserModel.create([userData], { session }); // use session
+    //create a student
+    if (newUser.length) {
+      //   studentData.id = newUser.id;
+      payload.user = newUser[0]._id;
+    }
+
+    const newStudent = await Student.create([payload], { session });
+
+    //   commit sesson
+    await session.commitTransaction();
+    //  end session
+    await session.endSession();
+
+    return newStudent;
+  } catch (err) {
+    await session.abortTransaction();
+    await session.endSession();
+  }
+  // const result = await StudentModel.create(repit_students);
 };
 
 export const userServises = {
