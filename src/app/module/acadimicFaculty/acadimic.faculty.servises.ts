@@ -1,9 +1,9 @@
 import { TFaculty } from './acadimic.Faculty.interfaces';
-import { AcadimicFucaltyModel } from './acadimic.Faculty.model';
+import { AcadimicFucaltyModel as AcadimicFacultyModel } from './acadimic.Faculty.model';
 
 const createFucalty = async (payload: TFaculty) => {
   try {
-    const result = await AcadimicFucaltyModel.create(payload);
+    const result = await AcadimicFacultyModel.create(payload);
     return result;
   } catch (error) {
     console.log(error);
@@ -11,7 +11,7 @@ const createFucalty = async (payload: TFaculty) => {
 };
 const findAllFucalty = async () => {
   try {
-    const result = await AcadimicFucaltyModel.find();
+    const result = await AcadimicFacultyModel.find();
     return result;
   } catch (error) {
     console.log(error);
@@ -19,7 +19,7 @@ const findAllFucalty = async () => {
 };
 const findoneFucalty = async (id: string) => {
   try {
-    const result = await AcadimicFucaltyModel.findOne({ id });
+    const result = await AcadimicFacultyModel.findOne({ id });
     return result;
   } catch (error) {
     console.log(error);
@@ -27,7 +27,7 @@ const findoneFucalty = async (id: string) => {
 };
 const deleteoneFucalty = async (id: string) => {
   try {
-    const result = await AcadimicFucaltyModel.deleteOne(
+    const result = await AcadimicFacultyModel.deleteOne(
       { id },
       { isDeleted: true },
     );
@@ -37,7 +37,7 @@ const deleteoneFucalty = async (id: string) => {
   }
 };
 
-export const fucaltyServises = {
+export const facultyServises = {
   createFucalty,
   findAllFucalty,
   findoneFucalty,

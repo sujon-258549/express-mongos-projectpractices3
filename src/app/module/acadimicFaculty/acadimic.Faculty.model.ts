@@ -14,4 +14,4 @@ export const acadimicSchema = new Schema<TFaculty>(
   },
 );
 
-export const AcadimicFucaltyModel = model<TFaculty>('Fucalty', acadimicSchema);
+export const AcadimicFucaltyModel = model<TFaculty>('Faculty', acadimicSchema);

@@ -1,4 +1,4 @@
-import { acadimicFucaltyRouter } from './../module/acadimicFaculty/acadimicFucalty.router';
+import { acadimicFucaltyRouter as acadimicFacultyRouter } from '../module/acadimicFaculty/acadimicFaculty.router';
 import { Router } from 'express';
 import { studentRouter } from '../module/student/student.router';
 import { userRouter } from '../module/user/user.router';
@@ -20,8 +20,8 @@ const allRouter = [
     router: acedimicSemister,
   },
   {
-    path: '/fucalty',
-    router: acadimicFucaltyRouter,
+    path: '/faculty',
+    router: acadimicFacultyRouter,
   },
 ];
 
