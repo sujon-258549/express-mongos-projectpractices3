@@ -31,3 +31,7 @@ ts-node-dev --respawn --transpile-only server.ts
 <!-- Rafarensomg use populate -->
 
 Rafarensomg use populate
+
+<!-- acid propraty -->
+
+acid propraty

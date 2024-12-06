@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import config from '../../config';
 import { AcademicModel } from '../acedimicsamicter/acedimic.mode';
 import { TStudent } from '../student/student.interface';
@@ -25,18 +26,26 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
     }
 
     // Generate a unique student ID
-    userData.id = await genaretStudentId(admissionSemester);
 
-    const newUser = await UserModel.create(userData);
-    //create a student
-    if (Object.keys(newUser).length) {
-      //   studentData.id = newUser.id;
-      payload.user = newUser._id;
+    // step =>1
+    const session = await mongoose.startSession();
+    try {
+      // step 2
+      session.startTransaction();
+      userData.id = await genaretStudentId(admissionSemester);
+
+      const newUser = await UserModel.create([userData], { session }); // use session
+      //create a student
+      if (Object.keys(newUser).length) {
+        //   studentData.id = newUser.id;
+        payload.user = newUser._id;
+      }
+
+      const newStudent = await Student.create(payload);
+      return newStudent;
+    } catch (err) {
+      console.log(err);
     }
-
-    const newStudent = await Student.create(payload);
-    return newStudent;
-
     // const result = await StudentModel.create(repit_students);
   } catch (error) {
     console.log(error);
