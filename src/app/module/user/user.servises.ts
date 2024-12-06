@@ -36,9 +36,9 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
 
       const newUser = await UserModel.create([userData], { session }); // use session
       //create a student
-      if (Object.keys(newUser).length) {
+      if (newUser.length) {
         //   studentData.id = newUser.id;
-        payload.user = newUser._id;
+        payload.user = newUser[0]._id;
       }
 
       const newStudent = await Student.create(payload);
