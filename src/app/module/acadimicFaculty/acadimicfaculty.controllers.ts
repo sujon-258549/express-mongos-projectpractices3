@@ -4,7 +4,7 @@ import httpStatus from 'http-status';
 import { facultyServises } from './acadimic.faculty.servises';
 
 const createFucalty = catchAsynch(async (req, res) => {
-  const result = await facultyServises.createFucalty(req.body);
+  const result = await facultyServises.createFaculty(req.body);
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
@@ -14,7 +14,7 @@ const createFucalty = catchAsynch(async (req, res) => {
 });
 
 const findAllFaculty = catchAsynch(async (req, res) => {
-  const result = await facultyServises.findAllFucalty();
+  const result = await facultyServises.findAllFaculty();
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
@@ -25,7 +25,7 @@ const findAllFaculty = catchAsynch(async (req, res) => {
 
 const findSingleFaculty = catchAsynch(async (req, res) => {
   const { facultyId } = req.params;
-  const result = await facultyServises.findoneFucalty(facultyId);
+  const result = await facultyServises.findoneFaculty(facultyId);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
@@ -35,7 +35,7 @@ const findSingleFaculty = catchAsynch(async (req, res) => {
 });
 const deleteSingleFaculty = catchAsynch(async (req, res) => {
   const { facultyId } = req.params;
-  const result = await facultyServises.deleteoneFucalty(facultyId);
+  const result = await facultyServises.deleteoneFaculty(facultyId);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
@@ -46,7 +46,7 @@ const deleteSingleFaculty = catchAsynch(async (req, res) => {
 
 export const facultyContruller = {
   createFucalty,
-  findAllFucalty: findAllFaculty,
-  findSingleFucalty: findSingleFaculty,
-  deleteSingleFucalty: deleteSingleFaculty,
+  findAllFaculty,
+  findSingleFaculty,
+  deleteSingleFaculty,
 };
