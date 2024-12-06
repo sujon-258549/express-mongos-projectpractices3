@@ -139,6 +139,10 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       type: Schema.Types.ObjectId,
       ref: 'academic',
     },
+    acadimicDepertment: {
+      type: Schema.Types.ObjectId,
+      ref: 'Acadimicdepertment',
+    },
     comments: {
       type: String,
       required: [false, 'Comments are not required.'],

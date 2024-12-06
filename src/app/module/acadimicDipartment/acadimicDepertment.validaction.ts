@@ -5,7 +5,7 @@ const createAcadimicDepentmetnValidactionZod = z.object({
     name: z
       .string({ invalid_type_error: 'Name must be a string' })
       .nonempty('Name is required'),
-    id: z
+    acadimicFaculty: z
       .string({ invalid_type_error: 'ID must be a string' })
       .nonempty('ID is required'),
   }),
@@ -14,7 +14,9 @@ const createAcadimicDepentmetnValidactionZod = z.object({
 const updateAcadimicDepentmetnValidactionZod = z.object({
   body: z.object({
     name: z.string({ invalid_type_error: 'Name must be a string' }).optional(),
-    id: z.string({ invalid_type_error: 'ID must be a string' }).optional(),
+    acadimicFaculty: z
+      .string({ invalid_type_error: 'ID must be a string' })
+      .optional(),
   }),
 });
 

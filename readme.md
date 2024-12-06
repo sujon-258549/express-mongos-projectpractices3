@@ -27,3 +27,7 @@ https://dev.to/shafayat/-express-typescript-eslint-prettiersetup-5fhg
 <!-- ts node dev -->
 
 ts-node-dev --respawn --transpile-only server.ts
+
+<!-- Rafarensomg use populate -->
+
+Rafarensomg use populate

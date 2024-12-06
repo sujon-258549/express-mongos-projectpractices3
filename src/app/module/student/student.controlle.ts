@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { studentServeses } from './student.servises';
 import catchAsynch from '../utility/catcingAsynch';
 import sendSuccess from '../utility/send-success';
+import httpStatus from 'http-status';
 
 //hairorder function
 

@@ -11,7 +11,8 @@ const createFaculty = async (payload: TAcadimicDepertment) => {
 };
 const findAllFaculty = async () => {
   try {
-    const result = await AcadimicDepertmentModel.find();
+    const result =
+      await AcadimicDepertmentModel.find().populate('acadimicFaculty');
     return result;
   } catch (error) {
     console.log(error);
@@ -20,7 +21,10 @@ const findAllFaculty = async () => {
 const findoneFaculty = async (facultyId: string) => {
   console.log(facultyId);
   try {
-    const result = await AcadimicDepertmentModel.findById(facultyId);
+    const result =
+      await AcadimicDepertmentModel.findById(facultyId).populate(
+        'acadimicFaculty',
+      );
 
     return result;
   } catch (error) {
@@ -43,18 +47,13 @@ const updateOneFacultyData = async (
   updateData: TAcadimicDepertment,
 ) => {
   // Use lowercase 'string' for consistency
-  try {
-    const result = await AcadimicDepertmentModel.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true },
-    ); // Convert string _id to ObjectId
 
-    return result;
-  } catch (error) {
-    console.error('Error fetching car data by ID:', error); // Enhanced error logging
-    throw new Error('Error fetching car data by ID');
-  }
+  const result = await AcadimicDepertmentModel.findByIdAndUpdate(
+    id,
+    updateData,
+    { new: true },
+  ); // Convert string _id to ObjectId
+  return result;
 };
 
 export const acadimicDepertmentServises = {

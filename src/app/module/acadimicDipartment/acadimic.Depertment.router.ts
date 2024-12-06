@@ -6,7 +6,7 @@ import { acadimicDepertment } from './acadimicDepertment.validaction';
 const router = Router();
 
 router.post(
-  '/create-depertmet',
+  '/create-depertment',
 
   zodValidaction(acadimicDepertment.createAcadimicDepentmetnValidactionZod),
 

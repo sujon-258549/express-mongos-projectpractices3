@@ -38,6 +38,7 @@ export interface TStudent {
   attendancePercentage?: number;
   marks?: { [subject: string]: number };
   admitionSamester: Types.ObjectId;
+  acadimicDepertment: Types.ObjectId;
   comments?: string;
 }
 
