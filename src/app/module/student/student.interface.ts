@@ -17,6 +17,7 @@ export interface FullName {
 // Student Interface for TypeScript
 export interface TStudent {
   user: Types.ObjectId;
+  id: string;
   name: FullName;
   email: string;
   avatar?: string;
@@ -39,6 +40,7 @@ export interface TStudent {
   marks?: { [subject: string]: number };
   admitionSamester: Types.ObjectId;
   acadimicDepertment: Types.ObjectId;
+  isDeleted: boolean;
   comments?: string;
 }
 

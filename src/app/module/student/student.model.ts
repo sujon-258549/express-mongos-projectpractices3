@@ -44,6 +44,9 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       type: Schema.Types.ObjectId,
       ref: 'User', // Reference to the 'User' collection
     },
+    id: {
+      type: String,
+    },
     name: {
       type: NameSchema,
       required: [true, 'Name is required.'],
@@ -142,6 +145,11 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     acadimicDepertment: {
       type: Schema.Types.ObjectId,
       ref: 'Acadimicdepertment',
+    },
+    isDeleted: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
     comments: {
       type: String,

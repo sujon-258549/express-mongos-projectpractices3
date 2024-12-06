@@ -40,6 +40,7 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
     if (newUser.length) {
       //   studentData.id = newUser.id;
       payload.user = newUser[0]._id;
+      payload.id = newUser[0].id;
     }
 
     const newStudent = await Student.create([payload], { session });
