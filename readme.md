@@ -138,3 +138,9 @@ console.log(error);
 };
 
 <!-- error handaling 14 -->
+
+type of error
+1.oparational error
+2.Programatical Error
+3.async error
+4.sync error
