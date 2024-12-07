@@ -13,8 +13,12 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     message: string;
   }[];
 
-  let errorSource: TErrorSource = [];
-
+  let errorSource: TErrorSource = [
+    {
+      path: '',
+      message: 'something went wrond',
+    },
+  ];
   const handleZodError = (zodError: ZodError) => {
     const formattedErrors: TErrorSource = zodError.issues.map(
       (issue: ZodIssue) => ({
