@@ -22,7 +22,7 @@ const findAllStudentData = async () => {
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {
-  const { name, guardian, ...remainingStudentData } = payload;
+  const { name, guardian, marks, ...remainingStudentData } = payload;
 
   const modifyStudentData: Record<string, unknown> = {
     ...remainingStudentData,
@@ -31,6 +31,11 @@ const updateStudent = async (id: string, payload: Partial<TStudent>) => {
   if (name && Object.keys(name).length) {
     for (const [kye, values] of Object.entries(name)) {
       modifyStudentData[`name.${kye}`] = values;
+    }
+  }
+  if (marks && Object.keys(marks).length) {
+    for (const [kye, values] of Object.entries(marks)) {
+      modifyStudentData[`marks.${kye}`] = values;
     }
   }
   if (guardian && Object.keys(guardian).length) {
