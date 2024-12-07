@@ -2,12 +2,8 @@ import { TAcadimicDepertment } from './acadimic.depert ment.interface';
 import { AcadimicDepertmentModel } from './acadimic.Depertment.model';
 
 const createFaculty = async (payload: TAcadimicDepertment) => {
-  try {
-    const result = await AcadimicDepertmentModel.create(payload);
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await AcadimicDepertmentModel.create(payload);
+  return result;
 };
 const findAllFaculty = async () => {
   try {

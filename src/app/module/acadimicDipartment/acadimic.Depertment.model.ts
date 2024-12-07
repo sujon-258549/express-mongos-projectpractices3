@@ -7,6 +7,7 @@ export const acadimicDepertmentSchema = new Schema<TAcadimicDepertment>(
     name: {
       type: String,
       required: [true, 'name is Requerd'],
+      unique: true,
     },
     acadimicFaculty: {
       type: Schema.Types.ObjectId,
