@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { Student } from './student.model';
 import AppError from '../../error/apperror';
 import { UserModel } from '../user/user.model';
+import { TStudent } from './student.interface';
 
 const findAllStudentData = async () => {
   try {
@@ -20,8 +21,8 @@ const findAllStudentData = async () => {
   }
 };
 
-const findOnedStudent = async (id: string) => {
-  const result = await Student.findOne({ id });
+const findOnedStudent = async (id: string, paylod: Partial<TStudent>) => {
+  const result = await Student.findOneAndUpdate(id, paylod);
   return result;
 };
 const updateStudent = async (id: string) => {
