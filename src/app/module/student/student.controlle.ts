@@ -25,7 +25,7 @@ const studentOneDeleted = catchAsynch(async (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: 'Student deleted successfully',
-    result,
+    data: result,
   });
 });
 const studentOnefind = catchAsynch(async (req: Request, res: Response) => {
@@ -35,11 +35,25 @@ const studentOnefind = catchAsynch(async (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: 'Student find one successfully',
-    result,
+    data: result,
   });
 });
+const updateStudentOnefind = catchAsynch(
+  async (req: Request, res: Response) => {
+    const { studentId } = req.params;
+    const { student } = req.body;
+    // Call the service to delete the student
+    const result = await studentServeses.updateStudent(studentId, student);
+    res.status(200).json({
+      success: true,
+      message: 'Student filed update successfully',
+      data: result,
+    });
+  },
+);
 export const studentController = {
   findStudent,
   studentOneDeleted,
   studentOnefind,
+  updateStudentOnefind,
 };

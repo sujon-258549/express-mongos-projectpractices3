@@ -21,16 +21,41 @@ const findAllStudentData = async () => {
   }
 };
 
-const findOnedStudent = async (id: string, paylod: Partial<TStudent>) => {
-  const result = await Student.findOneAndUpdate(id, paylod);
-  return result;
+const updateStudent = async (id: string, payload: Partial<TStudent>) => {
+  const { name, guardian, ...remainingStudentData } = payload;
+
+  const modifyStudentData: Record<string, unknown> = {
+    ...remainingStudentData,
+  };
+
+  if (name && Object.keys(name).length) {
+    for (const [kye, values] of Object.entries(name)) {
+      modifyStudentData[`name.${kye}`] = values;
+    }
+  }
+  if (guardian && Object.keys(guardian).length) {
+    for (const [kye, values] of Object.entries(guardian)) {
+      modifyStudentData[`guardian.${kye}`] = values;
+    }
+  }
+  const updateStudentdata = await Student.findOneAndUpdate(
+    { id }, // Query to find the student by ID
+    { $set: modifyStudentData }, // Use $set to ensure proper updates
+    {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure data validation
+    },
+  );
+  return updateStudentdata;
 };
-const updateStudent = async (id: string) => {
+
+const findOnedStudent = async (id: string) => {
   const result = await Student.findOne({ id })
     .populate('user')
     .populate('admitionSamester');
   return result;
 };
+
 const deletedStudentone = async (id: string) => {
   const session = await mongoose.startSession();
   try {
