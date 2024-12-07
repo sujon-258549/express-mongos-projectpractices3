@@ -36,6 +36,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
 
   // Handle Zod validation errors
   if (error instanceof ZodError) {
+    //main work
     const zodErrorDetails = handleZodError(error);
     statusCode = zodErrorDetails.statusCode;
     message = zodErrorDetails.message;
