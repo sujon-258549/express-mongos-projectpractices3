@@ -21,6 +21,10 @@ const findAllStudentData = async () => {
 };
 
 const findOnedStudent = async (id: string) => {
+  const result = await Student.findOne({ id });
+  return result;
+};
+const updateStudent = async (id: string) => {
   const result = await Student.findOne({ id })
     .populate('user')
     .populate('admitionSamester');
@@ -61,4 +65,5 @@ export const studentServeses = {
   findAllStudentData,
   findOnedStudent,
   deletedStudentone,
+  updateStudent,
 };
