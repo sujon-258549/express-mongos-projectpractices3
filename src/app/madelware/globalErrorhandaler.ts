@@ -2,16 +2,12 @@
 import { ErrorRequestHandler } from 'express';
 import { ZodError, ZodIssue } from 'zod';
 import config from '../config';
+import { TErrorSource } from '../interfaces/interfaces';
 
 // eslint-disable-next-line no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   let statusCode = 500;
   let message = error.message || 'Something went wrong.';
-
-  type TErrorSource = {
-    path: string | number;
-    message: string;
-  }[];
 
   let errorSource: TErrorSource = [
     {
@@ -19,6 +15,8 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
       message: 'something went wrond',
     },
   ];
+
+  //   next work defarent file this cod write
   const handleZodError = (zodError: ZodError) => {
     const formattedErrors: TErrorSource = zodError.issues.map(
       (issue: ZodIssue) => ({
