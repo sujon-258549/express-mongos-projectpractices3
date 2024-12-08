@@ -6,6 +6,7 @@ import { TErrorSource } from '../interfaces/interfaces';
 import handleZodError from '../error/zodError';
 import handelMongoosValidactionError from '../error/mongosValidactionerror';
 import handelMongoosValidactionCastError from '../error/handelMongoosValidactionCastError';
+import handelMongoosValidactionUnicIdError from '../error/handelMongoosValidactionUnicIdError';
 
 // eslint-disable-next-line no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -36,13 +37,18 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplefideError.statusCode;
     message = simplefideError.message;
     errorSource = simplefideError.errorSource;
+  } else if (error.code === 11000) {
+    const simplefideError = handelMongoosValidactionUnicIdError(error);
+    statusCode = simplefideError.statusCode;
+    message = simplefideError.message;
+    errorSource = simplefideError.errorSource;
   }
   // Respond with error details
   res.status(statusCode).json({
     success: false,
     message,
     errorSource,
-    // error,
+    error,
     // stack: config.NODE_ENV === 'development' ? error.stack : undefined, // Include stack trace in dev mode only
     stack: config.NODE_ENV === 'development' ? error?.stack : null,
   });
