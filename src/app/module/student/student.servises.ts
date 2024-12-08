@@ -9,9 +9,13 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
 
   let searchTerm = '';
   if (query.searchTerm) {
-    searchTerm = query.searchTerm;
+    searchTerm = query.searchTerm as string;
   }
-  const result = await Student.find()
+  const result = await Student.find({
+    $or: ['email', 'name.firstName'].map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  })
     .populate('user')
     .populate('admitionSamester')
     .populate({
