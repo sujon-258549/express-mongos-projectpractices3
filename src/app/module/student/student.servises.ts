@@ -7,6 +7,7 @@ import { TStudent } from './student.interface';
 const findAllStudentData = async (query: Record<string, unknown>) => {
   // {email :{regex :query.serchTerm , {$option : i}}}
 
+  //   search function
   let searchTerm = '';
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
