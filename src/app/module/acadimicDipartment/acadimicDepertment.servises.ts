@@ -16,16 +16,13 @@ const findAllFaculty = async () => {
 };
 const findoneFaculty = async (facultyId: string) => {
   console.log(facultyId);
-  try {
-    const result =
-      await AcadimicDepertmentModel.findById(facultyId).populate(
-        'acadimicFaculty',
-      );
 
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+  const result =
+    await AcadimicDepertmentModel.findById(facultyId).populate(
+      'acadimicFaculty',
+    );
+
+  return result;
 };
 const deleteoneFaculty = async (facultyId: string) => {
   try {

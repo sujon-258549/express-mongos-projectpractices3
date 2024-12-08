@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler } from 'express';
-import { ZodError, ZodIssue } from 'zod';
+import { ZodError } from 'zod';
 import config from '../config';
 import { TErrorSource } from '../interfaces/interfaces';
+import handleZodError from '../error/zodError';
+import handelMongoosValidactionError from '../error/mongosValidactionerror';
+import handelMongoosValidactionCastError from '../error/handelMongoosValidactionCastError';
 
 // eslint-disable-next-line no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -16,22 +19,6 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     },
   ];
 
-  //   next work defarent file this cod write
-  const handleZodError = (zodError: ZodError) => {
-    const formattedErrors: TErrorSource = zodError.issues.map(
-      (issue: ZodIssue) => ({
-        path: issue.path[issue.path.length - 1] || 'unknown',
-        message: issue.message,
-      }),
-    );
-
-    return {
-      statusCode: 400,
-      message: 'Validation error occurred.',
-      errorSource: formattedErrors,
-    };
-  };
-
   // Handle Zod validation errors
   if (error instanceof ZodError) {
     //main work
@@ -39,14 +26,23 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = zodErrorDetails.statusCode;
     message = zodErrorDetails.message;
     errorSource = zodErrorDetails.errorSource;
+  } else if (error.name === 'ValidationError') {
+    const simplefideError = handelMongoosValidactionError(error);
+    statusCode = simplefideError.statusCode;
+    message = simplefideError.message;
+    errorSource = simplefideError.errorSource;
+  } else if (error.name === 'CastError') {
+    const simplefideError = handelMongoosValidactionCastError(error);
+    statusCode = simplefideError.statusCode;
+    message = simplefideError.message;
+    errorSource = simplefideError.errorSource;
   }
-
   // Respond with error details
   res.status(statusCode).json({
     success: false,
     message,
     errorSource,
-    error,
+    // error,
     // stack: config.NODE_ENV === 'development' ? error.stack : undefined, // Include stack trace in dev mode only
     stack: config.NODE_ENV === 'development' ? error?.stack : null,
   });
