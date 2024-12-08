@@ -2,6 +2,10 @@ import app from './app';
 import config from './app/config';
 import mongoose from 'mongoose';
 
+import { Server } from 'http';
+
+let servire: Server;
+
 async function main() {
   try {
     await mongoose.connect(config.database_url as string);
@@ -14,3 +18,12 @@ async function main() {
   }
 }
 main();
+
+// servise of my comment
+process.on('unhandledRejection', () => {
+  if (servire) {
+    servire.close(() => {
+      process.exit(1);
+    });
+  }
+});

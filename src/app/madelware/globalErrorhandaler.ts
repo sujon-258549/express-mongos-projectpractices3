@@ -7,6 +7,7 @@ import handleZodError from '../error/zodError';
 import handelMongoosValidactionError from '../error/mongosValidactionerror';
 import handelMongoosValidactionCastError from '../error/handelMongoosValidactionCastError';
 import handelMongoosValidactionUnicIdError from '../error/handelMongoosValidactionUnicIdError';
+import AppError from '../error/apperror';
 
 // eslint-disable-next-line no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
@@ -42,6 +43,23 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplefideError.statusCode;
     message = simplefideError.message;
     errorSource = simplefideError.errorSource;
+  } else if (error instanceof AppError) {
+    statusCode = error.StatusCod;
+    message = error.message;
+    errorSource = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ];
+  } else if (error instanceof Error) {
+    message = error.message;
+    errorSource = [
+      {
+        path: '',
+        message: error?.message,
+      },
+    ];
   }
   // Respond with error details
   res.status(statusCode).json({

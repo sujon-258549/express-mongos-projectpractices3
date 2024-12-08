@@ -1,5 +1,6 @@
 import { TErrorSource, TGenariErrorRequest } from '../interfaces/interfaces';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handelMongoosValidactionUnicIdError = (err: any): TGenariErrorRequest => {
   // "E11000 duplicate key error collection: first_project_repit.acadimicdepertments index: name_1 dup key: { name: \"CT\" }" how to extract value \"CT\"
   //
