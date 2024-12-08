@@ -4,21 +4,23 @@ import AppError from '../../error/apperror';
 import { UserModel } from '../user/user.model';
 import { TStudent } from './student.interface';
 
-const findAllStudentData = async () => {
-  try {
-    const result = await Student.find()
-      .populate('user')
-      .populate('admitionSamester')
-      .populate({
-        path: 'acadimicDepertment',
-        populate: {
-          path: 'acadimicFaculty',
-        },
-      });
-    return result;
-  } catch (error) {
-    console.log(error);
+const findAllStudentData = async (query: Record<string, unknown>) => {
+  // {email :{regex :query.serchTerm , {$option : i}}}
+
+  let searchTerm = '';
+  if (query.searchTerm) {
+    searchTerm = query.searchTerm;
   }
+  const result = await Student.find()
+    .populate('user')
+    .populate('admitionSamester')
+    .populate({
+      path: 'acadimicDepertment',
+      populate: {
+        path: 'acadimicFaculty',
+      },
+    });
+  return result;
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {

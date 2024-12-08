@@ -9,7 +9,7 @@ import httpStatus from 'http-status';
 //hairorder function
 
 const findStudent = catchAsynch(async (req: Request, res: Response) => {
-  const result = await studentServeses.findAllStudentData();
+  const result = await studentServeses.findAllStudentData(req.query);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
