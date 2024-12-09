@@ -14,7 +14,7 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const excludeField = ['searchTerm', 'sort'];
+  const excludeField = ['searchTerm', 'sort', 'limit'];
 
   console.log(query, 'query obj', queryObject);
 
@@ -45,9 +45,17 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
     sort = query.sort as string;
   }
 
-  const sortquery = await filterData.sort(sort);
+  const sortquery = filterData.sort(sort);
 
-  return sortquery;
+  //   limit
+  let limit = 1;
+  if (query.limit) {
+    limit = query.limit as number;
+  }
+
+  const limitQuery = await sortquery.limit(limit);
+
+  return limitQuery;
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {
