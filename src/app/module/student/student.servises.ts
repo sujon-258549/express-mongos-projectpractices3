@@ -14,7 +14,9 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const excludeField = ['searchTerm'];
+  const excludeField = ['searchTerm', 'sort'];
+
+  console.log(query, 'query obj', queryObject);
 
   //   delete serch tarm
   excludeField.forEach((el) => delete queryObject[el]);
@@ -25,8 +27,8 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const result = await serchTarm
-    .find(query)
+  const filterData = serchTarm
+    .find(queryObject)
     .populate('user')
     .populate('admitionSamester')
     .populate({
@@ -35,7 +37,17 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
         path: 'acadimicFaculty',
       },
     });
-  return result;
+
+  // sort
+  let sort = '-createdAt';
+
+  if (query.sort) {
+    sort = query.sort as string;
+  }
+
+  const sortquery = await filterData.sort(sort);
+
+  return sortquery;
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {
