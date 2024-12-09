@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', studentController.findStudent);
 router.delete('/:studentId', studentController.studentOneDeleted);
 router.get('/:studentId', studentController.studentOnefind);
-router.patch(
+router.put(
   '/:studentId',
   zodValidaction(studentvalidaction.updateStudentValidationSchemaforzod),
   studentController.updateStudentOnefind,
