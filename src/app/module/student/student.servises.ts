@@ -14,6 +14,10 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
+  const excludeField = ['searchTerm'];
+
+  //   delete serch tarm
+  excludeField.forEach((el) => delete queryObject[el]);
 
   const serchTarm = Student.find({
     $or: ['email', 'name.firstName'].map((field) => ({
