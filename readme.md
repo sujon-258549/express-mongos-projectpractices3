@@ -144,3 +144,5 @@ type of error
 2.Programatical Error
 3.async error
 4.sync error
+
+<!-- select query -->

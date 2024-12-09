@@ -14,7 +14,7 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
-  const excludeField = ['searchTerm', 'sort', 'limit'];
+  const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'feilds'];
 
   console.log(query, 'query obj', queryObject);
 
@@ -49,13 +49,31 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
 
   //   limit
   let limit = 1;
+
+  //   paginate query
+  let page = 1;
+  let skip = 0;
   if (query.limit) {
-    limit = query.limit as number;
+    limit = Number(query.limit) as number;
+  }
+  if (query.page) {
+    page = Number(query.page) as number;
+    skip = (page - 1) * limit;
   }
 
-  const limitQuery = await sortquery.limit(limit);
+  //   not work
+  let feilds = '-__v';
+  if (query.field) {
+    feilds = (query.field as string).split(',').join(' ');
+  }
 
-  return limitQuery;
+  console.log(query.feilds);
+
+  const paginateQuery = sortquery.skip(skip);
+  const limitQuery = paginateQuery.limit(limit);
+  const filedquery = await limitQuery.select(feilds);
+
+  return filedquery;
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {
