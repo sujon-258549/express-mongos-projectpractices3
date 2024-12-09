@@ -9,7 +9,6 @@ const handleZodError = (zodError: ZodError): TGenariErrorRequest => {
       message: issue.message,
     }),
   );
-
   return {
     statusCode: 400,
     message: 'Validation error occurred.',
