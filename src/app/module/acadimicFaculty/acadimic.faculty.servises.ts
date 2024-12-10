@@ -1,9 +1,15 @@
+import { generateFacultyId } from './utilits';
 import { TFaculty } from './acadimic.Faculty.interfaces';
 import { AcadimicFucaltyModel as AcadimicFacultyModel } from './acadimic.Faculty.model';
 
 const createFaculty = async (payload: TFaculty) => {
   try {
-    const result = await AcadimicFacultyModel.create(payload);
+    const facultyId = await generateFacultyId();
+    const facultyData = {
+      ...payload,
+      id: facultyId, // Ensure the new ID is included
+    };
+    const result = await AcadimicFacultyModel.create(facultyData);
     return result;
   } catch (error) {
     console.log(error);

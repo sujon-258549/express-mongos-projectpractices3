@@ -1,4 +1,4 @@
-export interface TFaculty {
+export type TAdmin = {
   id: string;
   name: string;
-}
+};
