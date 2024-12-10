@@ -3,77 +3,97 @@ import { Student } from './student.model';
 import AppError from '../../error/apperror';
 import { UserModel } from '../user/user.model';
 import { TStudent } from './student.interface';
+import QueryBuilder from '../../builder/queryBuilder';
 
 const findAllStudentData = async (query: Record<string, unknown>) => {
   // {email :{regex :query.serchTerm , {$option : i}}}
 
-  const queryObject = { ...query };
+  //   const queryObject = { ...query };
+  const searchBleFild = ['email', 'name.firstName'];
 
-  //   search function
-  let searchTerm = '';
-  if (query.searchTerm) {
-    searchTerm = query.searchTerm as string;
-  }
-  const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'feilds'];
+  //   //   search function
+  //   let searchTerm = '';
+  //   if (query.searchTerm) {
+  //     searchTerm = query.searchTerm as string;
+  //   }
+  //   const excludeField = ['searchTerm', 'sort', 'limit', 'page', 'field'];
 
-  console.log(query, 'query obj', queryObject);
+  //   //   delete serch tarm
+  //   excludeField.forEach((el) => delete queryObject[el]);
 
-  //   delete serch tarm
-  excludeField.forEach((el) => delete queryObject[el]);
+  //   const serchTarm = Student.find({
+  //     $or: searchBleFild.map((field) => ({
+  //       [field]: { $regex: searchTerm, $options: 'i' },
+  //     })),
+  //   });
 
-  const serchTarm = Student.find({
-    $or: ['email', 'name.firstName'].map((field) => ({
-      [field]: { $regex: searchTerm, $options: 'i' },
-    })),
-  });
+  //   const filterData = serchTarm
+  //     .find(queryObject)
+  //     .populate('user')
+  //     .populate('admitionSamester')
+  //     .populate({
+  //       path: 'acadimicDepertment',
+  //       populate: {
+  //         path: 'acadimicFaculty',
+  //       },
+  //     });
 
-  const filterData = serchTarm
-    .find(queryObject)
-    .populate('user')
-    .populate('admitionSamester')
-    .populate({
-      path: 'acadimicDepertment',
-      populate: {
-        path: 'acadimicFaculty',
-      },
-    });
+  //   // sort
+  //   let sort = '-createdAt';
 
-  // sort
-  let sort = '-createdAt';
+  //   if (query.sort) {
+  //     sort = query.sort as string;
+  //   }
 
-  if (query.sort) {
-    sort = query.sort as string;
-  }
+  //   const sortquery = filterData.sort(sort);
 
-  const sortquery = filterData.sort(sort);
+  //   //   limit
+  //   let limit = 1;
 
-  //   limit
-  let limit = 1;
+  //   //   paginate query
+  //   let page = 1;
+  //   let skip = 0;
+  //   if (query.limit) {
+  //     limit = Number(query.limit) as number;
+  //   }
+  //   if (query.page) {
+  //     page = Number(query.page) as number;
+  //     skip = (page - 1) * limit;
+  //   }
 
-  //   paginate query
-  let page = 1;
-  let skip = 0;
-  if (query.limit) {
-    limit = Number(query.limit) as number;
-  }
-  if (query.page) {
-    page = Number(query.page) as number;
-    skip = (page - 1) * limit;
-  }
+  //   let field = '-__v';
+  //   if (query.field) {
+  //     field = (query.field as string).split(',').join(' ');
+  //   }
 
-  //   not work
-  let feilds = '-__v';
-  if (query.field) {
-    feilds = (query.field as string).split(',').join(' ');
-  }
+  //   console.log(query.field);
 
-  console.log(query.feilds);
+  //   const paginateQuery = sortquery.skip(skip);
+  //   const limitQuery = paginateQuery.limit(limit);
+  //   const filedquery = await limitQuery.select(field);
 
-  const paginateQuery = sortquery.skip(skip);
-  const limitQuery = paginateQuery.limit(limit);
-  const filedquery = await limitQuery.select(feilds);
+  //   return filedquery;
 
-  return filedquery;
+  const student = new QueryBuilder(
+    Student.find()
+      .populate('user')
+      .populate('admitionSamester')
+      .populate({
+        path: 'acadimicDepertment',
+        populate: {
+          path: 'acadimicFaculty',
+        },
+      }),
+    query,
+  )
+    .search(searchBleFild)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await student.modelQuery;
+  return result;
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {
