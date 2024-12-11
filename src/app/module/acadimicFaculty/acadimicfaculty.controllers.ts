@@ -3,18 +3,18 @@ import sendSuccess from '../utility/send-success';
 import httpStatus from 'http-status';
 import { facultyServises } from './acadimic.faculty.servises';
 
-const createFucalty = catchAsynch(async (req, res) => {
-  const result = await facultyServises.createFaculty(req.body);
-  sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
-    success: true,
-    message: 'Fucalty Created Successfuly',
-    data: result,
-  });
-});
+// const createFucalty = catchAsynch(async (req, res) => {
+//   const result = await facultyServises.createFaculty(req.body);
+//   sendSuccess(res, {
+//     statuscod: httpStatus.CREATED,
+//     success: true,
+//     message: 'Fucalty Created Successfuly',
+//     data: result,
+//   });
+// });
 
 const findAllFaculty = catchAsynch(async (req, res) => {
-  const result = await facultyServises.findAllFaculty();
+  const result = await facultyServises.findAllFaculty(req.query);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
@@ -45,7 +45,7 @@ const deleteSingleFaculty = catchAsynch(async (req, res) => {
 });
 
 export const facultyContruller = {
-  createFucalty,
+  //   createFucalty,
   findAllFaculty,
   findSingleFaculty,
   deleteSingleFaculty,
