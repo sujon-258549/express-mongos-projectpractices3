@@ -82,69 +82,69 @@ const updateCourse = async (id: string, payload: Partial<Tcourses>) => {
   return result;
 };
 
-// const updateCourse = async (id: string, payload: Partial<Tcourses>) => {
-//   const { preRepusiteCousere, ...courseRemainingData } = payload;
+const updateCourse = async (id: string, payload: Partial<Tcourses>) => {
+  const { preRepusiteCousere, ...courseRemainingData } = payload;
 
-//   // Update the primary course details
-//   const courseUpdated = await CourseModel.findByIdAndUpdate(
-//     id,
-//     courseRemainingData,
-//     {
-//       new: true,
-//       runValidators: true,
-//     },
-//   );
-//   if (!courseUpdated) {
-//     throw new AppError(404, 'Course not found.');
-//   }
+  // Update the primary course details
+  const courseUpdated = await CourseModel.findByIdAndUpdate(
+    id,
+    courseRemainingData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+  if (!courseUpdated) {
+    throw new AppError(404, 'Course not found.');
+  }
 
-//   if (preRepusiteCousere && preRepusiteCousere.length > 0) {
-//     // Handle deletion of prerequisites
-//     const deletedPreRequisite = preRepusiteCousere
-//       .filter((el) => el.course && el.isDeleted)
-//       .map((el) => el.course);
+  if (preRepusiteCousere && preRepusiteCousere.length > 0) {
+    // Handle deletion of prerequisites
+    const deletedPreRequisite = preRepusiteCousere
+      .filter((el) => el.course && el.isDeleted)
+      .map((el) => el.course);
 
-//     if (deletedPreRequisite.length > 0) {
-//       await CourseModel.findByIdAndUpdate(id, {
-//         $pull: { preRepusiteCousere: { course: { $in: deletedPreRequisite } } },
-//       });
-//     }
+    if (deletedPreRequisite.length > 0) {
+      await CourseModel.findByIdAndUpdate(id, {
+        $pull: { preRepusiteCousere: { course: { $in: deletedPreRequisite } } },
+      });
+    }
 
-//     // Handle addition of new prerequisites (ensuring no duplicates)
-//     const newPreRequisite = preRepusiteCousere.filter(
-//       (el) => el.course && !el.isDeleted,
-//     );
+    // Handle addition of new prerequisites (ensuring no duplicates)
+    const newPreRequisite = preRepusiteCousere.filter(
+      (el) => el.course && !el.isDeleted,
+    );
 
-//     if (newPreRequisite.length > 0) {
-//       const existingCourse = await CourseModel.findById(id).select(
-//         'preRepusiteCousere.course',
-//       );
+    if (newPreRequisite.length > 0) {
+      const existingCourse = await CourseModel.findById(id).select(
+        'preRepusiteCousere.course',
+      );
 
-//       const existingCoursesSet = new Set(
-//         existingCourse?.preRepusiteCousere.map((el) => el.course.toString()),
-//       );
+      const existingCoursesSet = new Set(
+        existingCourse?.preRepusiteCousere.map((el) => el.course.toString()),
+      );
 
-//       const uniqueNewPreRequisite = newPreRequisite.filter(
-//         (el) => !existingCoursesSet.has(el.course.toString()),
-//       );
+      const uniqueNewPreRequisite = newPreRequisite.filter(
+        (el) => !existingCoursesSet.has(el.course.toString()),
+      );
 
-//       if (uniqueNewPreRequisite.length > 0) {
-//         await CourseModel.findByIdAndUpdate(id, {
-//           $push: {
-//             preRepusiteCousere: { $each: uniqueNewPreRequisite },
-//           },
-//         });
-//       }
-//     }
-//   }
+      if (uniqueNewPreRequisite.length > 0) {
+        await CourseModel.findByIdAndUpdate(id, {
+          $push: {
+            preRepusiteCousere: { $each: uniqueNewPreRequisite },
+          },
+        });
+      }
+    }
+  }
 
-//   // Populate and return the final course details
-//   const result = await CourseModel.findById(id).populate(
-//     'preRepusiteCousere.course',
-//   );
+  // Populate and return the final course details
+  const result = await CourseModel.findById(id).populate(
+    'preRepusiteCousere.course',
+  );
 
-//   return result;
-// };
+  return result;
+};
 
 export const courseServises = {
   createCourse,
