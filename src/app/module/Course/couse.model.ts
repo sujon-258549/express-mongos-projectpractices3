@@ -1,10 +1,10 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { Tcourses } from './course.interfaces';
 
 // Sub-schema for PreRequisiteCourse
 const PreRequisiteCourseSchema = new Schema({
   course: {
-    type: Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Course', // Reference to the course collection
   },
   isDeleted: {
@@ -36,6 +36,10 @@ const CourseSchema = new Schema(
       required: [true, 'Credits are required'],
       min: [0, 'Credits cannot be negative'],
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     preRepusiteCousere: {
       type: [PreRequisiteCourseSchema],
       default: [],
@@ -45,6 +49,15 @@ const CourseSchema = new Schema(
     timestamps: true,
   },
 );
+
+CourseSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+CourseSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
 
 // Export the model
 export const CourseModel = model<Tcourses>('Course', CourseSchema);

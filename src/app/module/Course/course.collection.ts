@@ -14,11 +14,11 @@ const createCourse = catchAsynch(async (req, res) => {
 });
 
 const findallCourse = catchAsynch(async (req, res) => {
-  const result = await courseServises.findAllCourse(req.query);
+  const result = await courseServises.findAllCourse(req.query); //
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'find all success',
+    message: 'find all succesfully',
     data: result,
   });
 });
@@ -28,7 +28,7 @@ const singleFindCourse = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'singlefind retrived success',
+    message: 'singlefind retrived succesfully',
     data: result,
   });
 });
@@ -38,7 +38,17 @@ const deleteCourse = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'delete couser success',
+    message: 'delete couser succesfully',
+    data: result,
+  });
+});
+const updateCourse = catchAsynch(async (req, res) => {
+  const { id } = req.params;
+  const result = await courseServises.updateCourse(id, req.body);
+  sendSuccess(res, {
+    statuscod: httpStatus.OK,
+    success: true,
+    message: 'Course Update succesfully',
     data: result,
   });
 });
@@ -48,4 +58,5 @@ export const courseController = {
   findallCourse,
   singleFindCourse,
   deleteCourse,
+  updateCourse,
 };

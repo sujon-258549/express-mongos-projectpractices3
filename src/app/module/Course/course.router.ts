@@ -8,9 +8,21 @@ const router = Router();
 router.post(
   '/create-course',
 
-  zodValidaction(courseZodValidaction.CourseSchemaValidactionZod),
+  zodValidaction(courseZodValidaction.createCourseValidaction),
 
   courseController.createCourse,
 );
+router.patch(
+  '/:id',
+
+  zodValidaction(courseZodValidaction.updataValidactionforCourse),
+
+  courseController.updateCourse,
+);
+
+router.get('/', courseController.findallCourse);
+router.get('/:id', courseController.singleFindCourse);
+router.delete('/:id', courseController.deleteCourse);
+// router.get('/', courseController.findallCourse)
 
 export const courseRouter = router;

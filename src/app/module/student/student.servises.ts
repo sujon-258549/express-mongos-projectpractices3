@@ -79,7 +79,7 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
       .populate('user')
       .populate('admitionSamester')
       .populate({
-        path: 'acadimicDepertment',
+        path: 'acadimicDepertment', //acadimicDepertment
         populate: {
           path: 'acadimicFaculty',
         },

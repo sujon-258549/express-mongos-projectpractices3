@@ -37,14 +37,14 @@ class QueryBuilder<T> {
 
   sort() {
     const sort =
-      (this.query.sort as string).split(',').join(' ') || 'createdAt'; // this.query.sort use
+      (this.query.sort as string)?.split(',')?.join(' ') || '-createdAt'; // Potential issue  //
     this.modelQuery = this.modelQuery.sort(sort as string);
     return this;
   }
 
   paginate() {
     const page = Number(this?.query?.page) || 1;
-    const limit = Number(this?.query?.limit) || 1;
+    const limit = Number(this?.query?.limit) || 50;
     const skip = (page - 1) * limit;
     this.modelQuery = this.modelQuery.skip(skip).limit(limit);
 
@@ -52,7 +52,7 @@ class QueryBuilder<T> {
   }
 
   fields() {
-    const field = (this.query.field as string).split(',').join(' ') || '__v';
+    const field = (this.query.field as string)?.split(',')?.join(' ') || '-__v';
     this.modelQuery = this.modelQuery.select(field);
     return this;
   }

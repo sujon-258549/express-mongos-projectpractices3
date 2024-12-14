@@ -7,7 +7,7 @@ export const PreRequisiteCourseSchema = z.object({
 });
 
 // Zod Schema for Tcourses
-export const CourseSchemaValidactionZod = z.object({
+export const createCourseValidaction = z.object({
   body: z.object({
     title: z
       .string()
@@ -19,10 +19,26 @@ export const CourseSchemaValidactionZod = z.object({
       .max(10, 'Prefix must be less than 10 characters'),
     cod: z.number().int().min(1, 'Code must be a positive integer'),
     credits: z.number().min(0, 'Credits cannot be negative'),
+    isDeleted: z.boolean().optional(),
     preRepusiteCousere: z.array(PreRequisiteCourseSchema).default([]),
   }),
 });
 
+export const updataValidactionforCourse = z.object({
+  body: z.object({
+    title: z.string().optional(),
+    prifix: z.string().optional(),
+    cod: z.number().int().min(1, 'Code must be a positive integer').optional(),
+    credits: z.number().min(0, 'Credits cannot be negative').optional(),
+    isDeleted: z.boolean().optional(),
+    preRepusiteCousere: z
+      .array(PreRequisiteCourseSchema)
+      .default([])
+      .optional(),
+  }),
+});
+
 export const courseZodValidaction = {
-  CourseSchemaValidactionZod,
+  createCourseValidaction,
+  updataValidactionforCourse,
 };

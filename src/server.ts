@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 import { Server } from 'http';
 
-let servire: Server;
+let server: Server;
 
 async function main() {
   try {
@@ -21,8 +21,8 @@ main();
 
 // servise of my comment
 process.on('unhandledRejection', () => {
-  if (servire) {
-    servire.close(() => {
+  if (server) {
+    server.close(() => {
       process.exit(1);
     });
   }

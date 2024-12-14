@@ -10,5 +10,6 @@ export type Tcourses = {
   prifix: string;
   cod: number;
   credits: number;
+  isDeleted: boolean;
   preRepusiteCousere: TPreRepositeCourse[];
 };
