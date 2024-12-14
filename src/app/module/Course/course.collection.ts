@@ -12,30 +12,33 @@ const createCourse = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+
 const findallCourse = catchAsynch(async (req, res) => {
-  const result = await courseServises.createCourse(req.body);
+  const result = await courseServises.findAllCourse(req.query);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,
-    message: 'course Create success',
+    message: 'find all success',
     data: result,
   });
 });
 const singleFindCourse = catchAsynch(async (req, res) => {
-  const result = await courseServises.findAllCourse(req.query);
+  const { id } = req.params;
+  const result = await courseServises.singleFindCourse(id);
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscod: httpStatus.OK,
     success: true,
-    message: 'course Create success',
+    message: 'singlefind retrived success',
     data: result,
   });
 });
 const deleteCourse = catchAsynch(async (req, res) => {
-  const result = await courseServises.singleFindCourse(req.body);
+  const { id } = req.params;
+  const result = await courseServises.deletedCourse(id);
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscod: httpStatus.OK,
     success: true,
-    message: 'course Create success',
+    message: 'delete couser success',
     data: result,
   });
 });
