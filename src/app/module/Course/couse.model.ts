@@ -6,7 +6,6 @@ const PreRequisiteCourseSchema = new Schema({
   course: {
     type: Types.ObjectId,
     ref: 'Course', // Reference to the course collection
-    required: [true, 'Pre-requisite course ID is required'],
   },
   isDeleted: {
     type: Boolean,

@@ -2,9 +2,7 @@ import { z } from 'zod';
 
 // Zod Schema for TPreRepositeCourse
 export const PreRequisiteCourseSchema = z.object({
-  course: z.string({
-    message: 'id is requard',
-  }),
+  course: z.string(),
   isDeleted: z.boolean().default(false),
 });
 

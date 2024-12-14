@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import catchAsynch from '../utility/catcingAsynch';
 import { courseServises } from './course.servises';
 import sendSuccess from '../utility/send-success';
@@ -9,5 +8,11 @@ const createCourse = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
+    message: 'course Create success',
+    data: result,
   });
 });
+
+export const courseController = {
+  createCourse,
+};
