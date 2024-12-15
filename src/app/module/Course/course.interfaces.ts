@@ -13,3 +13,8 @@ export type Tcourses = {
   isDeleted: boolean;
   preRepusiteCousere: TPreRepositeCourse[];
 };
+
+export type TCourseFaculty = {
+  corses: Types.ObjectId;
+  facultys: [Types.ObjectId];
+};

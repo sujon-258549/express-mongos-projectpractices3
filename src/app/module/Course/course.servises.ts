@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/queryBuilder';
 import AppError from '../../error/apperror';
-import { Tcourses } from './course.interfaces';
-import { CourseModel } from './couse.model';
+import { TCourseFaculty, Tcourses } from './course.interfaces';
+import { CourseFacultyModel, CourseModel } from './couse.model';
 import httpStatus from 'http-status';
 
 const createCourse = async (paylod: Tcourses) => {
@@ -32,6 +32,7 @@ const singleFindCourse = async (id: string) => {
   );
   return result;
 };
+// delete course status
 const deletedCourse = async (id: string) => {
   const courseDeleted = await CourseModel.findOneAndUpdate(
     { _id: id },
@@ -43,6 +44,41 @@ const deletedCourse = async (id: string) => {
     throw new AppError(404, 'Course not found or update failed');
   }
   return courseDeleted;
+};
+// update course facultis
+const addtoFacultyCourse = async (
+  id: string,
+  paylod: Partial<TCourseFaculty>,
+) => {
+  const result = await CourseFacultyModel.findByIdAndUpdate(
+    id,
+    {
+      course: id,
+      $addToSet: { facultys: { $each: paylod.facultys } },
+    },
+    {
+      upsert: true,
+      new: true,
+    },
+  );
+  return result;
+};
+
+// remove course facultis
+const removeFacultyCourse = async (
+  id: string,
+  paylod: Partial<TCourseFaculty>,
+) => {
+  const result = await CourseFacultyModel.findByIdAndUpdate(
+    id,
+    {
+      $pull: { facultys: { $in: paylod.facultys } },
+    },
+    {
+      new: true,
+    },
+  );
+  return result;
 };
 
 // update course
@@ -90,34 +126,19 @@ const updateCourse = async (id: string, payload: Partial<Tcourses>) => {
       );
 
       // duplicate id handle error
-      if (newPreRequisite.length > 0) {
-        const existingCourse = await CourseModel.findById(id).select(
-          'preRepusiteCousere.course',
-        );
-
-        const existingCoursesSet = new Set(
-          existingCourse?.preRepusiteCousere.map((el) => el.course.toString()),
-        );
-
-        const uniqueNewPreRequisite = newPreRequisite.filter(
-          (el) => !existingCoursesSet.has(el.course.toString()),
-        );
-        if (uniqueNewPreRequisite.length > 0) {
-          const addtoCourse = await CourseModel.findByIdAndUpdate(
-            id,
-            {
-              $addToSet: { preRepusiteCousere: { $each: newPreRequisite } },
-            },
-            {
-              new: true,
-              runValidators: true,
-              session,
-            },
-          );
-          if (!addtoCourse) {
-            throw new AppError(httpStatus.BAD_REQUEST, 'something wrong');
-          }
-        }
+      const addtoCourse = await CourseModel.findByIdAndUpdate(
+        id,
+        {
+          $addToSet: { preRepusiteCousere: { $each: newPreRequisite } },
+        },
+        {
+          new: true,
+          runValidators: true,
+          session,
+        },
+      );
+      if (!addtoCourse) {
+        throw new AppError(httpStatus.BAD_REQUEST, 'something wrong');
       }
     }
 
@@ -141,4 +162,6 @@ export const courseServises = {
   singleFindCourse,
   deletedCourse,
   updateCourse,
+  addtoFacultyCourse,
+  removeFacultyCourse,
 };

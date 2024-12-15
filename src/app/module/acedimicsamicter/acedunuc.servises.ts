@@ -1,4 +1,4 @@
-import { AcademicModel } from './acedimic.mode';
+import { AcademicSamesterModel } from './acedimic.mode';
 import { TAcademicsamester } from './interfaces';
 
 const createAcedimic = async (payloade: TAcademicsamester) => {
@@ -24,13 +24,13 @@ const createAcedimic = async (payloade: TAcademicsamester) => {
     throw new Error('The semester name and code do not match.');
   }
 
-  const result = await AcademicModel.create(payloade);
+  const result = await AcademicSamesterModel.create(payloade);
   return result;
 };
 
 const findAllsamester = async () => {
   try {
-    const result = await AcademicModel.find();
+    const result = await AcademicSamesterModel.find();
     return result;
   } catch (error) {
     console.log(error);
@@ -38,7 +38,7 @@ const findAllsamester = async () => {
 };
 const findSpisifysamester = async (id: string) => {
   try {
-    const result = await AcademicModel.findById(id);
+    const result = await AcademicSamesterModel.findById(id);
     return result;
   } catch (error) {
     console.log(error);

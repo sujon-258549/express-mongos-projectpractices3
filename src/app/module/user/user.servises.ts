@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../../config';
-import { AcademicModel } from '../acedimicsamicter/acedimic.mode';
+import { AcademicSamesterModel } from '../acedimicsamicter/acedimic.mode';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interfaces';
@@ -23,7 +23,7 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
   //role ser
   userData.role = 'student';
   // Fetch the academic semester for admission
-  const admissionSemester = await AcademicModel.findById(
+  const admissionSemester = await AcademicSamesterModel.findById(
     payload.admitionSamester,
   );
   if (!admissionSemester) {
