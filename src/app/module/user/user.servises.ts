@@ -153,6 +153,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
     }
     // set id , _id as user
     payload.id = newUser[0].id;
+    console.log(payload.id);
     payload.user = newUser[0]._id; //reference _id
 
     // create a faculty (transaction-2)
