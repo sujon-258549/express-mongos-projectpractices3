@@ -31,9 +31,20 @@ const findoneRagistaction = async (req: Request, res: Response) => {
     data: result,
   });
 };
+const updateStatus = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await ragistactionServises.updateStatus(id, req.body);
+  sendSuccess(res, {
+    statuscod: httpStatus.OK,
+    success: true,
+    message: 'Samester Ragistaction Update Success',
+    data: result,
+  });
+};
 
 export const SemesterRegistrationController = {
   createRagistaction,
   findAllRagistaction,
   findoneRagistaction,
+  updateStatus,
 };

@@ -78,6 +78,6 @@ const courseFacultySchema = new Schema<TCourseFaculty>({
 });
 
 export const CourseFacultyModel = model<TCourseFaculty>(
-  'CourseFaculty',
+  'Faculty',
   courseFacultySchema,
 );

@@ -142,4 +142,7 @@ acadimicSchema.statics.isUserExists = async function (id: string) {
   return existingUser;
 };
 
-export const AcadimicFucaltyModel = model<TFaculty>('Faculty', acadimicSchema);
+export const AcadimicFucaltyModel = model<TFaculty>(
+  'AcadimicFaculty',
+  acadimicSchema,
+);

@@ -15,13 +15,13 @@ router.post(
 
 router.get('/', SemesterRegistrationController.findAllRagistaction);
 
-// router.patch(
-//   '/:id',
-//   validateRequest(
-//     SemesterRegistrationValidations.upadateSemesterRegistrationValidationSchema,
-//   ),
-//   SemesterRegistrationController.updateSemesterRegistration,
-// );
+router.patch(
+  '/:id',
+  zodValidaction(
+    SemesterRegistrationValidations.upadateSemesterRegistrationValidationSchema,
+  ),
+  SemesterRegistrationController.updateStatus,
+);
 
 router.get('/:id', SemesterRegistrationController.findoneRagistaction);
 
