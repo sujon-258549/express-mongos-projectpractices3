@@ -20,6 +20,8 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   if (!isSamesterRagistaction) {
     throw new AppError(httpStatus.NOT_FOUND, 'semister Ragistaction Not Found');
   }
+
+  const acadimicSamester = isSamesterRagistaction.academicSemester;
   const isacademicFaculty =
     await AcadimicFucaltyModel.findById(academicFaculty);
   if (!isacademicFaculty) {
@@ -39,7 +41,10 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
     throw new AppError(httpStatus.NOT_FOUND, 'Faculty Not Found');
   }
 
-  const result = await OfferedCourseModel.create(paylod);
+  const result = await OfferedCourseModel.create({
+    ...paylod,
+    acadimicSamester,
+  });
   return result;
 };
 
