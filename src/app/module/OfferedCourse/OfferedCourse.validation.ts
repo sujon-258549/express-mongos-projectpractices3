@@ -27,16 +27,12 @@ const createOfferedCourseValidationSchema = z.object({
     })
     .refine(
       (body) => {
-        // startTime : 10:30  => 1970-01-01T10:30
-        //endTime : 12:30  =>  1970-01-01T12:30
-
-        const start = new Date(`1970-01-01T${body.startTime}:00`);
-        const end = new Date(`1970-01-01T${body.endTime}:00`);
-
-        return end > start;
+        const startTime = new Date(`2001-10-10T${body.startTime}:00`);
+        const endTime = new Date(`2001-10-10T${body.endTime}:00`);
+        return endTime > startTime;
       },
       {
-        message: 'Start time should be before End time !  ',
+        message: 'Start time should be before End time ! ',
       },
     ),
 });

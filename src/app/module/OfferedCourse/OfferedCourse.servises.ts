@@ -1,3 +1,4 @@
+import { acadimicDepertment } from './../acadimicDipartment/acadimicDepertment.validaction';
 import { SemesterRegistrationModel } from './../samesterRagistactoin/smesterRagistaction.model';
 import { OfferedCourseModel } from './OfferedCourse.model';
 import AppError from '../../error/apperror';
@@ -5,6 +6,7 @@ import { AcadimicFucaltyModel } from '../acadimicFaculty/acadimic.Faculty.model'
 import { AcadimicDepertmentModel } from '../acadimicDipartment/acadimic.Depertment.model';
 import { TOfferedCourse } from './OfferedCourse.interfaces';
 import { CourseModel, FacultyModel } from '../Course/couse.model';
+import httpStatus from 'http-status';
 
 const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   const {
@@ -13,6 +15,7 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
     academicDepartment,
     course,
     faculty,
+    section,
   } = paylod;
 
   const isSamesterRagistaction =
@@ -39,6 +42,33 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   const isFaculty = await FacultyModel.findById(faculty);
   if (!isFaculty) {
     throw new AppError(httpStatus.NOT_FOUND, 'Faculty Not Found');
+  }
+  console.log(acadimicDepertment);
+
+  const isDepertmentBelongtoFaculty = await AcadimicDepertmentModel.findOne({
+    _id: academicDepartment,
+    acadimicFaculty: academicFaculty,
+  });
+  if (!isDepertmentBelongtoFaculty) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      `Faculty ${(isacademicFaculty.name.firstName, isacademicFaculty.name.lastName)} And depertment ${isacademicDepartment.name} Not Match `,
+    );
+  }
+
+  //   samester exis same samester not create section
+  const isSameOfferedCourseExistsWithSameRegisteredSemesterWithSameSection =
+    await OfferedCourseModel.findOne({
+      semesterRegistration,
+      course,
+      section,
+    });
+
+  if (isSameOfferedCourseExistsWithSameRegisteredSemesterWithSameSection) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Offered course with same section is already exist!`,
+    );
   }
 
   const result = await OfferedCourseModel.create({
