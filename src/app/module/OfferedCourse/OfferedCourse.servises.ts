@@ -51,7 +51,7 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   });
   if (!isDepertmentBelongtoFaculty) {
     throw new AppError(
-      httpStatus.NOT_FOUND,
+      httpStatus.BAD_REQUEST,
       `Faculty ${(isacademicFaculty.name.firstName, isacademicFaculty.name.lastName)} And depertment ${isacademicDepartment.name} Not Match `,
     );
   }
