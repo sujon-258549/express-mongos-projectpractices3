@@ -1,3 +1,4 @@
+import { hasTimeConfilge } from './Offercourse.Utils';
 import { acadimicDepertment } from './../acadimicDipartment/acadimicDepertment.validaction';
 import { SemesterRegistrationModel } from './../samesterRagistactoin/smesterRagistaction.model';
 import { OfferedCourseModel } from './OfferedCourse.model';
@@ -16,6 +17,9 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
     course,
     faculty,
     section,
+    days,
+    startTime,
+    endTime,
   } = paylod;
 
   const isSamesterRagistaction =
@@ -70,6 +74,29 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
       `Offered course with same section is already exist!`,
     );
   }
+
+  const assignSchedules = OfferedCourseModel.find({
+    semesterRegistration,
+    faculty,
+    days: { $in: days },
+  }).select('days startTime endTime');
+
+  console.log(assignSchedules);
+  const newSehedul = {
+    days,
+    startTime,
+    endTime,
+  };
+
+  if (hasTimeConfilge(await assignSchedules, newSehedul)) {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      `This faculty is not available at that time ! Choose other time or day`,
+    );
+  }
+
+  //   10:20  -  11:20  after start time and befor end time
+  // 10:00 - 11:00
 
   const result = await OfferedCourseModel.create({
     ...paylod,

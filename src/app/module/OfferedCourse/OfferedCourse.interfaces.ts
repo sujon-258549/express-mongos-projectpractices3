@@ -16,7 +16,13 @@ export type TOfferedCourse = {
   endTime: string;
 };
 
-export type TSchedule = {
+// export type TSchedule = {
+//   days: TDays[];
+//   startTime: string;
+//   endTime: string;
+// };
+
+export type TSchedul = {
   days: TDays[];
   startTime: string;
   endTime: string;
