@@ -16,6 +16,7 @@ const createOfferedCourse = catchAsynch(async (req, res) => {
 });
 const updateOfferedCourseIntoDB = catchAsynch(async (req, res) => {
   const { id } = req.params;
+  console.log(req.body);
   const result = await OfferedCourseServices.updateOfferedCourseIntoDB(
     id,
     req.body,
