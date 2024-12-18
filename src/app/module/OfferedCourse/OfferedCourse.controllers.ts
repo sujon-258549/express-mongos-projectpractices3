@@ -14,11 +14,24 @@ const createOfferedCourse = catchAsynch(async (req, res) => {
     data: result,
   });
 });
+const updateOfferedCourseIntoDB = catchAsynch(async (req, res) => {
+  const { id } = req.params;
+  const result = await OfferedCourseServices.updateOfferedCourseIntoDB(
+    id,
+    req.body,
+  );
+  sendSuccess(res, {
+    statuscod: httpStatus.OK,
+    success: true,
+    message: 'course Update success',
+    data: result,
+  });
+});
 
 export const OfferedCourseControllers = {
   createOfferedCourse,
   // getAllOfferedCoursesFromDB,
   // getSingleOfferedCourseFromDB,
   // deleteOfferedCourseFromDB,
-  // updateOfferedCourseIntoDB,
+  updateOfferedCourseIntoDB,
 };

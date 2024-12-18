@@ -1,9 +1,9 @@
+import { AcadimicFucaltyModel } from './../acadimicFaculty/acadimic.Faculty.model';
 import { hasTimeConfilge } from './Offercourse.Utils';
 import { acadimicDepertment } from './../acadimicDipartment/acadimicDepertment.validaction';
 import { SemesterRegistrationModel } from './../samesterRagistactoin/smesterRagistaction.model';
 import { OfferedCourseModel } from './OfferedCourse.model';
 import AppError from '../../error/apperror';
-import { AcadimicFucaltyModel } from '../acadimicFaculty/acadimic.Faculty.model';
 import { AcadimicDepertmentModel } from '../acadimicDipartment/acadimic.Depertment.model';
 import { TOfferedCourse } from './OfferedCourse.interfaces';
 import { CourseModel, FacultyModel } from '../Course/couse.model';
@@ -105,10 +105,57 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   return result;
 };
 
+const updateOfferedCourseIntoDB = async (
+  id: string,
+  paylod: Pick<TOfferedCourse, 'faculty' | 'days' | 'startTime' | 'endTime'>,
+) => {
+  const { faculty, days, startTime, endTime } = paylod;
+  const isExistOfferCourse = await OfferedCourseModel.findById(id);
+  if (!isExistOfferCourse) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Offer Course Notfound');
+  }
+  const isExistOfferCourseForFaculty =
+    await AcadimicFucaltyModel.findById(faculty);
+  if (!isExistOfferCourseForFaculty) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Faculty not found  !');
+  }
+
+  const semesterRegistration = isExistOfferCourse.semesterRegistration;
+
+  const samesterRagistactionStatus =
+    await SemesterRegistrationModel.findById(semesterRegistration);
+  if (samesterRagistactionStatus?.status !== 'UPCOMING') {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'You cannot update',
+      samesterRagistactionStatus?.status,
+    );
+  }
+  const assignSchedules = OfferedCourseModel.find({
+    semesterRegistration,
+    faculty,
+    days: { $in: days },
+  }).select('days startTime endTime');
+  const newSehedul = {
+    days,
+    startTime,
+    endTime,
+  };
+  if (hasTimeConfilge(await assignSchedules, newSehedul)) {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      `This faculty is not available at that time ! Choose other time or day`,
+    );
+  }
+
+  const result = await OfferedCourseModel.findByIdAndUpdate(id, paylod);
+  return result;
+};
+
 export const OfferedCourseServices = {
   createOfferedCourseIntoDB,
-  // getAllOfferedCoursesFromDB,
+  // getAllOfferedCoursesFromDB,             //code spale checker
   // getSingleOfferedCourseFromDB,
   // deleteOfferedCourseFromDB,
-  // updateOfferedCourseIntoDB,
+  updateOfferedCourseIntoDB,
 };
