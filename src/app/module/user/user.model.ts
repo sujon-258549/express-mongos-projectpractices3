@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import mongoose, { Schema } from 'mongoose';
-import { TUser } from './user.interfaces';
+import { TUser, UserModel } from './user.interfaces';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
 // Define the User Schema
-const userSchema = new Schema<TUser>(
+const userSchema = new Schema<TUser, UserModel>(
   {
     id: {
       type: String,
@@ -63,4 +63,7 @@ userSchema.post('save', function (doc, next) {
 });
 
 // Export the User Model
-export const UserModel = mongoose.model<TUser>('User', userSchema);
+export const UserMainModel = mongoose.model<TUser, UserModel>(
+  'User',
+  userSchema,
+);

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/queryBuilder';
 import { AdminModel } from './admin.model';
 import AppError from '../../error/apperror';
-import { UserModel } from '../user/user.model';
+import { UserMainModel } from '../user/user.model';
 
 const AdminSearchableFields = [
   'email',
@@ -38,7 +38,7 @@ const deletedAdmin = async (id: string) => {
     if (!studentDeleted) {
       throw new AppError(404, 'some thing wrong');
     }
-    const usertDeleted = await UserModel.updateOne(
+    const usertDeleted = await UserMainModel.updateOne(
       { id },
       { isDeleted: true },
       { new: true, session },

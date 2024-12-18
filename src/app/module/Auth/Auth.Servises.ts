@@ -1,11 +1,11 @@
 import AppError from '../../error/apperror';
-import { UserModel } from '../user/user.model';
+import { UserMainModel } from '../user/user.model';
 import { TloginUser } from './Auth.interfaces';
 import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 
 const createAuth = async (paylod: TloginUser) => {
-  const isExisUserId = await UserModel.findOne({ id: paylod.id });
+  const isExisUserId = await UserMainModel.findOne({ id: paylod.id });
   if (!isExisUserId) {
     throw new AppError(httpStatus.NOT_FOUND, 'Your User Id is Invalid!');
   }

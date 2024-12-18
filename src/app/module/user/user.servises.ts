@@ -4,7 +4,7 @@ import { AcademicSamesterModel } from '../acedimicsamicter/acedimic.mode';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interfaces';
-import { UserModel } from './user.model';
+import { UserMainModel } from './user.model';
 import { genaretStudentId } from './user.utility';
 import { TFaculty } from '../acadimicFaculty/acadimic.Faculty.interfaces';
 import { AcadimicDepertmentModel } from '../acadimicDipartment/acadimic.Depertment.model';
@@ -39,7 +39,7 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
     session.startTransaction();
     userData.id = await genaretStudentId(admissionSemester);
     //   step >user data
-    const newUser = await UserModel.create([userData], { session }); // use session
+    const newUser = await UserMainModel.create([userData], { session }); // use session
     //create a student
     if (newUser.length) {
       //   studentData.id = newUser.id;
@@ -94,7 +94,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     userData.id = await generateFacultyId();
 
     // create a user (transaction-1)
-    const newUser = await UserModel.create([userData], { session }); // array
+    const newUser = await UserMainModel.create([userData], { session }); // array
 
     //create a faculty
     if (!newUser.length) {
@@ -145,7 +145,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
     userData.id = await createIdByAdmin();
 
     // create a user (transaction-1)
-    const newUser = await UserModel.create([userData], { session }); // array
+    const newUser = await UserMainModel.create([userData], { session }); // array
 
     //create a faculty
     if (!newUser.length) {

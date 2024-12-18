@@ -1,8 +1,8 @@
 import { TAcademicsamester } from '../acedimicsamicter/interfaces';
-import { UserModel } from './user.model';
+import { UserMainModel } from './user.model';
 
 const findLastStudent = async () => {
-  const lastStudent = await UserModel.findOne(
+  const lastStudent = await UserMainModel.findOne(
     {
       role: 'student',
     },

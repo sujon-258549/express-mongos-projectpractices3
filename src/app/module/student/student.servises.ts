@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Student } from './student.model';
 import AppError from '../../error/apperror';
-import { UserModel } from '../user/user.model';
+import { UserMainModel } from '../user/user.model';
 import { TStudent } from './student.interface';
 import QueryBuilder from '../../builder/queryBuilder';
 
@@ -148,7 +148,7 @@ const deletedStudentone = async (id: string) => {
     if (!studentDeleted) {
       throw new AppError(404, 'some thing wrong');
     }
-    const usertDeleted = await UserModel.updateOne(
+    const usertDeleted = await UserMainModel.updateOne(
       { id },
       { isDeleted: true },
       { new: true, session },
