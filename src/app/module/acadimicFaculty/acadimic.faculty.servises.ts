@@ -36,7 +36,7 @@ const FacultySearchableFields = [
 
 const findAllFaculty = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(
-    AcadimicFacultyModel.find().populate('Acadimicdepertment'),
+    AcadimicFacultyModel.find().populate('academicDepartment'),
     query,
   )
     .search(FacultySearchableFields)

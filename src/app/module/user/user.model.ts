@@ -62,6 +62,24 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
+userSchema.statics.isUserExistsByCustomId = async function (id: string) {
+  return await UserMainModel.findOne({ id });
+};
+
+userSchema.statics.isPasswordMatch = async function (password, hasPassword) {
+  return await bcrypt.compare(password, hasPassword);
+};
+userSchema.statics.isStatus = async function (id: string) {
+  const finddata = await UserMainModel.findOne({ id });
+  return finddata?.status === 'blocked';
+};
+userSchema.statics.isDeleteUser = async function (
+  id: string,
+  isDeleted: boolean,
+) {
+  return await UserMainModel.findOne({ id, isDeleted });
+};
+
 // Export the User Model
 export const UserMainModel = mongoose.model<TUser, UserModel>(
   'User',
