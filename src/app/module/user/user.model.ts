@@ -22,7 +22,7 @@ const userSchema = new Schema<TUser, UserModel>(
       default: true,
     },
     passwordChangeAt: {
-      type: Date(),
+      type: Date,
     },
     role: {
       type: String,
