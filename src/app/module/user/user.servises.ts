@@ -18,6 +18,7 @@ import { AdminModel } from '../admin/admin.model';
 const createUserServerDB = async (password: string, payload: TStudent) => {
   //   console.log(repit_students);
   const userData: Partial<TUser> = {};
+  console.log('inside', password);
 
   userData.password = password || (config.defult_passwoed as string);
   //role ser

@@ -8,11 +8,22 @@ const loginUser = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
-    message: 'course Create success',
+    message: 'User login succesfuly',
+    data: result,
+  });
+});
+const chengePassword = catchAsynch(async (req, res) => {
+  const { ...passwordData } = req.body;
+  const result = await authServises.chengePassword(req.user, passwordData);
+  sendSuccess(res, {
+    statuscod: httpStatus.CREATED,
+    success: true,
+    message: 'Chenge password is success',
     data: result,
   });
 });
 
 export const authController = {
   loginUser,
+  chengePassword,
 };
