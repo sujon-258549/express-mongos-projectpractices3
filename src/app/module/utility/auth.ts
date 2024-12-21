@@ -28,7 +28,7 @@ const auth = (...requerdRoles: TuserRole[]) => {
           throw new AppError(httpStatus.UNAUTHORIZED, 'User is Unauthorized');
         }
         // const userRole = (decoded as JwtPayload).userRole;
-        //
+
         const userRole = decoded?.JwtPayload?.userRole;
         console.log();
         if (requerdRoles && !requerdRoles.includes(userRole)) {
