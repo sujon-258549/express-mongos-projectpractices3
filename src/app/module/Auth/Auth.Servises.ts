@@ -55,7 +55,7 @@ const chengePassword = async (
   userData: JwtPayload,
   paylod: { oldPassword: string; newPassword: string },
 ) => {
-  console.log(userData.JwtPayload.userId);
+  //   console.log(userData.JwtPayload.userId);
   const user = await UserMainModel.isUserExistsByCustomId(
     userData?.JwtPayload?.userId,
   );
@@ -81,6 +81,8 @@ const chengePassword = async (
   const password = paylod?.oldPassword;
   const hasPassword = user?.password;
 
+  console.log(password, hasPassword);
+
   if (!(await UserMainModel.isPasswordMatch(password, hasPassword))) {
     throw new AppError(httpStatus.FORBIDDEN, 'Your password is not match!');
   }
@@ -92,12 +94,13 @@ const chengePassword = async (
 
   const result = await UserMainModel.findOneAndUpdate(
     {
-      id: userData.userId,
-      userRole: userData.userRole,
+      id: userData.JwtPayload.userId,
+      role: userData.JwtPayload.userRole,
     },
     {
       password: newHasPassword,
       needChangePassword: false,
+      passwordChangeAt: new Date(),
     },
   );
 
