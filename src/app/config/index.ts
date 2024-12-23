@@ -9,5 +9,8 @@ export default {
   database_url: process.env.DATABASE_URO,
   bcript_has: process.env.BCRYPC_HAS,
   defult_passwoed: process.env.DEFULT_PASSWORD,
-  secret_kye: process.env.JWT_ACCESS_TOCEN,
+  ACCESS_secret_kye: process.env.JWT_ACCESS_TOCEN,
+  JWT_REFRES_TOCEN: process.env.JWT_REFRES_TOCEN,
+  JWT_EXPIRE_IN_ACCESSTOKEN: process.env.JWT_EXPIRE_IN_ACCESSTOKEN,
+  JWT_EXPIRE_IN_REFRESS: process.env.JWT_EXPIRE_IN_REFRESS,
 };

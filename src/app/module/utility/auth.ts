@@ -5,43 +5,69 @@ import AppError from '../../error/apperror';
 import httpStatus from 'http-status';
 import config from '../../config';
 import { TuserRole } from '../user/user.interfaces';
+import { UserMainModel } from '../user/user.model';
 
-const auth = (...requerdRoles: TuserRole[]) => {
+const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsynch(
     async (req: Request, res: Response, next: NextFunction) => {
       const token = req.headers.authorization;
-      //   send token for clientside
+
+      // Check if token exists
       if (!token) {
-        throw new AppError(httpStatus.UNAUTHORIZED, 'User is not UnAuthorize');
+        throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
+      }
+      console.log(requiredRoles);
+
+      // Verify token
+      const decoded = jwt.verify(
+        token,
+        config.ACCESS_secret_kye as string,
+      ) as JwtPayload;
+
+      const { userId, userRole } = decoded.JwtPayload;
+      const { iat } = decoded;
+      if (!decoded) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
       }
 
-      //   const decoded = jwt.verify(
-      //     token,
-      //     config.secret_kye as string,
-      //   ) as JwtPayload;
-      //   const { userId, userRole, iat } = decoded;
-      //   console.log(userId, userRole,iat)
-      //   console.log(decoded);
+      const user = await UserMainModel.isUserExistsByCustomId(userId);
 
-      jwt.verify(token, config.secret_kye as string, (err, decoded) => {
-        if (err) {
-          throw new AppError(httpStatus.UNAUTHORIZED, 'User is Unauthorized');
-        }
-        if (!decoded) {
-          throw new AppError(httpStatus.UNAUTHORIZED, 'User is Unauthorized');
-        }
-        const userRole = (decoded as JwtPayload).JwtPayload.userRole;
-        // const userRole = decoded ;
-        console.log();
-        if (requerdRoles && !requerdRoles.includes(userRole)) {
-          throw new AppError(
-            httpStatus.UNAUTHORIZED,
-            'User is not UnAuthorize',
-          );
-        }
-        req.user = decoded as JwtPayload; // Ensure decoded is cast properly
-      });
+      if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, 'Your User Id is Invalid!');
+      }
+      const isDeleteUser = await UserMainModel.isDeleteUser(
+        userId,
+        user.isDeleted,
+      );
+      if (!isDeleteUser) {
+        throw new AppError(httpStatus.FORBIDDEN, 'Your User is Delete!');
+      }
+      //   get status true
+      const isStatusCheck = await UserMainModel.isStatus(userId);
+      if (isStatusCheck) {
+        throw new AppError(httpStatus.FORBIDDEN, 'Your User is Blocked!');
+      }
+      console.log(decoded);
 
+      // Check for required roles
+      if (requiredRoles && !requiredRoles?.includes(userRole)) {
+        throw new AppError(
+          httpStatus.UNAUTHORIZED,
+          'User does not have the required permissions',
+        );
+      }
+      // hak token change password time compre
+
+      const passwordChangeAt = user?.passwordChangeAt;
+      const changeTime = new Date(passwordChangeAt as Date).getTime() / 1000;
+      console.log(changeTime > (iat as number));
+      if (changeTime < (iat as number)) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'User is Un Authorize');
+      }
+
+      // Attach user data to the request object
+      req.user = decoded;
+      // Proceed to the next middleware
       next();
     },
   );

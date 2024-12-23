@@ -15,6 +15,7 @@ import { facultyServises } from './acadimic.faculty.servises';
 
 const findAllFaculty = catchAsynch(async (req, res) => {
   const result = await facultyServises.findAllFaculty(req.query);
+  console.log(req.cookies);
   sendSuccess(res, {
     statuscod: httpStatus.OK,
     success: true,

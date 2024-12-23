@@ -19,4 +19,10 @@ router.post(
   authController.chengePassword,
 );
 
+router.post(
+  '/refresh-token',
+  zodValidaction(authValidaction.refreshTokenValidationSchema),
+  authController.refreshToken,
+);
+
 export const AuthRoutes = router;

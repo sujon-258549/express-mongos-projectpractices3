@@ -4,10 +4,12 @@ import cors from 'cors';
 import globalErrorhandlata from './app/madelware/globalErrorhandaler';
 import notFound from './app/madelware/notfound';
 import router from './app/route';
+import cookieParser from 'cookie-parser';
 // const port = 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: 'http://localhost:5001' }));
 
 app.use('/api/v1', router);
 
