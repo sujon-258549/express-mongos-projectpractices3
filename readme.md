@@ -22,6 +22,7 @@ npx eslint --init
 
 <!-- importernt link -->
 
+https://www.facebook.com/MSI.NAHIN/videos/908806490911910?idorvanity=1617365348819921
 https://dev.to/shafayat/-express-typescript-eslint-prettiersetup-5fhg
 
 <!-- ts node dev -->
