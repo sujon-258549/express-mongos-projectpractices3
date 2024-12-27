@@ -12,29 +12,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./app/config"));
-const mongoose_1 = __importDefault(require("mongoose"));
-let server;
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield mongoose_1.default.connect(config_1.default.database_url);
-            server = app_1.default.listen(config_1.default.port, () => {
-                console.log(`Example app listening on port ${config_1.default.port}`);
-            });
-        }
-        catch (error) {
-            console.log(error);
-        }
-    });
-}
-main();
-// servise of my comment
-process.on('unhandledRejection', () => {
-    if (server) {
-        server.close(() => {
-            process.exit(1);
-        });
-    }
+exports.AcadimicDepertmentModel = exports.acadimicDepertmentSchema = void 0;
+const mongoose_1 = require("mongoose");
+const apperror_1 = __importDefault(require("../../error/apperror"));
+exports.acadimicDepertmentSchema = new mongoose_1.Schema({
+    name: {
+        type: String,
+        required: [true, 'name is Requerd'],
+        unique: true,
+    },
+    acadimicFaculty: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: [true, 'name is Requerd'],
+        ref: 'Faculty',
+    },
+}, {
+    timestamps: true,
 });
+exports.acadimicDepertmentSchema.pre('findOneAndUpdate', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = this.getQuery();
+        const isDepertmentExis = yield exports.AcadimicDepertmentModel.findOne(query);
+        if (!isDepertmentExis) {
+            throw new apperror_1.default(404, 'This Depentment Dase not exest');
+        }
+        next();
+    });
+});
+exports.AcadimicDepertmentModel = (0, mongoose_1.model)('Acadimicdepertment', exports.acadimicDepertmentSchema);

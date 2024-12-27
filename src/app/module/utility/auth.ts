@@ -11,7 +11,6 @@ const auth = (...requiredRoles: TuserRole[]) => {
   return catchAsynch(
     async (req: Request, res: Response, next: NextFunction) => {
       const token = req.headers.authorization;
-
       // Check if token exists
       if (!token) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
