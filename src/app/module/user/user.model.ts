@@ -56,7 +56,6 @@ const userSchema = new Schema<TUser, UserModel>(
 userSchema.pre('save', async function name(next) {
   const user = this;
   user.password = await bcrypt.hash(user.password, Number(config.bcript_has));
-  console.log(this, 'student create prosasing');
   next();
 });
 
