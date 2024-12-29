@@ -31,10 +31,10 @@ router.post(
   authController.forgetPassword,
 );
 
-//   router.post(
-//     '/reset-password',
-//     validateRequest(AuthValidation.forgetPasswordValidationSchema),
-//     AuthControllers.resetPassword,
-//   );
+router.post(
+  '/reset-password',
+  zodValidaction(authValidaction.forgetPasswordValidationSchema),
+  authController.resetPassword,
+);
 
 export const AuthRoutes = router;

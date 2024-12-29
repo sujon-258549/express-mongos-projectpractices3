@@ -21,6 +21,7 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
   console.log('inside', password);
 
   userData.password = password || (config.defult_passwoed as string);
+  userData.email = payload.email;
   //role ser
   userData.role = 'student';
   // Fetch the academic semester for admission
@@ -71,7 +72,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
 
   //if password is not given , use deafult password
   userData.password = password || (config.defult_passwoed as string);
-
+  userData.email = payload.email;
   //set student role
   userData.role = 'faculty';
 
@@ -132,7 +133,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
 
   //if password is not given , use deafult password
   userData.password = password || (config.defult_passwoed as string);
-
+  userData.email = payload.email;
   //set student role
   userData.role = 'admin';
 

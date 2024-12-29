@@ -58,21 +58,21 @@ const forgetPassword = catchAsynch(async (req, res) => {
   });
 });
 
-// const resetPassword = catchAsynch(async (req, res) => {
-//   const token = req.headers.authorization;
-
-//   const result = await authServises.resetPassword(req.body, token);
-//   sendSuccess(res, {
-//     statuscod: httpStatus.OK,
-//     success: true,
-//     message: 'Password reset succesful!',
-//     data: result,
-//   });
-// });
+const resetPassword = catchAsynch(async (req, res) => {
+  const token = req?.headers?.authorization;
+  const result = await authServises.resetPassword(req.body, token);
+  sendSuccess(res, {
+    statuscod: httpStatus.OK,
+    success: true,
+    message: 'Password reset succesful!',
+    data: result,
+  });
+});
 
 export const authController = {
   loginUser,
   chengePassword,
   refreshToken,
   forgetPassword,
+  resetPassword,
 };

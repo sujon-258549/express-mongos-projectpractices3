@@ -20,7 +20,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
       // Verify token
       const decoded = jwt.verify(
         token,
-        config.ACCESS_secret_kye as string,
+        config.ACCESS_TOKEN as string,
       ) as JwtPayload;
 
       const { userId, userRole } = decoded.JwtPayload;
