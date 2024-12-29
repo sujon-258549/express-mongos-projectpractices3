@@ -166,8 +166,41 @@ const refreshTokenuseCreateAccessToken = async (token: string) => {
   };
 };
 
+const forgetPassword = async (userId: string) => {
+  const user = await UserMainModel.isUserExistsByCustomId(userId);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Invalid user ID.');
+  }
+
+  const isDeleteUser = await UserMainModel.isDeleteUser(userId, user.isDeleted);
+  if (!isDeleteUser) {
+    throw new AppError(httpStatus.FORBIDDEN, 'User account has been deleted.');
+  }
+  //   get status true
+  const isStatusCheck = await UserMainModel.isStatus(userId);
+  if (isStatusCheck) {
+    throw new AppError(httpStatus.FORBIDDEN, 'User account is blocked.');
+  }
+
+  const JwtPayload = {
+    userId: user.id,
+    userRole: user.role,
+  };
+
+  const resetToken = createToken(
+    JwtPayload,
+    config.ACCESS_secret_kye as string,
+    '10m',
+  );
+
+  const resetUiLink = `http://localhost:5000?id=${user.id}&token=${resetToken}`;
+  console.log(resetUiLink);
+};
+
 export const authServises = {
   createAuth,
   chengePassword,
+  forgetPassword,
   refreshTokenUseCreateAccessToken: refreshTokenuseCreateAccessToken,
 };

@@ -4,6 +4,7 @@ import { UserRole } from './user.const';
 
 export interface TUser {
   id: string;
+  email: string;
   password: string;
   needChangePassword: boolean;
   passwordChangeAt?: Date;
