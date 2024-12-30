@@ -17,11 +17,13 @@ router.post(
 );
 router.post(
   '/create-faculty',
+  auth(UserRole.admin),
   zodValidaction(facultyZodValidactionSchema),
   userContoller.createFaculty,
 );
 router.post(
   '/create-admin',
+  //   auth(UserRole.admin),
   zodValidaction(adminValidationSchema),
   userContoller.createAdmin,
 );
