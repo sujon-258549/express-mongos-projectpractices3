@@ -147,3 +147,8 @@ type of error
 4.sync error
 
 <!-- select query -->
+
+<!-- module 19.1 -19-8 using mode mailer  -->
+
+19.9 //image hosting // using malter ///image hosting related
+https://byby.dev/node-delete-file

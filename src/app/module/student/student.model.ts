@@ -140,7 +140,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     },
     admitionSamester: {
       type: Schema.Types.ObjectId,
-      ref: 'academic',
+      ref: 'academic-samester',
     },
     acadimicDepertment: {
       type: Schema.Types.ObjectId,

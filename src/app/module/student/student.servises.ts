@@ -135,6 +135,12 @@ const findOnedStudent = async (id: string) => {
     .populate('admitionSamester');
   return result;
 };
+const userThisDataFind = async (id: string) => {
+  const result = await Student.findById(id)
+    .populate('user')
+    .populate('admitionSamester');
+  return result;
+};
 
 const deletedStudentone = async (id: string) => {
   const session = await mongoose.startSession();
@@ -172,4 +178,5 @@ export const studentServeses = {
   findOnedStudent,
   deletedStudentone,
   updateStudent,
+  userThisDataFind,
 };

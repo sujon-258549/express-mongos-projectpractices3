@@ -15,7 +15,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
       if (!token) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
       }
-      console.log(requiredRoles);
+      //   console.log(requiredRoles);
 
       // Verify token
       const decoded = jwt.verify(
@@ -46,7 +46,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
       if (isStatusCheck) {
         throw new AppError(httpStatus.FORBIDDEN, 'Your User is Blocked!');
       }
-      console.log(decoded);
+      //   console.log(decoded);
 
       // Check for required roles
       if (requiredRoles && !requiredRoles?.includes(userRole)) {
@@ -59,7 +59,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
 
       const passwordChangeAt = user?.passwordChangeAt;
       const changeTime = new Date(passwordChangeAt as Date).getTime() / 1000;
-      console.log(changeTime > (iat as number));
+      //   console.log(changeTime > (iat as number));
       if (changeTime < (iat as number)) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is Un Authorize');
       }

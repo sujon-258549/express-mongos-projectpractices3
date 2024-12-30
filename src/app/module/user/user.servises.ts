@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { JwtPayload } from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import config from '../../config';
+import httpStatus from 'http-status';
 import { AcademicSamesterModel } from '../acedimicsamicter/acedimic.mode';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -14,12 +18,21 @@ import { AcadimicFucaltyModel } from '../acadimicFaculty/acadimic.Faculty.model'
 import { TAdmin } from '../admin/admin.interfaces';
 import { createIdByAdmin } from '../admin/admin.utilitis';
 import { AdminModel } from '../admin/admin.model';
+import { UserRole } from './user.const';
+import { sendImageCludinary } from '../../utils/sendImageTogloudinari';
 
-const createUserServerDB = async (password: string, payload: TStudent) => {
+// eslint-disable-next-line no-unused-vars
+const createUserServerDB = async (
+  password: string,
+  payload: TStudent,
+  file: any,
+) => {
   //   console.log(repit_students);
   const userData: Partial<TUser> = {};
   console.log('inside', password);
-
+  const imageName = `${payload.id}${payload.name.firstName}`;
+  const path = file.path;
+  const { secure_url } = await sendImageCludinary(imageName, path);
   userData.password = password || (config.defult_passwoed as string);
   userData.email = payload.email;
   //role ser
@@ -47,7 +60,9 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
       //   studentData.id = newUser.id;
       payload.user = newUser[0]._id;
       payload.id = newUser[0].id;
+      payload.avatar = secure_url;
     }
+    // image hosting for cludinary
 
     const newStudent = await Student.create([payload], { session });
 
@@ -155,7 +170,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
     }
     // set id , _id as user
     payload.id = newUser[0].id;
-    console.log(payload.id);
+    // console.log(payload.id);
     payload.user = newUser[0]._id; //reference _id
 
     // create a faculty (transaction-2)
@@ -180,8 +195,52 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
   }
 };
 
+const findThisUserData = async (user: JwtPayload) => {
+  const { userId, userRole } = user.JwtPayload; //userRole
+  console.log(userId, userRole);
+
+  if (userRole === UserRole.admin) {
+    const result = await AdminModel.findOne({ id: userId }).populate('user');
+    return result;
+  }
+  if (userRole === UserRole.faculty) {
+    const result = await AcadimicFucaltyModel.findOne({ id: userId }).populate(
+      'user',
+    );
+
+    return result;
+  }
+  if (userRole === UserRole.student) {
+    const result = await Student.findOne({ id: userId }).populate('user');
+    return result;
+  }
+};
+
+const ChangeUserStautsIntoDb = async (
+  id: string,
+  paylod: { status: string },
+  token: JwtPayload,
+) => {
+  const { userId } = token.JwtPayload; //userRole
+  console.log(userId, paylod);
+  const palodId = await AdminModel.findOne({ id });
+  if (palodId?.id === userId) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Input id ${id} or ${userId} is match`,
+    );
+  }
+  console.log(paylod);
+  const result = await UserMainModel.findOneAndUpdate({ id }, paylod, {
+    new: true,
+  });
+  return result;
+};
+
 export const userServises = {
   createUserServerDB,
   createFacultyIntoDB,
   createAdminIntoDB,
+  findThisUserData,
+  ChangeUserStautsIntoDb,
 };

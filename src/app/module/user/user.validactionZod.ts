@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Userstatus } from './user.const';
 
 // importent notis
 // no post id , role , and , password
@@ -14,7 +15,14 @@ export const userZodSchema = z.object({
   //   isDeleted: z.boolean().default(false),
 });
 
+const UpdateUserStatus = z.object({
+  body: z.object({
+    status: z.enum([...Userstatus] as [string, ...string[]]),
+  }),
+});
+
 // Type inference from Zod schema (if needed)
-export const userSchema = {
+export const userValidactionZodSchema = {
   userZodSchema,
+  UpdateUserStatus,
 };

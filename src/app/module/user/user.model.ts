@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 import { TUser, UserModel } from './user.interfaces';
 import bcrypt from 'bcrypt';
 import config from '../../config';
+import { Userstatus } from './user.const';
 
 // Define the User Schema
 const userSchema = new Schema<TUser, UserModel>(
@@ -40,7 +41,7 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: true,
       enum: {
-        values: ['in-progress', 'blocked'],
+        values: Userstatus,
         message: '{VALUE} , is not define',
       },
       default: 'in-progress',
