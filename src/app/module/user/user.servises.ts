@@ -30,9 +30,12 @@ const createUserServerDB = async (
   //   console.log(repit_students);
   const userData: Partial<TUser> = {};
   console.log('inside', password);
-  const imageName = `${payload.id}${payload.name.firstName}`;
-  const path = file.path;
-  const { secure_url } = await sendImageCludinary(imageName, path);
+  const imageName = `${payload.name.firstName}`; //${payload.id}
+  //   console.log(file);
+  const path = file?.path;
+  console.log({ path });
+  const { secure_url } = await sendImageCludinary(path, imageName);
+  console.log(secure_url);
   userData.password = password || (config.defult_passwoed as string);
   userData.email = payload.email;
   //role ser
