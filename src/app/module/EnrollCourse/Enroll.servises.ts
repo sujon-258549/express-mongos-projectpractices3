@@ -40,7 +40,7 @@ const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
     const semisterRagistation = await SemesterRegistrationModel.findById(
       isExistOfferCourse.semesterRegistration,
     ); //.select('maxCredit');
-    const maxCreditData = Number(semisterRagistation?.maxCredit);
+    const maxCredit = Number(semisterRagistation?.maxCredit);
     // input inrol cradit
     const samesterRagistactionCradit = await CourseModel.findById(
       isExistOfferCourse.course,
@@ -84,13 +84,16 @@ const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
     const totalCraditsNumber =
       enrollCourse.length > 0 ? enrollCourse[0].totalCredits : 0;
 
+    const enrolCourseCrasitsAndNewEnrolCradits =
+      inputCradits + totalCraditsNumber;
+
     if (
       totalCraditsNumber &&
-      inputCradits + totalCraditsNumber > maxCreditData
+      enrolCourseCrasitsAndNewEnrolCradits > maxCredit
     ) {
       throw new AppError(httpStatus.BAD_REQUEST, 'Your Cradits is low');
     }
-    console.log(totalCraditsNumber + inputCradits > maxCreditData);
+    console.log(totalCraditsNumber + inputCradits > maxCredit);
     const result = await EnrolledCourse.create(
       [
         {
