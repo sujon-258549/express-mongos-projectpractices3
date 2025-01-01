@@ -17,4 +17,5 @@ export default {
   CLUDE_NAME: process.env.CLUDE_NAME,
   CLUDE_API_KYE: process.env.CLUDE_API_KYE,
   CLUDE_API_SECRET: process.env.CLUDE_API_SECRET,
+  SUPPER_ADMIN: process.env.SUPPER_ADMIN,
 };

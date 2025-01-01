@@ -12,8 +12,32 @@ import { upload } from '../../utils/sendImageTogloudinari';
 const router = Router();
 
 router.post(
+  '/create-admin',
+  auth(UserRole.supperAdmin),
+  zodValidaction(adminValidationSchema),
+  upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
+  userContoller.createAdmin,
+);
+
+router.post(
+  '/create-faculty',
+  auth(UserRole.admin, UserRole.supperAdmin),
+  upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
+  zodValidaction(facultyZodValidactionSchema),
+  userContoller.createFaculty,
+);
+
+router.post(
   '/create-student',
-  auth(UserRole.admin),
+  auth(UserRole.admin, UserRole.supperAdmin),
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
@@ -21,18 +45,6 @@ router.post(
   },
   zodValidaction(studentValidationSchemaforzod),
   userContoller.creatUser,
-);
-router.post(
-  '/create-faculty',
-  auth(UserRole.admin),
-  zodValidaction(facultyZodValidactionSchema),
-  userContoller.createFaculty,
-);
-router.post(
-  '/create-admin',
-  //   auth(UserRole.admin),
-  zodValidaction(adminValidationSchema),
-  userContoller.createAdmin,
 );
 
 router.get(

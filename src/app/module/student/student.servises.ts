@@ -93,7 +93,8 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await student.modelQuery;
-  return result;
+  const meta = await student.modelQuery.countTotal();
+  return { result, meta };
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {

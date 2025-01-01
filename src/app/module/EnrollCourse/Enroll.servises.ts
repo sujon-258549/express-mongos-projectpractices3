@@ -8,6 +8,9 @@ import mongoose from 'mongoose';
 import { AcademicSamesterModel } from '../acedimicsamicter/acedimic.mode';
 import { SemesterRegistrationModel } from '../samesterRagistactoin/smesterRagistaction.model';
 import { CourseModel } from '../Course/couse.model';
+import { TEnrolledCourse } from './Enroll.interfaces';
+import { AcadimicFucaltyModel } from '../acadimicFaculty/acadimic.Faculty.model';
+import { calculateGradeAndPoints } from './enrolledCourse.utils';
 
 const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
   const session = await mongoose.startSession();
@@ -128,6 +131,84 @@ const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
   }
 };
 
+const updateEnrollCoutseIntoDB = async (
+  paylod: Partial<TEnrolledCourse>,
+  tokenData: JwtPayload,
+) => {
+  const { userId } = tokenData.JwtPayload;
+  const { courseMarks, student, offeredCourse, semesterRegistration } = paylod;
+
+  const isExistOfferCourse = await OfferedCourseModel.findById(offeredCourse);
+  // console.log({ isExistOfferCourse });
+  if (!isExistOfferCourse) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Course is Not found');
+  }
+  const isExistSamesterRagistaction =
+    await SemesterRegistrationModel.findById(semesterRegistration);
+  // console.log({ isExistOfferCourse });
+  if (!isExistSamesterRagistaction) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Samester is not found');
+  }
+  const isExistStudent = await Student.findById(student);
+  // console.log({ isExistOfferCourse });
+  if (!isExistStudent) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Student is not match');
+  }
+  const isExistFaculty = await AcadimicFucaltyModel.findOne(
+    { id: userId },
+    { _id: 1 },
+  );
+
+  const isExistThisCourseAndThisFaculty = await EnrolledCourse.findOne({
+    student: student,
+    academicFaculty: isExistFaculty,
+    offeredCourse,
+  });
+  // console.log({ isExistOfferCourse });
+  if (!isExistThisCourseAndThisFaculty) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Faculty subject and Student subject not match',
+    );
+  }
+
+  // modifide data
+  const modifiedData: Record<string, unknown> = {
+    ...courseMarks,
+  };
+
+  if (courseMarks?.finalTerm) {
+    const { classTest1, classTest2, midTerm, finalTerm } =
+      isExistThisCourseAndThisFaculty.courseMarks;
+
+    const totalMarks =
+      Math.ceil(classTest1 * 0.1) +
+      Math.ceil(midTerm * 0.3) +
+      Math.ceil(classTest2 * 0.1) +
+      Math.ceil(finalTerm * 0.5);
+
+    const result = calculateGradeAndPoints(totalMarks);
+    modifiedData.grade = result.grade;
+    modifiedData.gradePoints = result.gradePoints;
+    modifiedData.isCompleted = true;
+
+    if (modifiedData && Object.keys(modifiedData).length) {
+      for (const [kye, value] of Object.entries(modifiedData)) {
+        modifiedData[`${kye}`] = value;
+      }
+    }
+
+    const resul = await EnrolledCourse.findByIdAndUpdate(
+      isExistThisCourseAndThisFaculty._id,
+      modifiedData,
+      { new: true },
+    );
+
+    return resul;
+  }
+};
+
 export const EnrollCourseServises = {
   createEnrollCourseIntoDB,
+  updateEnrollCoutseIntoDB,
 };
