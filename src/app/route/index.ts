@@ -1,4 +1,4 @@
-import { acadimicFucaltyRouter as acadimicFacultyRouter } from '../module/acadimicFaculty/acadimicFaculty.router';
+import { fucaltyRouter } from '../module/faculty/Faculty.router';
 import { Router } from 'express';
 import { studentRouter } from '../module/student/student.router';
 import { userRouter } from '../module/user/user.router';
@@ -10,6 +10,7 @@ import { semesterRegistrationRoutes } from '../module/samesterRagistactoin/smest
 import { offeredCourseRoutes } from '../module/OfferedCourse/OfferedCourse.router';
 import { AuthRoutes } from '../module/Auth/Auth.router';
 import { EnrolledCourseRoutes } from '../module/EnrollCourse/Enrol.Router';
+import { AcademicFacultyRoutes } from '../module/Acadimic-faculty/academicFaculty.route';
 
 const router = Router();
 
@@ -28,8 +29,9 @@ const allRouter = [
   },
   {
     path: '/faculty',
-    router: acadimicFacultyRouter,
+    router: fucaltyRouter,
   },
+
   {
     path: '/depertment',
     router: acadimicDepertmentRouter,
@@ -42,6 +44,7 @@ const allRouter = [
     path: '/course',
     router: courseRouter,
   },
+
   {
     path: '/ragistaction',
     router: semesterRegistrationRoutes,
@@ -49,6 +52,10 @@ const allRouter = [
   {
     path: '/offerd-course',
     router: offeredCourseRoutes,
+  },
+  {
+    path: '/academic-faculties',
+    router: AcademicFacultyRoutes,
   },
   {
     path: '/auth',

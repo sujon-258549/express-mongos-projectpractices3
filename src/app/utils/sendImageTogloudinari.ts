@@ -52,7 +52,11 @@ import fs from 'fs';
 
 // export const upload = multer({ storage: storage });
 
-export const sendImageCludinary = (path: string, name: string) => {
+export const sendImageCludinary = (
+  path: string,
+  name: string,
+): Promise<Record<string, unknown>> => {
+  //:Record<string, unknown>
   console.log({ path, name });
   cloudinary.config({
     cloud_name: config.CLUDE_NAME,

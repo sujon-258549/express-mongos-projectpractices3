@@ -4,7 +4,7 @@ import {
   TFaculty,
   TGender,
   TUserName,
-} from './acadimic.Faculty.interfaces';
+} from './Faculty.interfaces';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -90,7 +90,10 @@ export const acadimicSchema = new Schema<TFaculty>(
       type: String,
       required: [true, 'Permanent address is required'],
     },
-    profileImg: { type: String },
+    profileImg: {
+      type: String,
+      default: '',
+    },
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: [true, 'User id is required'],
@@ -142,7 +145,4 @@ acadimicSchema.statics.isUserExists = async function (id: string) {
   return existingUser;
 };
 
-export const AcadimicFucaltyModel = model<TFaculty>(
-  'AcadimicFaculty',
-  acadimicSchema,
-);
+export const AcadimicFucaltyModel = model<TFaculty>('Faculty', acadimicSchema);

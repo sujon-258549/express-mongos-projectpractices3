@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { facultyContruller } from './acadimicfaculty.controllers';
+import { facultyContruller } from './Faculty.controllers';
 import auth from '../utility/auth';
 import { UserRole } from '../user/user.const';
 
@@ -9,4 +9,4 @@ router.get('/', auth(UserRole.admin), facultyContruller.findAllFaculty);
 router.get('/:facultyId', facultyContruller.findSingleFaculty);
 router.delete('/:facultyId', facultyContruller.deleteSingleFaculty);
 
-export const acadimicFucaltyRouter = router;
+export const fucaltyRouter = router;

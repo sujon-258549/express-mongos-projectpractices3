@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { userContoller } from './user.contrllers';
 import { studentValidationSchemaforzod } from '../student/zod.validaction';
 import zodValidaction from '../utility/zod.validaction';
-import { facultyZodValidactionSchema } from '../acadimicFaculty/acadimic.faculty.validaction.zod';
+import { facultyZodValidactionSchema } from '../faculty/Faculty.validaction.zod';
 import { adminValidationSchema } from '../admin/admin.zod.validaction';
 import auth from '../utility/auth';
 import { UserRole } from './user.const';
@@ -14,13 +14,13 @@ const router = Router();
 router.post(
   '/create-admin',
   auth(UserRole.supperAdmin),
-  zodValidaction(adminValidationSchema),
   upload.single('file'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data);
     next();
   },
   userContoller.createAdmin,
+  zodValidaction(adminValidationSchema),
 );
 
 router.post(

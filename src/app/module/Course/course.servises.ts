@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/queryBuilder';
 import AppError from '../../error/apperror';
 import { TCourseFaculty, Tcourses } from './course.interfaces';
-import { FacultyModel, CourseModel } from './couse.model';
+import { AcadimicFacultyModel, CourseModel } from './couse.model';
 import httpStatus from 'http-status';
 
 const createCourse = async (paylod: Tcourses) => {
@@ -50,7 +50,7 @@ const addtoFacultyCourse = async (
   id: string,
   paylod: Partial<TCourseFaculty>,
 ) => {
-  const result = await FacultyModel.findByIdAndUpdate(
+  const result = await AcadimicFacultyModel.findByIdAndUpdate(
     id,
     {
       course: id,
@@ -69,7 +69,7 @@ const removeFacultyCourse = async (
   id: string,
   paylod: Partial<TCourseFaculty>,
 ) => {
-  const result = await FacultyModel.findByIdAndUpdate(
+  const result = await AcadimicFacultyModel.findByIdAndUpdate(
     id,
     {
       $pull: { facultys: { $in: paylod.facultys } },

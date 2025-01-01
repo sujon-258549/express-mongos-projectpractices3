@@ -1,7 +1,7 @@
 import catchAsynch from '../utility/catcingAsynch';
 import sendSuccess from '../utility/send-success';
 import httpStatus from 'http-status';
-import { facultyServises } from './acadimic.faculty.servises';
+import { facultyServises } from './Faculty.servises';
 
 // const createFucalty = catchAsynch(async (req, res) => {
 //   const result = await facultyServises.createFaculty(req.body);

@@ -11,8 +11,8 @@ export const acadimicDepertmentSchema = new Schema<TAcadimicDepertment>(
     },
     acadimicFaculty: {
       type: Schema.Types.ObjectId,
-      required: [true, 'name is Requerd'],
-      ref: 'Faculty',
+      required: [true, 'faculty is Requerd'],
+      ref: 'Acadimic-faculty',
     },
   },
   {

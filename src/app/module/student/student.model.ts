@@ -56,9 +56,9 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Email is required.'],
       unique: true,
     },
-    avatar: {
+    profileImg: {
       type: String,
-      required: [false, 'Avatar is required.'],
+      default: '',
     },
     dateOfBirth: {
       type: String,
@@ -145,6 +145,10 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     acadimicDepertment: {
       type: Schema.Types.ObjectId,
       ref: 'Acadimicdepertment',
+    },
+    acadimicFaculty: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicFaculty',
     },
     isDeleted: {
       type: Boolean,

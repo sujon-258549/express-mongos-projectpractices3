@@ -9,7 +9,7 @@ import { AcademicSamesterModel } from '../acedimicsamicter/acedimic.mode';
 import { SemesterRegistrationModel } from '../samesterRagistactoin/smesterRagistaction.model';
 import { CourseModel } from '../Course/couse.model';
 import { TEnrolledCourse } from './Enroll.interfaces';
-import { AcadimicFucaltyModel } from '../acadimicFaculty/acadimic.Faculty.model';
+import { AcadimicFucaltyModel } from '../faculty/acadimic.Faculty.model';
 import { calculateGradeAndPoints } from './enrolledCourse.utils';
 
 const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {

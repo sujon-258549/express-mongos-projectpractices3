@@ -1,4 +1,4 @@
-import { AcadimicFucaltyModel } from './../acadimicFaculty/acadimic.Faculty.model';
+import { AcadimicFucaltyModel } from '../faculty/acadimic.Faculty.model';
 import { hasTimeConfilge } from './Offercourse.Utils';
 import { acadimicDepertment } from './../acadimicDipartment/acadimicDepertment.validaction';
 import { SemesterRegistrationModel } from './../samesterRagistactoin/smesterRagistaction.model';
@@ -6,7 +6,7 @@ import { OfferedCourseModel } from './OfferedCourse.model';
 import AppError from '../../error/apperror';
 import { AcadimicDepertmentModel } from '../acadimicDipartment/acadimic.Depertment.model';
 import { TOfferedCourse } from './OfferedCourse.interfaces';
-import { CourseModel, FacultyModel } from '../Course/couse.model';
+import { CourseModel, AcadimicFacultyModel } from '../Course/couse.model';
 import httpStatus from 'http-status';
 
 const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
@@ -43,7 +43,7 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   if (!isCourse) {
     throw new AppError(httpStatus.NOT_FOUND, 'Course Not Found');
   }
-  const isFaculty = await FacultyModel.findById(faculty);
+  const isFaculty = await AcadimicFacultyModel.findById(faculty);
   if (!isFaculty) {
     throw new AppError(httpStatus.NOT_FOUND, 'Faculty Not Found');
   }

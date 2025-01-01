@@ -20,7 +20,7 @@ export interface TStudent {
   id: string;
   name: FullName;
   email: string;
-  avatar?: string;
+  profileImg?: string;
   dateOfBirth: string;
   gender: 'Male' | 'Female' | 'Other';
   phone?: string;
@@ -40,6 +40,7 @@ export interface TStudent {
   marks?: { [subject: string]: number };
   admitionSamester: Types.ObjectId;
   acadimicDepertment: Types.ObjectId;
+  acadimicFaculty: Types.ObjectId;
   isDeleted: boolean;
   comments?: string;
 }
