@@ -29,10 +29,21 @@ const updateOfferedCourseIntoDB = catchAsynch(async (req, res) => {
   });
 });
 
+const myofferdCourse = catchAsynch(async (req, res) => {
+  const result = await OfferedCourseServices.myOfferCourseIntoDB(req.user);
+  sendSuccess(res, {
+    statuscod: httpStatus.CREATED,
+    success: true,
+    message: 'Course retreved success',
+    data: result,
+  });
+});
+
 export const OfferedCourseControllers = {
   createOfferedCourse,
   // getAllOfferedCoursesFromDB,
   // getSingleOfferedCourseFromDB,
   // deleteOfferedCourseFromDB,
   updateOfferedCourseIntoDB,
+  myofferdCourse,
 };

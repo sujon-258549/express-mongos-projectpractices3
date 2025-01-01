@@ -14,6 +14,15 @@ router.post(
   accadimicSamesterController.createAcadimicSamester,
 );
 
-router.get('/', accadimicSamesterController.findallAcadimicSamester);
+router.get(
+  '/',
+  auth(
+    UserRole.supperAdmin,
+    UserRole.admin,
+    UserRole.faculty,
+    UserRole.student,
+  ),
+  accadimicSamesterController.findallAcadimicSamester,
+);
 router.get('/:_id', accadimicSamesterController.findSpicifySamester);
 export const acedimicSemister = router;

@@ -1,6 +1,6 @@
 // import { AcadimicFucaltyModel } from './acadimic.Faculty.model';
 
-import { AcadimicFucaltyModel } from './acadimic.Faculty.model';
+import { FucaltyModel } from './Faculty.model';
 
 // // Function to find the last faculty ID in the database
 // const findLastFaculty = async () => {
@@ -29,7 +29,7 @@ import { AcadimicFucaltyModel } from './acadimic.Faculty.model';
 // };
 
 const findLastFaculty = async () => {
-  const acadimicFacultyFindId = await AcadimicFucaltyModel.findOne()
+  const acadimicFacultyFindId = await FucaltyModel.findOne()
     .sort({ id: -1 })
     .lean();
   return acadimicFacultyFindId?.id ? acadimicFacultyFindId?.id : undefined;

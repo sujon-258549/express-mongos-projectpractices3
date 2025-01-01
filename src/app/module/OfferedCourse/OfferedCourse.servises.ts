@@ -1,13 +1,15 @@
-import { AcadimicFucaltyModel } from '../faculty/acadimic.Faculty.model';
+import { FucaltyModel } from '../faculty/Faculty.model';
 import { hasTimeConfilge } from './Offercourse.Utils';
-import { acadimicDepertment } from './../acadimicDipartment/acadimicDepertment.validaction';
 import { SemesterRegistrationModel } from './../samesterRagistactoin/smesterRagistaction.model';
 import { OfferedCourseModel } from './OfferedCourse.model';
 import AppError from '../../error/apperror';
 import { AcadimicDepertmentModel } from '../acadimicDipartment/acadimic.Depertment.model';
 import { TOfferedCourse } from './OfferedCourse.interfaces';
-import { CourseModel, AcadimicFacultyModel } from '../Course/couse.model';
+import { CourseModel, CourseFaculty } from '../Course/couse.model';
 import httpStatus from 'http-status';
+import { AcademicFaculty } from '../Acadimic-faculty/academicFaculty.model';
+import { JwtPayload } from 'jsonwebtoken';
+import { Student } from '../student/student.model';
 
 const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   const {
@@ -21,7 +23,12 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
     startTime,
     endTime,
   } = paylod;
-
+  //   check Faculty have main hodel
+  const isExistFaculty = await FucaltyModel.findById(faculty);
+  if (!isExistFaculty) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Faculty is notFaund');
+  }
+  //   chaeck damesteer ragistation
   const isSamesterRagistaction =
     await SemesterRegistrationModel.findById(semesterRegistration);
   if (!isSamesterRagistaction) {
@@ -29,25 +36,28 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   }
 
   const acadimicSamester = isSamesterRagistaction.academicSemester;
-  const isacademicFaculty =
-    await AcadimicFucaltyModel.findById(academicFaculty);
+
+  //   check acadimic
+  const isacademicFaculty = await AcademicFaculty.findById(academicFaculty);
   if (!isacademicFaculty) {
     throw new AppError(httpStatus.NOT_FOUND, 'Acadimic Faculty Not Found');
   }
+  //   check depertment
   const isacademicDepartment =
     await AcadimicDepertmentModel.findById(academicDepartment);
   if (!isacademicDepartment) {
     throw new AppError(httpStatus.NOT_FOUND, 'Depertment Not Found');
   }
+  //   check course
   const isCourse = await CourseModel.findById(course);
   if (!isCourse) {
     throw new AppError(httpStatus.NOT_FOUND, 'Course Not Found');
   }
-  const isFaculty = await AcadimicFacultyModel.findById(faculty);
-  if (!isFaculty) {
+  //   course include faculty id
+  const isFaculty = await CourseFaculty.findById(course);
+  if (!isFaculty?.facultys.includes(faculty)) {
     throw new AppError(httpStatus.NOT_FOUND, 'Faculty Not Found');
   }
-  console.log(acadimicDepertment);
 
   const isDepertmentBelongtoFaculty = await AcadimicDepertmentModel.findOne({
     _id: academicDepartment,
@@ -56,7 +66,7 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   if (!isDepertmentBelongtoFaculty) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `Faculty ${(isacademicFaculty.name.firstName, isacademicFaculty.name.lastName)} And depertment ${isacademicDepartment.name} Not Match `,
+      `Faculty ${(isExistFaculty.name.firstName, isExistFaculty.name.lastName)} And depertment ${isacademicDepartment.name} Not Match `,
     );
   }
 
@@ -95,12 +105,13 @@ const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
     );
   }
 
+  paylod.academicSemester = acadimicSamester;
+
   //   10:20  -  11:20  after start time and befor end time
   // 10:00 - 11:00
 
   const result = await OfferedCourseModel.create({
     ...paylod,
-    acadimicSamester,
   });
   return result;
 };
@@ -114,8 +125,7 @@ const updateOfferedCourseIntoDB = async (
   if (!isExistOfferCourse) {
     throw new AppError(httpStatus.NOT_FOUND, 'Offer Course Notfound');
   }
-  const isExistOfferCourseForFaculty =
-    await AcadimicFucaltyModel.findById(faculty);
+  const isExistOfferCourseForFaculty = await FucaltyModel.findById(faculty);
   if (!isExistOfferCourseForFaculty) {
     throw new AppError(httpStatus.NOT_FOUND, 'Faculty not found  !');
   }
@@ -152,10 +162,25 @@ const updateOfferedCourseIntoDB = async (
   return result;
 };
 
+const myOfferCourseIntoDB = async (token: JwtPayload) => {
+  const { userId } = token.JwtPayload;
+  //   find student id by student model
+  const isExisbyStudent = await Student.findOne({ id: userId });
+  if (!isExisbyStudent) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Student is Not Found');
+  }
+  //   get current ongoing samester
+  const ongoinSamester = await SemesterRegistrationModel.findOne({
+    stasus: 'ONGOING',
+  });
+  return ongoinSamester;
+};
+
 export const OfferedCourseServices = {
   createOfferedCourseIntoDB,
   // getAllOfferedCoursesFromDB,             //code spale checker
   // getSingleOfferedCourseFromDB,
   // deleteOfferedCourseFromDB,
   updateOfferedCourseIntoDB,
+  myOfferCourseIntoDB,
 };

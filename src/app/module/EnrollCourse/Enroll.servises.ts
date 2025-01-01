@@ -5,11 +5,10 @@ import { Student } from '../student/student.model';
 import EnrolledCourse from './Enroll.model';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import { AcademicSamesterModel } from '../acedimicsamicter/acedimic.mode';
 import { SemesterRegistrationModel } from '../samesterRagistactoin/smesterRagistaction.model';
 import { CourseModel } from '../Course/couse.model';
 import { TEnrolledCourse } from './Enroll.interfaces';
-import { AcadimicFucaltyModel } from '../faculty/acadimic.Faculty.model';
+import { FucaltyModel } from '../faculty/Faculty.model';
 import { calculateGradeAndPoints } from './enrolledCourse.utils';
 
 const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
@@ -17,13 +16,15 @@ const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
   try {
     session.startTransaction();
     const { userId } = token.JwtPayload;
+    console.log(userId);
     const { offeredCourse } = paylod;
     const isExistOfferCourse = await OfferedCourseModel.findById(offeredCourse);
     // console.log({ isExistOfferCourse });
     if (!isExistOfferCourse) {
       throw new AppError(httpStatus.NOT_FOUND, 'Course is Not found');
     }
-    const isExisStudent = await Student.findOne({ id: userId }, { _id: 1 });
+    const isExisStudent = await Student.findOne({ id: userId });
+    console.log(isExisStudent);
     if (!isExisStudent) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'User is not Authorize');
     }
@@ -154,10 +155,7 @@ const updateEnrollCoutseIntoDB = async (
   if (!isExistStudent) {
     throw new AppError(httpStatus.NOT_FOUND, 'Student is not match');
   }
-  const isExistFaculty = await AcadimicFucaltyModel.findOne(
-    { id: userId },
-    { _id: 1 },
-  );
+  const isExistFaculty = await FucaltyModel.findOne({ id: userId }, { _id: 1 });
 
   const isExistThisCourseAndThisFaculty = await EnrolledCourse.findOne({
     student: student,

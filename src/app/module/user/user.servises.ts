@@ -14,7 +14,7 @@ import { TFaculty } from '../faculty/Faculty.interfaces';
 import { AcadimicDepertmentModel } from '../acadimicDipartment/acadimic.Depertment.model';
 import AppError from '../../error/apperror';
 import { generateFacultyId } from '../faculty/utilits';
-import { AcadimicFucaltyModel } from '../faculty/acadimic.Faculty.model';
+import { FucaltyModel } from '../faculty/Faculty.model';
 import { TAdmin } from '../admin/admin.interfaces';
 import { createIdByAdmin } from '../admin/admin.utilitis';
 import { AdminModel } from '../admin/admin.model';
@@ -104,8 +104,6 @@ const createFacultyIntoDB = async (
   const academicDepartment = await AcadimicDepertmentModel.findById(
     payload.academicDepartment,
   );
-
-  console.log(academicDepartment);
   if (!academicDepartment) {
     throw new AppError(400, 'Academic department not found');
   }
@@ -134,10 +132,10 @@ const createFacultyIntoDB = async (
     // set id , _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //reference _id
-
+    payload.academicFaculty = academicDepartment.acadimicFaculty;
     // create a faculty (transaction-2)
 
-    const newFaculty = await AcadimicFucaltyModel.create([payload], {
+    const newFaculty = await FucaltyModel.create([payload], {
       session,
     });
 
@@ -164,12 +162,7 @@ const createStudentServerDB = async (
   //   console.log(repit_students);
   const userData: Partial<TUser> = {};
   console.log('inside', password);
-  const imageName = `${payload.name.firstName}`; //${payload.id}
-  //   console.log(file);
-  const path = file?.path;
-  console.log({ path });
-  const { secure_url } = await sendImageCludinary(path, imageName);
-  console.log(secure_url);
+
   userData.password = password || (config.defult_passwoed as string);
   userData.email = payload.email;
   //role ser
@@ -239,9 +232,7 @@ const findThisUserData = async (user: JwtPayload) => {
     return result;
   }
   if (userRole === UserRole.faculty) {
-    const result = await AcadimicFucaltyModel.findOne({ id: userId }).populate(
-      'user',
-    );
+    const result = await FucaltyModel.findOne({ id: userId }).populate('user');
 
     return result;
   }

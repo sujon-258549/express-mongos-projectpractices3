@@ -152,7 +152,6 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
     },
     isDeleted: {
       type: Boolean,
-      required: true,
       default: false,
     },
     comments: {

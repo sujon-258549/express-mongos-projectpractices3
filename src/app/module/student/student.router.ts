@@ -7,11 +7,24 @@ import { UserRole } from '../user/user.const';
 
 const router = express.Router();
 
-router.get('/', studentController.findStudent);
-router.delete('/:studentId', studentController.studentOneDeleted);
+router.get(
+  '/',
+  auth(UserRole.admin, UserRole.supperAdmin),
+  studentController.findStudent,
+);
+router.delete(
+  '/:studentId',
+  auth(UserRole.admin, UserRole.supperAdmin, UserRole.faculty),
+  studentController.studentOneDeleted,
+);
 router.get(
   '/:studentId',
-  auth(UserRole.admin, UserRole.faculty, UserRole.student),
+  auth(
+    UserRole.admin,
+    UserRole.supperAdmin,
+    UserRole.faculty,
+    UserRole.student,
+  ),
   studentController.studentOnefind,
 );
 

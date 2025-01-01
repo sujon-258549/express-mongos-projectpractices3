@@ -96,8 +96,13 @@ export const acadimicSchema = new Schema<TFaculty>(
     },
     academicDepartment: {
       type: Schema.Types.ObjectId,
-      required: [true, 'User id is required'],
+      required: [true, 'Acadimic depertment  is required'],
       ref: 'Acadimicdepertment',
+    },
+    academicFaculty: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'Faculty id is required'],
+      ref: 'AcademicFaculty',
     },
     isDeleted: {
       type: Boolean,
@@ -141,8 +146,8 @@ acadimicSchema.pre('aggregate', function (next) {
 
 //checking if user is already exist!
 acadimicSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await AcadimicFucaltyModel.findOne({ id });
+  const existingUser = await FucaltyModel.findOne({ id });
   return existingUser;
 };
 
-export const AcadimicFucaltyModel = model<TFaculty>('Faculty', acadimicSchema);
+export const FucaltyModel = model<TFaculty>('Faculty', acadimicSchema);

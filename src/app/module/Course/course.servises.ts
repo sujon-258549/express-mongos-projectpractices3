@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/queryBuilder';
 import AppError from '../../error/apperror';
 import { TCourseFaculty, Tcourses } from './course.interfaces';
-import { AcadimicFacultyModel, CourseModel } from './couse.model';
+import { CourseFaculty, CourseModel } from './couse.model';
 import httpStatus from 'http-status';
 
 const createCourse = async (paylod: Tcourses) => {
@@ -50,10 +50,11 @@ const addtoFacultyCourse = async (
   id: string,
   paylod: Partial<TCourseFaculty>,
 ) => {
-  const result = await AcadimicFacultyModel.findByIdAndUpdate(
+  console.log(id);
+  const result = await CourseFaculty.findByIdAndUpdate(
     id,
     {
-      course: id,
+      corses: id,
       $addToSet: { facultys: { $each: paylod.facultys } },
     },
     {
@@ -69,7 +70,7 @@ const removeFacultyCourse = async (
   id: string,
   paylod: Partial<TCourseFaculty>,
 ) => {
-  const result = await AcadimicFacultyModel.findByIdAndUpdate(
+  const result = await CourseFaculty.findByIdAndUpdate(
     id,
     {
       $pull: { facultys: { $in: paylod.facultys } },
@@ -156,6 +157,29 @@ const updateCourse = async (id: string, payload: Partial<Tcourses>) => {
   }
 };
 
+const getFacultiesWithCourseFromDB = async (courseId: string) => {
+  const result = await CourseFaculty.findOne({ course: courseId }).populate(
+    'facultys',
+  );
+  return result;
+};
+
+const removeFacultiesFromCourseFromDB = async (
+  id: string,
+  payload: Partial<TCourseFaculty>,
+) => {
+  const result = await CourseFaculty.findByIdAndUpdate(
+    id,
+    {
+      $pull: { faculties: { $in: payload } },
+    },
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 export const courseServises = {
   createCourse,
   findAllCourse,
@@ -164,4 +188,6 @@ export const courseServises = {
   updateCourse,
   addtoFacultyCourse,
   removeFacultyCourse,
+  getFacultiesWithCourseFromDB,
+  removeFacultiesFromCourseFromDB,
 };

@@ -93,8 +93,8 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
     .fields();
 
   const result = await student.modelQuery;
-  const meta = await student.modelQuery.countTotal();
-  return { result, meta };
+  //   const meta = await student.modelQuery.countTotal();
+  return { result }; //meta
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {
@@ -143,34 +143,92 @@ const userThisDataFind = async (id: string) => {
   return result;
 };
 
+// const deletedStudentone = async (id: string) => {
+//   const session = await mongoose.startSession();
+//   try {
+//     session.startTransaction();
+
+//     // Find the student by ID
+//     const student = await Student.findById(id);
+//     if (!student) {
+//       throw new AppError(404, 'Student not found');
+//     }
+
+//     // Mark the student as deleted
+//     const studentDeleted = await Student.findByIdAndUpdate(
+//       id,
+//       { isDeleted: true },
+//       { new: true, session },
+//     );
+//     if (!studentDeleted) {
+//       throw new AppError(404, 'Failed to delete student');
+//     }
+
+//     // Update the associated user
+//     const usertDeleted = await UserMainModel.findOneAndUpdate(
+//       { _id: student.user }, // Use the correct reference field
+//       { isDeleted: true },
+//       { new: true, session },
+//     );
+//     if (!usertDeleted) {
+//       throw new AppError(404, 'Failed to delete associated user');
+//     }
+
+//     // Commit transaction
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     return studentDeleted;
+//   } catch (error) {
+//     // Rollback transaction
+//     await session.abortTransaction();
+//     session.endSession();
+//     console.error('Error in deletedStudentone:', error);
+//     throw error;
+//   }
+// };
 const deletedStudentone = async (id: string) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
+
+    // Find the student by ID
+    const student = await Student.findById(id);
+    if (!student) {
+      throw new AppError(404, 'Student not found');
+    }
+
+    // Mark the student as deleted
     const studentDeleted = await Student.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
     );
     if (!studentDeleted) {
-      throw new AppError(404, 'some thing wrong');
+      throw new AppError(404, 'Failed to delete student');
     }
-    const usertDeleted = await UserMainModel.updateOne(
-      { id },
+
+    // Update the associated user
+    const usertDeleted = await UserMainModel.findOneAndUpdate(
+      { _id: student.user }, // Use the correct reference field
       { isDeleted: true },
       { new: true, session },
     );
     if (!usertDeleted) {
-      throw new AppError(404, 'some thing wrong');
+      throw new AppError(404, 'Failed to delete associated user');
     }
 
-    session.commitTransaction();
+    // Commit transaction
+    await session.commitTransaction();
     session.endSession();
+
     return studentDeleted;
   } catch (error) {
+    // Rollback transaction
     await session.abortTransaction();
     session.endSession();
-    console.log(error);
+    console.error('Error in deletedStudentone:', error);
+    throw error;
   }
 };
 

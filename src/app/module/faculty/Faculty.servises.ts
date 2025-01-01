@@ -1,7 +1,10 @@
 // import { generateFacultyId } from './utilits';
 // import { TFaculty } from './acadimic.Faculty.interfaces';
-import { AcadimicFucaltyModel as AcadimicFacultyModel } from './acadimic.Faculty.model';
+import { FucaltyModel } from './Faculty.model';
 import QueryBuilder from '../../builder/queryBuilder';
+import mongoose from 'mongoose';
+import AppError from '../../error/apperror';
+import { UserMainModel } from '../user/user.model';
 
 const FacultySearchableFields = [
   'email',
@@ -36,7 +39,7 @@ const FacultySearchableFields = [
 
 const findAllFaculty = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(
-    AcadimicFacultyModel.find().populate('academicDepartment'),
+    FucaltyModel.find().populate('academicDepartment'),
     query,
   )
     .search(FacultySearchableFields)
@@ -52,21 +55,66 @@ const findAllFaculty = async (query: Record<string, unknown>) => {
 const findoneFaculty = async (facultyId: string) => {
   console.log(facultyId);
   try {
-    const result = await AcadimicFacultyModel.findById(facultyId);
+    const result = await FucaltyModel.findById(facultyId);
 
     return result;
   } catch (error) {
     console.log(error);
   }
 };
-const deleteoneFaculty = async (facultyId: string) => {
+// const deleteoneFaculty = async (facultyId: string) => {
+//   try {
+//     const result = await AcadimicFacultyModel.findByIdAndDelete(facultyId, {
+//       isDeleted: true,
+//     });
+//     return result;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const deleteoneFaculty = async (id: string) => {
+  const session = await mongoose.startSession();
   try {
-    const result = await AcadimicFacultyModel.findByIdAndDelete(facultyId, {
-      isDeleted: true,
-    });
-    return result;
+    session.startTransaction();
+
+    // Find the student by ID
+    const student = await FucaltyModel.findById(id);
+    if (!student) {
+      throw new AppError(404, 'Student not found');
+    }
+
+    // Mark the student as deleted
+    const studentDeleted = await FucaltyModel.findByIdAndUpdate(
+      id,
+      { isDeleted: true },
+      { new: true, session },
+    );
+    if (!studentDeleted) {
+      throw new AppError(404, 'Failed to delete student');
+    }
+
+    // Update the associated user
+    const usertDeleted = await UserMainModel.findOneAndUpdate(
+      { _id: student.user }, // Use the correct reference field
+      { isDeleted: true },
+      { new: true, session },
+    );
+    if (!usertDeleted) {
+      throw new AppError(404, 'Failed to delete associated user');
+    }
+
+    // Commit transaction
+    await session.commitTransaction();
+    session.endSession();
+
+    return studentDeleted;
   } catch (error) {
-    console.log(error);
+    // Rollback transaction
+    await session.abortTransaction();
+    session.endSession();
+    console.error('Error in deletedStudentone:', error);
+    throw error;
   }
 };
 
