@@ -29,8 +29,8 @@ const createAcedimic = async (payloade: TAcademicsamester) => {
   return result;
 };
 
-const findAllsamester = async (query:Record<string, {
-  const acadimicFacultyBilder = new QueryBuilder(
+const findAllsamester = async (query: Record<string, unknown>) => {
+  const acadimicSamester = new QueryBuilder(
     AcademicSamesterModel.find(),
     query,
   );
