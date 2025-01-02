@@ -183,6 +183,73 @@ const myOfferCourseIntoDB = async (token: JwtPayload) => {
         academicDepartment: isExisbyStudent.acadimicDepertment,
       },
     },
+    {
+      $lookup: {
+        //populate course
+        from: 'courses',
+        localField: 'course',
+        foreignField: '_id',
+        as: 'course',
+      },
+    },
+    {
+      $unwind: '$course',
+    },
+    {
+      $lookup: {
+        from: 'enrolledcourses',
+        let: {
+          currentongoinRagistactionSamester:
+            currentongoinRagistactionSamester._id,
+          currentstudent: isExisbyStudent._id,
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: [
+                      '$semesterRegistration',
+                      '$$currentongoinRagistactionSamester',
+                    ],
+                  },
+                  {
+                    $eq: ['$student', '$$currentstudent'],
+                  },
+                  {
+                    $eq: ['$isEnrolled', true],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: 'raningenrollCourse',
+      },
+    },
+    {
+      $addFields: {
+        //problem this cod
+        isAlradyEnrollCourse: {
+          $in: [
+            'course._id',
+            {
+              $map: {
+                input: '$raningenrollCourse',
+                as: 'enroll',
+                in: '$$enroll.course',
+              },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        isAlradyEnrollCourse: false,
+      },
+    },
   ]);
   return result;
 };
