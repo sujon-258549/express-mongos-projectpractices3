@@ -1,4 +1,5 @@
 import QueryBuilder from '../../builder/queryBuilder';
+import { acadimicSamesterQuerySearchField } from './acadimicSamesterconst';
 import { AcademicSamesterModel } from './acedimic.mode';
 import { TAcademicsamester } from './interfaces';
 
@@ -33,7 +34,7 @@ const findAllsamester = async (query: Record<string, unknown>) => {
   const acadimicSamester = new QueryBuilder(
     AcademicSamesterModel.find(),
     query,
-  );
+  ).search(acadimicSamesterQuerySearchField);
 
   const meta = await acadimicSamester.countTotal();
   const result = await acadimicSamester.modelQuery;

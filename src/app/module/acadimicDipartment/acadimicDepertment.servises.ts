@@ -1,30 +1,35 @@
+import QueryBuilder from '../../builder/queryBuilder';
 import { TAcadimicDepertment } from './acadimic.depert ment.interface';
 import { AcadimicDepertmentModel } from './acadimic.Depertment.model';
+import { acadimicDepentmentQuerySearchField } from './acadimicDEpertment.const';
 
-const createFaculty = async (payload: TAcadimicDepertment) => {
+const createDepertmentDB = async (payload: TAcadimicDepertment) => {
   const result = await AcadimicDepertmentModel.create(payload);
   return result;
 };
-const findAllFaculty = async () => {
-  try {
-    const result =
-      await AcadimicDepertmentModel.find().populate('acadimicFaculty');
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+const findAllDepertmentDB = async (query: Record<string, unknown>) => {
+  const acadimicSamester = new QueryBuilder(
+    AcadimicDepertmentModel.find(),
+    query,
+  )
+    .search(acadimicDepentmentQuerySearchField)
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+
+  const meta = await acadimicSamester.countTotal();
+  const result = await acadimicSamester.modelQuery;
+  return { result, meta }; //meta
 };
-const findoneFaculty = async (facultyId: string) => {
+const findoneDepertmentDB = async (facultyId: string) => {
   console.log(facultyId);
 
-  const result =
-    await AcadimicDepertmentModel.findById(facultyId).populate(
-      'acadimicFaculty',
-    );
+  const result = await AcadimicDepertmentModel.findById(facultyId); //.populate(  'acadimicFaculty', );
 
   return result;
 };
-const deleteoneFaculty = async (facultyId: string) => {
+const deleteoneDepertmentDB = async (facultyId: string) => {
   try {
     const result = await AcadimicDepertmentModel.findByIdAndDelete(facultyId, {
       isDeleted: true,
@@ -35,7 +40,7 @@ const deleteoneFaculty = async (facultyId: string) => {
   }
 };
 
-const updateOneFacultyData = async (
+const updateOneDepertmentDataintoDB = async (
   id: string,
   updateData: TAcadimicDepertment,
 ) => {
@@ -50,9 +55,9 @@ const updateOneFacultyData = async (
 };
 
 export const acadimicDepertmentServises = {
-  createFaculty,
-  findAllFaculty,
-  findoneFaculty,
-  deleteoneFaculty,
-  updateOneFacultyData,
+  createDepertmentDB,
+  findAllDepertmentDB,
+  findoneDepertmentDB,
+  deleteoneDepertmentDB,
+  updateOneDepertmentDataintoDB,
 };

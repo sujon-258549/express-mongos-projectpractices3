@@ -182,40 +182,80 @@ const updateEnrollCoutseIntoDB = async (
   }
 
   // modifide data
+  //   const modifiedData: Record<string, unknown> = {
+  //     ...courseMarks,
+  //   };
+
+  //   if (courseMarks?.finalTerm) {
+  //     const { classTest1, classTest2, midTerm, finalTerm } =
+  //       isExistThisCourseAndThisFaculty.courseMarks;
+
+  //     const totalMarks =
+  //       Math.ceil(classTest1) + // * 0.1
+  //       Math.ceil(midTerm) + //* 0.3
+  //       Math.ceil(classTest2) + //* 0.1
+  //       Math.ceil(finalTerm); //* 0.5
+
+  //     const result = calculateGradeAndPoints(totalMarks);
+  //     modifiedData.grade = result.grade;
+  //     modifiedData.gradePoints = result.gradePoints;
+  //     modifiedData.isCompleted = true;
+  //   }
+
+  //   //   if (modifiedData && Object.keys(modifiedData).length) {
+  //   //     for (const [kye, value] of Object.entries(modifiedData)) {
+  //   //       modifiedData[`${kye}`] = value;
+  //   //     }
+  //   //   }
+  //   if (modifiedData && Object.keys(modifiedData).length) {
+  //     for (const [kye, value] of Object.entries(modifiedData)) {
+  //       modifiedData[`${kye}`] = value;
+  //     }
+  //   }
+  //   console.log(modifiedData, isExistThisCourseAndThisFaculty._id);
+  //   const result = await EnrolledCourse.findByIdAndUpdate(
+  //     isExistThisCourseAndThisFaculty._id, //.toString(),
+  //     modifiedData,
+  //     { new: true },
+  //   );
+
+  //   return result;
   const modifiedData: Record<string, unknown> = {
     ...courseMarks,
   };
-  console.log(modifiedData, isExistThisCourseAndThisFaculty._id);
 
   if (courseMarks?.finalTerm) {
     const { classTest1, classTest2, midTerm, finalTerm } =
       isExistThisCourseAndThisFaculty.courseMarks;
 
     const totalMarks =
-      Math.ceil(classTest1) + // * 0.1
-      Math.ceil(midTerm) + //* 0.3
-      Math.ceil(classTest2) + //* 0.1
-      Math.ceil(finalTerm); //* 0.5
+      Math.ceil(classTest1) +
+      Math.ceil(midTerm) +
+      Math.ceil(classTest2) +
+      Math.ceil(finalTerm);
 
     const result = calculateGradeAndPoints(totalMarks);
+
     modifiedData.grade = result.grade;
     modifiedData.gradePoints = result.gradePoints;
     modifiedData.isCompleted = true;
-
-    if (modifiedData && Object.keys(modifiedData).length) {
-      for (const [kye, value] of Object.entries(modifiedData)) {
-        modifiedData[`${kye}`] = value;
-      }
-    }
-
-    const resul = await EnrolledCourse.findByIdAndUpdate(
-      isExistThisCourseAndThisFaculty._id, //.toString(),
-      modifiedData,
-      { new: true },
-    );
-
-    return resul;
   }
+
+  if (courseMarks && Object.keys(courseMarks).length) {
+    for (const [key, value] of Object.entries(courseMarks)) {
+      modifiedData[`courseMarks.${key}`] = value;
+    }
+  }
+
+  const result = await EnrolledCourse.findByIdAndUpdate(
+    isExistThisCourseAndThisFaculty._id,
+    modifiedData,
+    {
+      new: true,
+    },
+  );
+
+  return result;
 };
 
 export const EnrollCourseServises = {

@@ -12,11 +12,11 @@ router.post(
 
   acadimicDepertmentContruller.createDepertment,
 );
-router.get('/', acadimicDepertmentContruller.findAllFaculty);
-router.get('/:depertmentId', acadimicDepertmentContruller.findSingleFaculty);
+router.get('/', acadimicDepertmentContruller.findAllDepertment);
+router.get('/:depertmentId', acadimicDepertmentContruller.findSingleDepertment);
 router.delete(
   '/:depertmentId',
-  acadimicDepertmentContruller.deleteSingleFaculty,
+  acadimicDepertmentContruller.deleteSingledepertment,
 );
 router.patch(
   '/:depertmentId',
