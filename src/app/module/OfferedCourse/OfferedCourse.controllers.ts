@@ -30,7 +30,10 @@ const updateOfferedCourseIntoDB = catchAsynch(async (req, res) => {
 });
 
 const myofferdCourse = catchAsynch(async (req, res) => {
-  const result = await OfferedCourseServices.myOfferCourseIntoDB(req.user);
+  const result = await OfferedCourseServices.myOfferCourseIntoDB(
+    req.user,
+    req.query,
+  );
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,

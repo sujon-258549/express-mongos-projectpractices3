@@ -23,7 +23,7 @@ router.patch(
   OfferedCourseControllers.updateOfferedCourseIntoDB,
 );
 router.get(
-  '/gert-my-offerdcourse',
+  '/get-my-offerdcourse',
   auth(UserRole.student),
   OfferedCourseControllers.myofferdCourse,
 );

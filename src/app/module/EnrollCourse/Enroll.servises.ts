@@ -16,7 +16,6 @@ const createEnrollCourseIntoDB = async (paylod: string, token: JwtPayload) => {
   try {
     session.startTransaction();
     const { userId } = token.JwtPayload;
-    console.log(userId);
     const { offeredCourse } = paylod;
     const isExistOfferCourse = await OfferedCourseModel.findById(offeredCourse);
     // console.log({ isExistOfferCourse });
@@ -155,11 +154,16 @@ const updateEnrollCoutseIntoDB = async (
   if (!isExistStudent) {
     throw new AppError(httpStatus.NOT_FOUND, 'Student is not match');
   }
+
+  // console.log({ isExistOfferCourse });
+  if (!isExistStudent) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Student is not match');
+  }
   const isExistFaculty = await FucaltyModel.findOne({ id: userId }, { _id: 1 });
 
   const isExistThisCourseAndThisFaculty = await EnrolledCourse.findOne({
     student: student,
-    academicFaculty: isExistFaculty,
+    faculty: isExistFaculty?._id.toString(),
     offeredCourse,
   });
   // console.log({ isExistOfferCourse });
@@ -169,21 +173,28 @@ const updateEnrollCoutseIntoDB = async (
       'Faculty subject and Student subject not match',
     );
   }
+  if (
+    isExistThisCourseAndThisFaculty.faculty.toString() !==
+    isExistFaculty?._id.toString()
+  ) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Student or faculty is not match');
+  }
 
   // modifide data
   const modifiedData: Record<string, unknown> = {
     ...courseMarks,
   };
+  console.log(modifiedData, isExistThisCourseAndThisFaculty._id);
 
   if (courseMarks?.finalTerm) {
     const { classTest1, classTest2, midTerm, finalTerm } =
       isExistThisCourseAndThisFaculty.courseMarks;
 
     const totalMarks =
-      Math.ceil(classTest1 * 0.1) +
-      Math.ceil(midTerm * 0.3) +
-      Math.ceil(classTest2 * 0.1) +
-      Math.ceil(finalTerm * 0.5);
+      Math.ceil(classTest1) + // * 0.1
+      Math.ceil(midTerm) + //* 0.3
+      Math.ceil(classTest2) + //* 0.1
+      Math.ceil(finalTerm); //* 0.5
 
     const result = calculateGradeAndPoints(totalMarks);
     modifiedData.grade = result.grade;
@@ -197,7 +208,7 @@ const updateEnrollCoutseIntoDB = async (
     }
 
     const resul = await EnrolledCourse.findByIdAndUpdate(
-      isExistThisCourseAndThisFaculty._id,
+      isExistThisCourseAndThisFaculty._id, //.toString(),
       modifiedData,
       { new: true },
     );

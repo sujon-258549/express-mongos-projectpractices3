@@ -162,8 +162,14 @@ const updateOfferedCourseIntoDB = async (
   return result;
 };
 
-const myOfferCourseIntoDB = async (token: JwtPayload) => {
+const myOfferCourseIntoDB = async (
+  token: JwtPayload,
+  query: Record<string, unknown>,
+) => {
   const { userId } = token.JwtPayload;
+  const page = Number(query.page) || 1;
+  const limit = Number(query.limit) || 1;
+  const skip = (page - 1) * limit;
   //   find student id by student model
   const isExisbyStudent = await Student.findOne({ id: userId });
   if (!isExisbyStudent) {
@@ -175,7 +181,7 @@ const myOfferCourseIntoDB = async (token: JwtPayload) => {
   if (!currentongoinRagistactionSamester) {
     throw new AppError(httpStatus.NOT_FOUND, 'There is No Ongoing Samester');
   }
-  const result = await OfferedCourseModel.aggregate([
+  const agrigactionQuery = [
     {
       $match: {
         semesterRegistration: currentongoinRagistactionSamester._id,
@@ -225,7 +231,58 @@ const myOfferCourseIntoDB = async (token: JwtPayload) => {
             },
           },
         ],
-        as: 'raningenrollCourse',
+        as: 'preRequisiteCourse',
+      },
+    },
+    // secend lucap
+    {
+      $lookup: {
+        from: 'enrolledcourses',
+        let: {
+          currentongoinRagistactionSamester:
+            currentongoinRagistactionSamester._id,
+          currentstudent: isExisbyStudent._id,
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ['$student', isExisbyStudent._id],
+                  },
+                  {
+                    $eq: ['$isCompleted', true],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: 'copletedCourse',
+      },
+    },
+
+    {
+      $addFields: {
+        isPrerequsiteCourseFullfild: {
+          $or: [
+            { $eq: ['$course.preRequisiteCourse', []] },
+            {
+              $setIsSubset: [
+                '$course.preRequisiteCourse.course',
+                '$conpletedCourseId',
+              ],
+            },
+          ],
+        },
+        conpletedCourseId: {
+          $map: {
+            input: '$copletedCourse',
+            as: 'completed',
+            in: '$$completed.course',
+          },
+        },
       },
     },
     {
@@ -236,7 +293,7 @@ const myOfferCourseIntoDB = async (token: JwtPayload) => {
             'course._id',
             {
               $map: {
-                input: '$raningenrollCourse',
+                input: '$preRequisiteCourse',
                 as: 'enroll',
                 in: '$$enroll.course',
               },
@@ -248,9 +305,26 @@ const myOfferCourseIntoDB = async (token: JwtPayload) => {
     {
       $match: {
         isAlradyEnrollCourse: false,
+        // isPrerequsiteCourseFullfild: true,
       },
     },
+  ];
+  const paginactionQuery = [
+    {
+      $skip: skip,
+    },
+    {
+      $limit: limit,
+    },
+  ];
+
+  const result = await OfferedCourseModel.aggregate([
+    ...agrigactionQuery,
+    ...paginactionQuery,
   ]);
+
+  const total = await OfferedCourseModel.aggregate(agrigactionQuery);
+  const totalpage = Math.ceil(result.length / limit);
   return result;
 };
 
