@@ -231,10 +231,10 @@ const myOfferCourseIntoDB = async (
             },
           },
         ],
-        as: 'preRequisiteCourse',
+        as: 'preRepusiteCousere',
       },
     },
-    // secend lucap
+    // // secend lucap
     {
       $lookup: {
         from: 'enrolledcourses',
@@ -267,10 +267,10 @@ const myOfferCourseIntoDB = async (
       $addFields: {
         isPrerequsiteCourseFullfild: {
           $or: [
-            { $eq: ['$course.preRequisiteCourse', []] },
+            { $eq: ['$course.preRepusiteCousere', []] },
             {
               $setIsSubset: [
-                '$course.preRequisiteCourse.course',
+                '$course.preRepusiteCousere.course',
                 '$conpletedCourseId',
               ],
             },
@@ -293,7 +293,7 @@ const myOfferCourseIntoDB = async (
             'course._id',
             {
               $map: {
-                input: '$preRequisiteCourse',
+                input: '$preRepusiteCousere',
                 as: 'enroll',
                 in: '$$enroll.course',
               },
@@ -325,7 +325,15 @@ const myOfferCourseIntoDB = async (
 
   const total = await OfferedCourseModel.aggregate(agrigactionQuery);
   const totalpage = Math.ceil(result.length / limit);
-  return result;
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalpage,
+    },
+    result,
+  };
 };
 
 export const OfferedCourseServices = {

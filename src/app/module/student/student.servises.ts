@@ -78,12 +78,8 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
     Student.find()
       .populate('user')
       .populate('admitionSamester')
-      .populate({
-        path: 'acadimicDepertment', //acadimicDepertment
-        populate: {
-          path: 'acadimicFaculty',
-        },
-      }),
+      .populate('acadimicDepertment')
+      .populate('acadimicFaculty'),
     query,
   )
     .search(searchBleFild)
@@ -92,9 +88,9 @@ const findAllStudentData = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
+  const meta = await student.countTotal();
   const result = await student.modelQuery;
-  // const meta = await student.modelQuery.;
-  return { result }; //meta
+  return { result, meta }; //meta
 };
 
 const updateStudent = async (id: string, payload: Partial<TStudent>) => {

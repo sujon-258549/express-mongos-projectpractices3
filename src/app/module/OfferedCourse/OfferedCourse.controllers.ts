@@ -38,6 +38,7 @@ const myofferdCourse = catchAsynch(async (req, res) => {
     statuscod: httpStatus.CREATED,
     success: true,
     message: 'Course retreved success',
+    // meta: result.meta,
     data: result,
   });
 });

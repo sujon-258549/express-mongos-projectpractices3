@@ -1,3 +1,4 @@
+import QueryBuilder from '../../builder/queryBuilder';
 import { AcademicSamesterModel } from './acedimic.mode';
 import { TAcademicsamester } from './interfaces';
 
@@ -28,14 +29,31 @@ const createAcedimic = async (payloade: TAcademicsamester) => {
   return result;
 };
 
-const findAllsamester = async () => {
-  try {
-    const result = await AcademicSamesterModel.find();
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+const findAllsamester = async (query:Record<string, {
+  const acadimicFacultyBilder = new QueryBuilder(
+    AcademicSamesterModel.find(),
+    query,
+  );
 };
+
+const student = new QueryBuilder(
+  Student.find()
+    .populate('user')
+    .populate('admitionSamester')
+    .populate('acadimicDepertment')
+    .populate('acadimicFaculty'),
+  query,
+)
+  .search(searchBleFild)
+  .filter()
+  .sort()
+  .paginate()
+  .fields();
+
+const meta = await student.countTotal();
+const result = await student.modelQuery;
+return { result, meta }; //meta
+
 const findSpisifysamester = async (id: string) => {
   try {
     const result = await AcademicSamesterModel.findById(id);

@@ -18,7 +18,7 @@ const createAcadimicSamester = catchAsynch(
 
 const findallAcadimicSamester = catchAsynch(
   async (req: Request, res: Response) => {
-    const result = await acadimicSamesterServises.findAllsamester();
+    const result = await acadimicSamesterServises.findAllsamester(req.query);
     sendSuccess(res, {
       statuscod: 200,
       success: true,

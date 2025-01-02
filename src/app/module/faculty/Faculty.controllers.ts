@@ -20,6 +20,7 @@ const findAllFaculty = catchAsynch(async (req, res) => {
     statuscod: httpStatus.OK,
     success: true,
     message: 'Fucalty All find Successfuly',
+    meta: result.meta,
     data: result,
   });
 });

@@ -10,6 +10,7 @@ const findAllAdmin = catchAsynch(async (req: Request, res: Response) => {
     statuscod: httpStatus.OK,
     success: true,
     message: 'admin recived Success',
+    meta: result.meta,
     data: result,
   });
 });

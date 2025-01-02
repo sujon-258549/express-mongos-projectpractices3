@@ -166,6 +166,7 @@ const updateEnrollCoutseIntoDB = async (
     faculty: isExistFaculty?._id.toString(),
     offeredCourse,
   });
+  console.log(isExistThisCourseAndThisFaculty);
   // console.log({ isExistOfferCourse });
   if (!isExistThisCourseAndThisFaculty) {
     throw new AppError(

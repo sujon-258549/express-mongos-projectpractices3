@@ -23,7 +23,7 @@ const updateEnrollCoutse = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
-    message: 'Course Marks success Success',
+    message: 'Course Marks update Success',
     data: result,
   });
 });

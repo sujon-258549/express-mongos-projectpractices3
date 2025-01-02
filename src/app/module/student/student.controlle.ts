@@ -14,6 +14,7 @@ const findStudent = catchAsynch(async (req: Request, res: Response) => {
     statuscod: httpStatus.OK,
     success: true,
     message: 'User retrieved  successfully',
+    meta: result.meta,
     data: result,
   });
 });
