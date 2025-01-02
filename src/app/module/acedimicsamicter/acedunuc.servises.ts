@@ -34,25 +34,11 @@ const findAllsamester = async (query: Record<string, unknown>) => {
     AcademicSamesterModel.find(),
     query,
   );
+
+  const meta = await acadimicSamester.countTotal();
+  const result = await acadimicSamester.modelQuery;
+  return { result, meta }; //meta
 };
-
-const student = new QueryBuilder(
-  Student.find()
-    .populate('user')
-    .populate('admitionSamester')
-    .populate('acadimicDepertment')
-    .populate('acadimicFaculty'),
-  query,
-)
-  .search(searchBleFild)
-  .filter()
-  .sort()
-  .paginate()
-  .fields();
-
-const meta = await student.countTotal();
-const result = await student.modelQuery;
-return { result, meta }; //meta
 
 const findSpisifysamester = async (id: string) => {
   try {
