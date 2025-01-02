@@ -170,10 +170,21 @@ const myOfferCourseIntoDB = async (token: JwtPayload) => {
     throw new AppError(httpStatus.NOT_FOUND, 'Student is Not Found');
   }
   //   get current ongoing samester
-  const ongoinSamester = await SemesterRegistrationModel.findOne({
-    stasus: 'ONGOING',
-  });
-  return ongoinSamester;
+  const currentongoinRagistactionSamester =
+    await SemesterRegistrationModel.findOne({ status: 'ONGOING' });
+  if (!currentongoinRagistactionSamester) {
+    throw new AppError(httpStatus.NOT_FOUND, 'There is No Ongoing Samester');
+  }
+  const result = await OfferedCourseModel.aggregate([
+    {
+      $match: {
+        semesterRegistration: currentongoinRagistactionSamester._id,
+        academicFaculty: isExisbyStudent.acadimicFaculty,
+        academicDepartment: isExisbyStudent.acadimicDepertment,
+      },
+    },
+  ]);
+  return result;
 };
 
 export const OfferedCourseServices = {
