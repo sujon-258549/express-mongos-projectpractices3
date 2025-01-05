@@ -154,6 +154,7 @@ type of error
 19.9 //image hosting // using malter ///image hosting related
 https://byby.dev/node-delete-file
 
+<!-- JWT TOKEN CREATE  -->
 <!-- 1.problem update enroll course  -->
 <!-- 2.problem  querybilder-->
 <!-- enroll agrigaction -->
