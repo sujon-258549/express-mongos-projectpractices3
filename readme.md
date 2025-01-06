@@ -54,6 +54,8 @@ const createUserServerDB = async (password: string, payload: TStudent) => {
 
 const userData: Partial<TUser> = {};
 
+<!-- password conging -->
+
 userData.password = password || (config.defult_passwoed as string);
 
 //role ser
