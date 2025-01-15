@@ -24,7 +24,7 @@ const allRouter = [
     router: userRouter,
   },
   {
-    path: '/acadimic-samester',
+    path: '/academic-semester',
     router: acedimicSemister,
   },
   {
