@@ -18,11 +18,16 @@ const auth = (...requiredRoles: TuserRole[]) => {
       //   console.log(requiredRoles);
 
       // Verify token
-      const decoded = jwt.verify(
-        token,
-        config.ACCESS_TOKEN as string,
-      ) as JwtPayload;
-
+      let decoded;
+      try {
+        decoded = jwt.verify(
+          token,
+          config.ACCESS_TOKEN as string,
+        ) as JwtPayload;
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+      } catch (err) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'User is not authorized');
+      }
       const { userId, userRole } = decoded.JwtPayload;
       const { iat } = decoded;
       if (!decoded) {
