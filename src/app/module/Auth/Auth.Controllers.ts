@@ -30,7 +30,7 @@ const chengePassword = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
-    message: 'Chenge password is success',
+    message: 'Cheng password is success',
     data: result,
   });
 });
@@ -42,7 +42,7 @@ const refreshToken = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscod: httpStatus.CREATED,
     success: true,
-    message: 'Chenge password is success',
+    message: 'Refresh Token Create is success',
     data: result,
   });
 });
