@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 const createDepertment = catchAsynch(async (req, res) => {
   const result = await acadimicDepertmentServises.createDepertmentDB(req.body);
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscode: httpStatus.CREATED,
     success: true,
     message: 'Depertment Created Successfuly',
     data: result,
@@ -18,7 +18,7 @@ const findAllDepertment = catchAsynch(async (req, res) => {
     req.query,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Depertment All Depertment Successfuly',
     meta: result.meta,
@@ -31,7 +31,7 @@ const findSingleDepertment = catchAsynch(async (req, res) => {
   const result =
     await acadimicDepertmentServises.findoneDepertmentDB(depertmentId);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Single Depertment find Successfuly',
     data: result,
@@ -42,7 +42,7 @@ const deleteSingledepertment = catchAsynch(async (req, res) => {
   const result =
     await acadimicDepertmentServises.deleteoneDepertmentDB(depertmentId);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Depertment deleted Successfuly',
     data: result,
@@ -56,7 +56,7 @@ const updateSingleDepertment = catchAsynch(async (req, res) => {
     updateData,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Depertment Updated Successfuly',
     data: result,

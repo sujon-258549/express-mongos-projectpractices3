@@ -17,7 +17,7 @@ const findAllFaculty = catchAsynch(async (req, res) => {
   const result = await facultyServises.findAllFaculty(req.query);
   console.log(req.cookies);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Fucalty All find Successfuly',
     meta: result.meta,
@@ -29,7 +29,7 @@ const findSingleFaculty = catchAsynch(async (req, res) => {
   const { facultyId } = req.params;
   const result = await facultyServises.findoneFaculty(facultyId);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Fucalty single find Successfuly',
     data: result,
@@ -39,7 +39,7 @@ const deleteSingleFaculty = catchAsynch(async (req, res) => {
   const { facultyId } = req.params;
   const result = await facultyServises.deleteoneFaculty(facultyId);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Fucalty deleted Successfuly',
     data: result,

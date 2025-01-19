@@ -14,7 +14,7 @@ const createAdmin = catchAsynch(async (req: Request, res: Response) => {
     req.file,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscode: httpStatus.CREATED,
     success: true,
     message: 'Admin created successfully',
     data: result,
@@ -29,7 +29,7 @@ const createFaculty = catchAsynch(async (req: Request, res: Response) => {
     req.file,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscode: httpStatus.CREATED,
     success: true,
     message: 'User created successfully',
     data: result,
@@ -45,7 +45,7 @@ const creatUser = catchAsynch(async (req: Request, res: Response) => {
     req.file,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscode: httpStatus.CREATED,
     success: true,
     message: 'User created successfully',
     data: result,
@@ -58,7 +58,7 @@ const userThisDataFind = catchAsynch(async (req: Request, res: Response) => {
   }
   const result = await userServises.findThisUserData(user);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'User retrieved  successfully',
     data: result,
@@ -72,7 +72,7 @@ const changeUserStatus = catchAsynch(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await userServises.ChangeUserStautsIntoDb(id, req.body, token);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Successfully Change User Status',
     data: result,

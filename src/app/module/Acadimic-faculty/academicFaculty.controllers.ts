@@ -9,7 +9,7 @@ const createAcademicFaculty = catchAsynch(async (req, res) => {
   );
 
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Academic faculty is created succesfully',
     data: result,
@@ -22,7 +22,7 @@ const getAllAcademicFaculties = catchAsynch(async (req, res) => {
   );
 
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Academic faculties are retrieved successfully',
     // meta: result.meta,
@@ -37,7 +37,7 @@ const getSingleAcademicFaculty = catchAsynch(async (req, res) => {
     await AcademicFacultyServices.getSingleAcademicFacultyFromDB(facultyId);
 
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Academic faculty is retrieved succesfully',
     data: result,
@@ -52,7 +52,7 @@ const updateAcademicFaculty = catchAsynch(async (req, res) => {
   );
 
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'Academic faculty is updated succesfully',
     data: result,

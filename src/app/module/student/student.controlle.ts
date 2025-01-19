@@ -11,7 +11,7 @@ import httpStatus from 'http-status';
 const findStudent = catchAsynch(async (req: Request, res: Response) => {
   const result = await studentServeses.findAllStudentData(req.query);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'User retrieved  successfully',
     meta: result.meta,

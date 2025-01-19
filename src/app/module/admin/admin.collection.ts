@@ -7,7 +7,7 @@ import catchAsynch from '../utility/catcingAsynch';
 const findAllAdmin = catchAsynch(async (req: Request, res: Response) => {
   const result = await adminServises.getAllAdminsFromDB(req.query);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'admin recived Success',
     meta: result.meta,
@@ -18,7 +18,7 @@ const deleteAllAdmin = catchAsynch(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await adminServises.deletedAdmin(id);
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'admin delete Success',
     data: result,

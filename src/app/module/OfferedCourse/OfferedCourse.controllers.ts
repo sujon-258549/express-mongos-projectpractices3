@@ -8,7 +8,7 @@ const createOfferedCourse = catchAsynch(async (req, res) => {
     req.body,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscode: httpStatus.CREATED,
     success: true,
     message: 'course Create success',
     data: result,
@@ -22,7 +22,7 @@ const updateOfferedCourseIntoDB = catchAsynch(async (req, res) => {
     req.body,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.OK,
+    statuscode: httpStatus.OK,
     success: true,
     message: 'course Update success',
     data: result,
@@ -35,7 +35,7 @@ const myofferdCourse = catchAsynch(async (req, res) => {
     req.query,
   );
   sendSuccess(res, {
-    statuscod: httpStatus.CREATED,
+    statuscode: httpStatus.CREATED,
     success: true,
     message: 'Course retreved success',
     // meta: result.meta,

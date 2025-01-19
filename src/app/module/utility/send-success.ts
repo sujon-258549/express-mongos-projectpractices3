@@ -7,7 +7,7 @@ type Tmeta = {
 };
 
 interface Tsent<T> {
-  statuscod: number;
+  statuscode: number;
   success: boolean;
   message?: string;
   meta?: Tmeta;
@@ -15,7 +15,7 @@ interface Tsent<T> {
 }
 
 const sendSuccess = <T>(res: Response, data: Tsent<T>) => {
-  res.status(data.statuscod).json({
+  res.status(data.statuscode).json({
     success: data.success,
     message: data.message,
     meta: data.meta,
