@@ -40,7 +40,7 @@ export const acedimincModelSchema = new Schema<TAcademicsamester>(
       type: String,
       required: true,
     },
-    statindMonth: {
+    statingMonth: {
       type: String,
       enum: monthNames,
     },

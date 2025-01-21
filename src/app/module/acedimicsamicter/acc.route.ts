@@ -8,8 +8,8 @@ import { UserRole } from '../user/user.const';
 const router = Router();
 
 router.post(
-  '/create-samester-for-student',
-  auth(UserRole.supperAdmin, UserRole.admin),
+  '/create-semester-for-student',
+  auth(UserRole.supperAdmin, UserRole.admin, UserRole.supperAdmin),
   zodValidaction(AcademicSemesterZod.AcademicSemesterSchema),
   accadimicSamesterController.createAcadimicSamester,
 );
