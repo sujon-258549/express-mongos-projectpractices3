@@ -19,6 +19,6 @@ export interface TAcademicsamester {
   name: SamesterName;
   code: SamesterCod;
   year: string;
-  statingMonth: MonthName;
+  startingMonth: MonthName;
   endingMonth: MonthName;
 }
