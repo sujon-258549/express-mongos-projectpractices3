@@ -61,7 +61,7 @@ acedimincModelSchema.pre('save', async function (next) {
   });
 
   if (checkNameAndThisYear) {
-    throw new Error('year and Samester alrady use');
+    throw new Error('Year and Semester already Exist');
   }
   next();
 });
