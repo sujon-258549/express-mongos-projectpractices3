@@ -23,7 +23,7 @@ export const studentValidationSchemaforzod = z.object({
       name: nameSchema,
       email: z.string().email('Invalid email format.'),
       avatar: z.string().url().optional(),
-      dateOfBirth: z.string({ invalid_type_error: 'Invalid date format.' }),
+      dateOfBirth: z.union([z.date(), z.string()]),
       gender: z.enum(['Male', 'Female', 'Other'], {
         errorMap: () => ({ message: 'Gender must be Male, Female, or Other.' }),
       }),
@@ -34,7 +34,7 @@ export const studentValidationSchemaforzod = z.object({
       address: z.string().optional(),
       grade: z.string().nonempty('Grade is required.'),
       section: z.string().optional(),
-      enrolledDate: z.string({ invalid_type_error: 'Invalid date format.' }),
+      enrolledDate: z.union([z.date(), z.string()]),
       isActive: z.boolean().default(true),
       guardian: guardianSchema,
       nationality: z.string().optional(),
@@ -42,7 +42,7 @@ export const studentValidationSchemaforzod = z.object({
       hobbies: z.array(z.string()).optional(),
       extracurriculars: z.array(z.string()).optional(),
       previousSchool: z.string().optional(),
-      emergencyContact: z.string().optional(),
+      emergencyContact: z.union([z.number(), z.string()]),
       bloodGroup: z
         .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
         .optional(),

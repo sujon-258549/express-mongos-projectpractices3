@@ -61,7 +61,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       default: '',
     },
     dateOfBirth: {
-      type: String,
+      type: Date,
       required: [true, 'Date of birth is required.'],
     },
     gender: {
@@ -90,7 +90,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       required: [false, 'Section is required.'],
     },
     enrolledDate: {
-      type: String,
+      type: Date,
       required: [true, 'Enrollment date is required.'],
     },
     guardian: {
@@ -118,7 +118,7 @@ const StudentSchema = new Schema<TStudent, StudentModel>(
       required: [false, 'Previous school is required.'],
     },
     emergencyContact: {
-      type: String,
+      type: Number,
       required: [false, 'Emergency contact is required.'],
     },
     bloodGroup: {
