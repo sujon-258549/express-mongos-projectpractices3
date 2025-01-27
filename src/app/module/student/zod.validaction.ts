@@ -34,7 +34,14 @@ export const studentValidationSchemaforzod = z.object({
       address: z.string().optional(),
       grade: z.string().nonempty('Grade is required.'),
       section: z.string().optional(),
-      enrolledDate: z.union([z.date(), z.string()]),
+      enrolledDate: z
+        .union([
+          z.string().refine((date) => !isNaN(Date.parse(date)), {
+            message: 'Invalid date string',
+          }), // Validates date strings
+          z.date(), // Allows Date objects
+        ])
+        .optional(), // Use optional() if this field isn't always required,
       isActive: z.boolean().default(true),
       guardian: guardianSchema,
       nationality: z.string().optional(),
