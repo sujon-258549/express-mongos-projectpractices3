@@ -17,7 +17,7 @@ const findAllRagistaction = async (req: Request, res: Response) => {
   sendSuccess(res, {
     statuscode: httpStatus.OK,
     success: true,
-    message: 'Samester Ragistaction Retrived Success',
+    message: 'Semester Registration Retrieved Success',
     data: result,
   });
 };
