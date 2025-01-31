@@ -8,7 +8,7 @@ const createRagistaction = async (req: Request, res: Response) => {
   sendSuccess(res, {
     statuscode: httpStatus.CREATED,
     success: true,
-    message: 'Samester Ragistaction Create Succes',
+    message: 'Semester Registration Create Sucres',
     data: result,
   });
 };

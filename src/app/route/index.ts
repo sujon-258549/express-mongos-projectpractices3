@@ -46,7 +46,7 @@ const allRouter = [
   },
 
   {
-    path: '/ragistaction',
+    path: '/registration',
     router: semesterRegistrationRoutes,
   },
   {
