@@ -18,6 +18,7 @@ const findAllRagistaction = async (req: Request, res: Response) => {
     statuscode: httpStatus.OK,
     success: true,
     message: 'Semester Registration Retrieved Success',
+    meta: result?.meta,
     data: result,
   });
 };

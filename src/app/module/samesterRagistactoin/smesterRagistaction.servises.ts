@@ -29,7 +29,7 @@ const createRagistaction = async (payload: TSemesterRegistration) => {
   const isExistAcadimincSamester =
     await AcademicSamesterModel.findById(acadimicSamester);
   if (!isExistAcadimincSamester) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Acadimic Samester motfound');
+    throw new AppError(httpStatus.NOT_FOUND, 'Academic Semester notfound');
   }
 
   const result = await SemesterRegistrationModel.create(payload);
@@ -46,8 +46,9 @@ const findAllRagistaction = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
+  const meta = semisterQueryAlldata.countTotal();
   const result = await semisterQueryAlldata.modelQuery;
-  return result;
+  return { meta, result };
 };
 
 const findoneRagistaction = async (id: string) => {
