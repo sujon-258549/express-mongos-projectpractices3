@@ -7,7 +7,7 @@ import httpStatus from 'http-status';
 
 const createRagistaction = async (payload: TSemesterRegistration) => {
   const acadimicSamester = payload.academicSemester;
-
+  console.log(payload);
   const isThereAnyUpcomingOrOngoingSEmester =
     await SemesterRegistrationModel.findOne({
       $or: [{ status: 'UPCOMING' }, { status: 'ONGOING' }],
