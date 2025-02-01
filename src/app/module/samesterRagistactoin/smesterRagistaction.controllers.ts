@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import sendSuccess from '../utility/send-success';
 import { ragistactionServises } from './smesterRagistaction.servises';
 import httpStatus from 'http-status';
+import catchAsynch from '../utility/catcingAsynch';
 
-const createRagistaction = async (req: Request, res: Response) => {
+const createRagistaction = catchAsynch(async (req: Request, res: Response) => {
   const result = await ragistactionServises.createRagistaction(req.body);
   sendSuccess(res, {
     statuscode: httpStatus.CREATED,
@@ -11,7 +12,7 @@ const createRagistaction = async (req: Request, res: Response) => {
     message: 'Semester Registration Create Sucres',
     data: result,
   });
-};
+});
 const findAllRagistaction = async (req: Request, res: Response) => {
   const result = await ragistactionServises.findAllRagistaction(req?.query);
   sendSuccess(res, {

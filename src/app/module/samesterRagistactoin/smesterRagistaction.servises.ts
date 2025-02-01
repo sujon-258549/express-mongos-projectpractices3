@@ -7,7 +7,6 @@ import httpStatus from 'http-status';
 
 const createRagistaction = async (payload: TSemesterRegistration) => {
   const acadimicSamester = payload.academicSemester;
-  console.log(payload);
   const isThereAnyUpcomingOrOngoingSEmester =
     await SemesterRegistrationModel.findOne({
       $or: [{ status: 'UPCOMING' }, { status: 'ONGOING' }],
@@ -15,7 +14,7 @@ const createRagistaction = async (payload: TSemesterRegistration) => {
   if (isThereAnyUpcomingOrOngoingSEmester) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `There is aready an ${isThereAnyUpcomingOrOngoingSEmester.status} registered semester !`,
+      `There is already an ${isThereAnyUpcomingOrOngoingSEmester.status} registered semester !`,
     );
   }
   const isSamesterRagistaction = await SemesterRegistrationModel.findOne({
@@ -23,7 +22,7 @@ const createRagistaction = async (payload: TSemesterRegistration) => {
   });
 
   if (isSamesterRagistaction) {
-    throw new AppError(httpStatus.CONFLICT, 'Acadimic Samester Alrady exis!');
+    throw new AppError(httpStatus.CONFLICT, 'Academic Semester Already exes!');
   }
 
   const isExistAcadimincSamester =
