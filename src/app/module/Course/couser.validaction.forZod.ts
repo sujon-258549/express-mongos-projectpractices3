@@ -16,7 +16,7 @@ export const createCourseValidaction = z.object({
     prifix: z
       .string()
       .min(1, 'Prefix is required')
-      .max(10, 'Prefix must be less than 10 characters'),
+      .max(200, 'Prefix must be less than 10 characters'),
     cod: z.number().int().min(1, 'Code must be a positive integer'),
     credits: z.number().min(0, 'Credits cannot be negative'),
     isDeleted: z.boolean().optional(),
