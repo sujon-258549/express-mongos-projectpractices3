@@ -49,7 +49,7 @@ router.delete(
   courseController.deleteCourse,
 );
 router.put(
-  '/:courseId/assign-facultys',
+  '/:courseId/assign-faculty',
   auth(UserRole.supperAdmin, UserRole.admin),
   courseController.addtoFacultyCourse,
 );
