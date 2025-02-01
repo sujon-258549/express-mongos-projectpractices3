@@ -15,11 +15,11 @@ const semesterRegistrationSchema = new mongoose.Schema<TSemesterRegistration>(
       default: 'UPCOMING',
     },
     startDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     endDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     minCredit: {
