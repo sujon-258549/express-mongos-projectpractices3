@@ -65,7 +65,7 @@ const auth = (...requiredRoles: TuserRole[]) => {
       const passwordChangeAt = user?.passwordChangeAt;
       const changeTime = new Date(passwordChangeAt as Date).getTime() / 1000;
       //   console.log(changeTime > (iat as number));
-      if (changeTime < (iat as number)) {
+      if (changeTime > (iat as number)) {
         throw new AppError(httpStatus.UNAUTHORIZED, 'User is Un Authorize');
       }
 

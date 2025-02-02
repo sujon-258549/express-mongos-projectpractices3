@@ -143,8 +143,7 @@ const refreshTokenuseCreateAccessToken = async (token: string) => {
   //   haktoken password change
   const passwordChangeAt = user?.passwordChangeAt;
   const changeTime = new Date(passwordChangeAt as Date).getTime() / 1000;
-  console.log(changeTime > (iat as number));
-  if (changeTime < (iat as number)) {
+  if (changeTime > (iat as number)) {
     throw new AppError(
       httpStatus.UNAUTHORIZED,
       'Token is no longer valid due to password change.',
