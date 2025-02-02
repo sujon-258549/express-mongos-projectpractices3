@@ -9,7 +9,12 @@ const router = express.Router();
 
 router.get(
   '/',
-  auth(UserRole.admin, UserRole.supperAdmin),
+  auth(
+    UserRole.admin,
+    UserRole.supperAdmin,
+    UserRole.student,
+    UserRole.faculty,
+  ),
   studentController.findStudent,
 );
 router.delete(
