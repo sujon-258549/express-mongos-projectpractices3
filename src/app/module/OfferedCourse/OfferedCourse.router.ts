@@ -27,6 +27,11 @@ router.get(
   auth(UserRole.student),
   OfferedCourseControllers.myofferdCourse,
 );
+router.get(
+  '/',
+  auth(UserRole.student),
+  OfferedCourseControllers.findallofferedCourse,
+);
 
 // router.delete(
 //   '/:id',

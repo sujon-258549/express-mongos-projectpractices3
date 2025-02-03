@@ -10,7 +10,24 @@ import httpStatus from 'http-status';
 import { AcademicFaculty } from '../Acadimic-faculty/academicFaculty.model';
 import { JwtPayload } from 'jsonwebtoken';
 import { Student } from '../student/student.model';
+import QueryBuilder from '../../builder/queryBuilder';
 
+const findAllofferdCourse = async (query: Record<string, unknown>) => {
+  const serchfild = [''];
+  const offeredcourseFind = new QueryBuilder(
+    OfferedCourseModel.find().populate('course'),
+    query,
+  )
+    .search(serchfild)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await offeredcourseFind.modelQuery;
+  return result;
+  //   const result = await CourseModel.find().populate('preRepusiteCousere.course');
+  //   return result;
+};
 const createOfferedCourseIntoDB = async (paylod: TOfferedCourse) => {
   const {
     semesterRegistration,
@@ -343,4 +360,5 @@ export const OfferedCourseServices = {
   // deleteOfferedCourseFromDB,
   updateOfferedCourseIntoDB,
   myOfferCourseIntoDB,
+  findAllofferdCourse,
 };

@@ -10,7 +10,17 @@ const createOfferedCourse = catchAsynch(async (req, res) => {
   sendSuccess(res, {
     statuscode: httpStatus.CREATED,
     success: true,
-    message: 'course Create success',
+    message: 'offered course Create success',
+    data: result,
+  });
+});
+
+const findallofferedCourse = catchAsynch(async (req, res) => {
+  const result = await OfferedCourseServices.findAllofferdCourse(req.query); //
+  sendSuccess(res, {
+    statuscode: httpStatus.OK,
+    success: true,
+    message: 'find all offered succesfully',
     data: result,
   });
 });
@@ -50,4 +60,5 @@ export const OfferedCourseControllers = {
   // deleteOfferedCourseFromDB,
   updateOfferedCourseIntoDB,
   myofferdCourse,
+  findallofferedCourse,
 };
